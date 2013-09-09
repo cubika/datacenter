@@ -1,0 +1,87 @@
+﻿<
+DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<meta name="author" content="Luka Cvrk (cssMoban.com.com)" />
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen, projection" />
+		<script type="text/javascript" src="../js/jquery.min.js"></script>
+		<script type="text/javascript" src="../Charts/FusionCharts.js"></script>
+		<title>Baidu Cloud OS - Sumeru - 评测中心</title>
+	</head>
+	<body id="home">
+		<div class="wrap">
+			<div id="logo">
+				<h1><a href="../.." title="Home">Sumeru 评测中心</a></h1>
+				<p>
+					Focus on evaluation
+				</p>
+			</div>
+			<ul id="nav">
+				<li>
+					<a href="#" accesskey="c"><span class="akey">评</span>测整体方案</a>
+				</li>
+				<li>
+					<a href="#" accesskey="h"><span class="akey">评测</span>自动化服务</a>
+				</li>
+				<li>
+					<a href="#" accesskey="m"><span class="akey">业界</span>评测资讯</a>
+				</li>
+				<li>
+					<a href="/#" accesskey="r"><span class="akey">历</span>史报告</a>
+				</li>
+			</ul>
+		</div>
+		<div class="wrap">
+			<div id="left">
+				<h2> Monkey </h2>
+				<div>
+					<p>
+						<b>1. 总体评分</b>
+					</p>
+					<ul>
+						<li>
+							整合评分
+						</li>
+						<div id="div_total"></div>
+						<li>
+							评测点评分
+						</li>
+						<table class="altrowstable" id="alternatecolor">
+							<tr>
+								<th>评测点</th><th>百度浏览器</th><th>UC浏览器</th><th>QQ浏览器</th>
+							</tr>
+							{loop="evapoints"}
+							<tr>
+								<td><a class="fancybox fancybox.iframe" href="/iframe.php?v=2&m=pow&e={$value.json}&t={$value.type}">{$value.name}</a></td>
+								<td> {$value.baidu}</td><td> {$value.uc}</td><td> {$value.qq}</td>
+							</tr>
+							{/loop}
+
+						</table>
+					</ul>
+				</div>
+
+			</div>
+
+			<div id="footer" align="center" >
+				<p>
+					<strong>@Sumeru QA</strong>
+				</p>
+				
+			</div>
+		</div>
+		<script type='text/javascript'>
+			window.onload = function() {
+				var f_c3d = '../Charts/Power/ErrorScatter.swf';
+				init_f('div_1', f_c3d, "../../eva_data/eva_monkey.xml", 800, 400);
+			}
+			function init_f(divId, chart, xml, width, height) {
+				var ben = new FusionCharts(chart, "chart_" + divId, width, height);
+				ben.setXMLUrl(xml);
+				ben.render(divId);
+			}
+
+		</script>
+	</body>
+</html>

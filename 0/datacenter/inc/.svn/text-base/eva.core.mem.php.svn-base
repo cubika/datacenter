@@ -1,0 +1,17 @@
+<?php
+if(!class_exists('EVA')) {
+include 'inc/eva.core.main.php';
+}
+Class MEM extends EVA {
+	private $evapoints=array(
+		'eva_mem_nocache_startup'=> array("name"=>'无缓存-启动内存',"baidu"=>0,"uc"=>0,"qq"=>0),
+		'ns_156_test0_pss'=> array("name"=>'无缓存-页面滑动',"baidu"=>0,"uc"=>0,"qq"=>0),
+		'eva_mem_nocache_backendquiet'=> array("name"=>'无缓存-后台静置',"baidu"=>0,"uc"=>0,"qq"=>0),
+		'eva_mem_cache_pagequiet_mobile'=> array("name"=>'有缓存-页面滑动',"baidu"=>0,"uc"=>0,"qq"=>0),
+		'eva_mem_cache_pagequiet_pc'=> array("name"=>'有缓存-后台静置',"baidu"=>0,"uc"=>0,"qq"=>0));
+
+	function __construct() {	
+		parent::__construct($this->evapoints);
+	}
+}
+?>

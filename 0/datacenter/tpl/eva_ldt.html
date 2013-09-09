@@ -1,0 +1,22 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" href="css/main.css" type="text/css" media="screen, projection" />
+		<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox.css" media="screen" />
+
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/FusionCharts.js"></script>
+		<script type="text/javascript" src="js/dc.js"></script>
+	</head>
+	<body >
+		<div id="content"> </div>
+		<script type='text/javascript'>
+			$(document).ready(function() {
+				var f = '/tpl/fusioncharts/power/MultiAxisLine.swf';
+				draw('content', f, '{$json_content}', '100%', 400);
+
+			})
+		</script>
+
+	</body>
+</html>

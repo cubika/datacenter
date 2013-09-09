@@ -1,0 +1,5 @@
+function draw(divId, chart, data, width, height) {
+				var chart = new FusionCharts(chart, "chart_" + divId, width, height);
+				chart.setJSONData(data);
+				chart.render(divId);
+			}

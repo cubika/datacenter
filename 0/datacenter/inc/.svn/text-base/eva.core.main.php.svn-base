@@ -1,0 +1,180 @@
+<?php
+Class EVA {
+	
+	private $ver_baidu = 'baidu';
+	private $ver_uc = 'uc';
+	private $ver_qq = 'qq';
+	
+	private $evapoints = array();
+	
+	private $radar_json = array(
+		'chart' => array('caption'=>'浏览器性能评测', 'canvasBorderAlpha'=>'0', 'yAxisMaxValue'=>'10', 'showLimits'=>'0', 'bgColor'=>'FFFFFF', 'plotBorderThickness' => '1', 'radarSpikeThickness'=>'3', 'divlineColor'=>'9A9F9B', 'anchorRadius'=>'4', 'anchorBorderThickness'=>'2'),
+		'categories' => array(array('category'=>array(array('label'=>'页面加载时间'),array('label'=>'CPU'),array('label'=>'内存'),array('label'=>'流量'),array('label'=>'流畅度'),array('label'=>'耗电量'),array('label'=>'Benchmark')))),
+		'dataset' => array(
+				array('seriesname'=>'baidu','data'=>array(array('value'=>'9.5'),array('value'=>'9.3'),array('value'=>'7.4'),array('value'=>'9.3'),array('value'=>'10'),array('value'=>'10'),array('value'=>'8.7'))),
+				array('seriesname'=>'uc','data'=>array(array('value'=>'10'),array('value'=>'9.8'),array('value'=>'10'),array('value'=>'7.3'),array('value'=>'8'),array('value'=>'7.3'),array('value'=>'6.8'))),
+				array('seriesname'=>'qq','data'=>array(array('value'=>'6'),array('value'=>'10'),array('value'=>'8'),array('value'=>'9.3'),array('value'=>'8'),array('value'=>'9.3'),array('value'=>'8.5')))
+		)
+	);
+	
+	function __construct($evapoints){
+		$this->evapoints = $evapoints;
+	}
+	
+	public function toRadarJson(){
+		return json_encode($this->radar_json);
+	}
+	
+	public function merge($env){
+		$baidu = $this->getObj($this->ver_baidu, $env);
+		$baidu->dataset[1] = $this->getObj($this->ver_uc, $env)->dataset[0];
+		$baidu->dataset[2] = $this->getObj($this->ver_qq, $env)->dataset[0];
+		
+		return json_encode($baidu);
+	}
+	
+	private function findEnv($env)
+	{
+		foreach ($this->evapoints as $key => $value) {
+			if($key == $env){
+				return $value;
+			}
+		}
+		
+		return null;
+	}
+		 
+	
+	public function genPointsJson($caption) {
+		$p_baidu = 0;
+		$p_uc = 0;
+		$p_qq = 0;
+		
+		foreach ($this->evapoints as $key => $value) {
+			$p_baidu += $value['baidu'];
+			$p_uc += $value['uc'];
+			$p_qq += $value['qq'];
+		}
+		$count_evapoints = count($this->evapoints);
+		$arr_json = array(
+			'chart'=>array('yaxisname'=>'','caption'=>$caption,'yAxisMaxValue'=>'10','numberprefix'=>'','useroundedges'=>'1','bgcolor'=>'FFFFFF,FFFFFF','showborder'=>'0'),
+			'data'=>array(array('label'=>'baidu','value'=>$p_baidu/$count_evapoints),
+			array('label'=>'uc','value'=>$p_uc/$count_evapoints),
+			array('label'=>'qq','value'=>$p_qq/$count_evapoints))
+		);
+		
+		return json_encode($arr_json);
+	}
+	
+	
+	public function getPoints(){
+		return $this->evapoints;
+	}
+	
+	public function setPoints(){
+		foreach ($this->evapoints as $key => $value) {
+			$this->setEnvPoint($key);
+		}
+		// print_r($this->evapoints);
+		// print $_SERVER[DOCUMENT_ROOT];
+	}
+	
+	public function setEnvPoint($env)
+	{
+		$baidu = $this->getObj($this->ver_baidu, $env);
+		$uc = $this->getObj($this->ver_uc, $env);
+		$qq = $this->getObj($this->ver_qq, $env);
+		
+		$pattern = '[/.|]';
+		$arr_baidu = split($pattern, $baidu->dataset[0]->data);
+		$arr_uc = split($pattern, $uc->dataset[0]->data);
+		$arr_qq = split($pattern, $qq->dataset[0]->data);
+		
+		$label = 'baidu';
+		for ($i=0; $i < count($arr_baidu); $i++) {
+			if(max($arr_baidu[$i],$arr_uc[$i],$arr_qq[$i]) == $arr_baidu[$i]){
+				$this->evapoints[$env][$label] = $this->evapoints[$env][$label] + 1;
+			}
+			elseif (min($arr_baidu[$i],$arr_uc[$i],$arr_qq[$i]) == $arr_baidu[$i]) {
+				$this->evapoints[$env][$label] = $this->evapoints[$env][$label] + 0.6;
+			}
+			else {
+				$this->evapoints[$env][$label] = $this->evapoints[$env][$label] + 0.8;
+			}
+		}
+		$this->evapoints[$env][$label] = $this->toTen($this->evapoints[$env][$label], count($arr_baidu));
+		
+		$label = 'uc';
+		for ($i=0; $i < count($arr_uc); $i++) {
+			if(max($arr_baidu[$i],$arr_uc[$i],$arr_qq[$i]) == $arr_uc[$i]){
+				$this->evapoints[$env][$label] = $this->evapoints[$env][$label] + 1;
+			}
+			elseif (min($arr_baidu[$i],$arr_uc[$i],$arr_qq[$i]) == $arr_uc[$i]) {
+				$this->evapoints[$env][$label] = $this->evapoints[$env][$label] + 0.6;
+			}
+			else {
+				$this->evapoints[$env][$label] = $this->evapoints[$env][$label] + 0.8;
+			}
+		}
+		$this->evapoints[$env][$label] = $this->toTen($this->evapoints[$env][$label], count($arr_uc));
+		
+		$label = 'qq';
+		for ($i=0; $i < count($arr_qq); $i++) {
+			if(max($arr_baidu[$i],$arr_uc[$i],$arr_qq[$i]) == $arr_qq[$i]){
+				$this->evapoints[$env][$label] = $this->evapoints[$env][$label] + 1;
+			}
+			elseif (min($arr_baidu[$i],$arr_uc[$i],$arr_qq[$i]) == $arr_qq[$i]) {
+				$this->evapoints[$env][$label] = $this->evapoints[$env][$label] + 0.6;
+			}
+			else {
+				$this->evapoints[$env][$label] = $this->evapoints[$env][$label] + 0.8;
+			}
+		}
+		$this->evapoints[$env][$label] = $this->toTen($this->evapoints[$env][$label], count($arr_qq));
+		
+		// print_r($this->evapoints);
+		return $this->evapoints;
+	}
+
+
+	public function toTen($value, $count)
+	{
+		return round($value*10/$count, 1);
+	}
+	
+	public function max($var1, $var2, $var3)
+	{
+		$max = $var1;
+		if($var2 >= $max){
+			$max = $var2;
+		}
+		if($var3 >= $max){
+			$max = $var3;
+		}
+		return $max;
+	}
+	
+	public function min($var1, $var2, $var3)
+	{
+		$min = $var1;
+		if($var2 <= $max){
+			$min = $var2;
+		}
+		if($var3 <= $max){
+			$min = $var3;
+		}
+		return $min;
+	}
+	
+	public function getObj($eva_ver, $env) {
+		$content_json = file_get_contents( $_SERVER["DOCUMENT_ROOT"] . "/eva_data/eva-2/" . $eva_ver . "/" . $env . ".json");
+		$content_obj = json_decode($content_json, false);
+		return $content_obj;
+	}
+	
+	
+}	
+	
+
+	
+?>

@@ -1,0 +1,85 @@
+<?php
+
+if(!class_exists('EVA')){ include 'inc/eva.core.main.php'; }
+
+Class POW extends EVA {
+
+	private $evapoints = array( 
+		'eva_pow_standinfront'=>array("json" => 'eva_pow_standinfront', "name"=>"前台静置", "baidu" => 0, "uc" => 0, "qq" => 0),
+		'eva_pow_standbackend'=>array("json" => 'eva_pow_standbackend', "name"=>"后台静置", "baidu" => 0, "uc" => 0, "qq" => 0),
+		'eva_pow_dragonpage'=>array("json" => 'eva_pow_dragonpage',"name" => '页面滑动', "baidu" => 0, "uc" => 0, "qq" => 0), 
+		 );
+		 
+	private $eva_entry = array(
+			'chart'=>array('yaxisname'=>'耗电量','caption'=>'','xaxisname'=>'','numberprefix'=>'A',),
+			'data'=>array(array('label'=>'baidu', 'value'=>'255'),
+				array('label'=>'uc', 'value'=>'453'),array('label'=>'qq', 'value'=>'345')
+			)
+		);
+		 
+	function __construct(){
+		parent::__construct($this->evapoints);
+	}
+	
+
+	public function merge($env){
+		$this->eva_entry['chart']['caption'] = $env;
+		return json_encode($this->eva_entry);
+	}
+	
+	public function setPoints(){
+		foreach ($this->evapoints as $key => $value) {
+			$this->setEnvPoint($key, 255, 453, 345);
+		}
+		
+	}
+	
+	public function setEnvPoint($env, $baidu, $uc, $qq){
+		$label = 'baidu';
+			if(max($baidu, $uc, $qq) == $baidu){
+				$this->evapoints[$env][$label] = 6;
+			}
+			elseif (min($baidu, $uc, $qq) == $baidu) {
+				$this->evapoints[$env][$label] = 10;
+			}
+			else {
+				$this->evapoints[$env][$label] = 8;
+			}
+		
+		$label = 'uc';
+			if(max($baidu, $uc, $qq) == $uc){
+				$this->evapoints[$env][$label] = 6;
+			}
+			elseif (min($baidu, $uc, $qq) == $uc) {
+				$this->evapoints[$env][$label] = 10;
+			}
+			else {
+				$this->evapoints[$env][$label] = 8;
+			}
+		
+		$label = 'qq';
+		if(max($baidu, $uc, $qq) == $qq){
+				$this->evapoints[$env][$label] = 6;
+			}
+			elseif (min($baidu, $uc, $qq) == $qq) {
+				$this->evapoints[$env][$label] = 10;
+			}
+			else {
+				$this->evapoints[$env][$label] = 8;
+			}
+			
+			
+	}
+	
+	public function getPoints(){
+		return $this->evapoints;
+	}
+	
+	public function genPointsJson(){
+		parent::__construct($this->evapoints);
+		return parent::genPointsJson('耗电量评分');
+	}
+
+
+}
+?>

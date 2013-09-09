@@ -1,0 +1,170 @@
+Ext.Loader.setConfig({enabled: true});
+Ext.Loader.setPath('Ext.ux', '../ux/');
+
+Ext.require([
+    'Ext.ux.ajax.JsonSimlet',
+    'Ext.ux.ajax.SimManager',
+    'Ext.data.*',
+    'Ext.grid.*'
+]);
+Ext.onReady(function() {
+    var data = [{
+        "name": "1. 省电、省流这两个关键指标领先于竞品",
+        "cuisine": "Good Case"
+    }, {
+        "name": "1. 相比第一期评测，稳定性降低不少，其中在跑Monkey过程中，出现了一次内核崩溃，19次框架崩溃 ",
+        "cuisine": "Bad Case"
+    }];
+
+    // wrapped in closure to prevent global vars.
+    Ext.define('Restaurant', {
+        extend: 'Ext.data.Model',
+        fields: ['name', 'cuisine']
+    });
+
+    Ext.ux.ajax.SimManager.init({
+        delay: 30,
+        defaultSimlet: null
+    }).register({
+        'readRestaurants': {
+            data: data,
+            stype: 'json',
+            getData: Ext.Function.createInterceptor(Ext.ux.ajax.JsonSimlet.prototype.getData, function() {
+                delete this.currentOrder;
+            }),
+            
+            // JsonSimlet respects limit param. We want to return ALL the data
+            getPage: function(ctx, data) {
+                return data;
+            }
+        }
+    }).register({
+        'createRestaurant': {
+            stype: 'json',
+            getData: function(ctx) {
+                var recData = Ext.JSON.decode(ctx.xhr.body);
+                delete recData.id;
+                data.push(recData);
+                return [recData]
+            }
+        }
+    });
+    
+    
+    var restaurants = Ext.create('Ext.data.Store', {
+        storeId: 'restaraunts',
+        model: 'Restaurant',
+        groupField: 'cuisine',
+        remoteGroup: true,
+        sorters: ['name'],
+        proxy: {
+            api: {
+                create: 'createRestaurant',
+                read: 'readRestaurants'
+            },
+            actionMethods: {
+                create : 'GET',
+                read   : 'GET'
+            },
+            noCache: false,
+            type: 'ajax',
+            reader: 'json',
+            writer: 'json'
+        },
+        autoLoad: true,
+        autoSync: true,
+        listeners: {
+            // Clear grouping button only valid if the store is grouped
+            groupchange: function() {
+                grid.down('[text=Clear Grouping]').setDisabled(!restaurants.isGrouped());
+            },
+
+            // Upon successful add of a new restaurant, invoke the server to sort and group
+            write: function(s, operation) {
+                if (operation.action === 'create' && operation.success === true) {
+                    restaurants.sort();
+                }
+            }
+        }
+    });
+    
+    var groupingFeature = Ext.create('Ext.grid.feature.Grouping',{
+        groupHeaderTpl: '{name} ({rows.length} Item{[values.rows.length > 1 ? "s" : ""]})',
+        hideGroupedHeader: true
+    });
+
+    var grid = Ext.create('Ext.grid.Panel', {
+        renderTo: 'eva_summary_container',
+        collapsible: true,
+        iconCls: 'icon-grid',
+        frame: true,
+        store: restaurants,
+        width: 600,
+        height: 300,
+        title: '<div style="text-align:center;">总体评测及优化建议</div>',
+        resizable: true,
+        features: [groupingFeature],
+        columns: [{
+            text: '评测结果',
+            flex: 1,
+            dataIndex: 'name'
+        },{
+            text: 'Cuisine',
+            flex: 1,
+            dataIndex: 'cuisine'
+        }],
+        fbar  : [{
+            text: '新增评测评语',
+            handler: function() {
+                newRestaurantDialog.show();
+            }
+        },
+            // '->', {
+            // text:'Clear Grouping',
+            // iconCls: 'icon-clear-group',
+            // handler : function(b) {
+                // groupingFeature.disable();
+            // }
+        // }
+        ]
+    });
+    
+    var newRestaurantDialog = Ext.create('Ext.window.Window', {
+        closeAction: 'hide',
+        title: 'Add a new restaurant',
+
+        // Make the Window out of a <form> el so that the <button type="submit"> will invoke its handler upon CR
+        autoEl: 'form',
+        width: 400,
+        bodyPadding: 5,
+        layout: 'anchor',
+        defaults: {
+            anchor: '100%'
+        },
+        defaultFocus: '[name=name]',
+        items: [{
+            xtype: 'textfield',
+            fieldLabel: 'Name',
+            name: 'name'
+        }, {
+            xtype: 'textfield',
+            fieldLabel: 'Cuisine',
+            name: 'cuisine'
+        }],
+        buttons: [{
+            text: 'Add',
+            type: 'submit',
+            handler: function() {
+                var newRec = Ext.ModelManager.create({name: newRestaurantDialog.down('[name=name]').getValue(), cuisine: newRestaurantDialog.down('[name=cuisine]').getValue()}, 'Restaurant');
+                restaurants.add(newRec);
+                newRestaurantDialog.hide();
+                newRestaurantDialog.el.dom.reset();
+            }
+        }, {
+            text: 'Cancel',
+            handler: function() {
+                newRestaurantDialog.hide();
+            }
+        }]
+    });
+});

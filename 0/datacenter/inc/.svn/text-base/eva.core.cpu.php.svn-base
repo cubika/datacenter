@@ -1,0 +1,75 @@
+<?php
+
+if(!class_exists('EVA')){ include 'inc/eva.core.main.php'; }
+
+Class CPU extends EVA {
+
+	private $evapoints_cpu = array( 
+		'eva_cpu_nocache_background_mobile'=>array("json" => 'ns_156_test0_background_cpu', "name"=>"无缓存-网页加载-手机站","type"=>"mobile", "baidu" => 0, "uc" => 0, "qq" => 0),
+		'eva_cpu_nocache_background_pc'=>array("json" => 'ns_156_test0_background_cpu', "name"=>"无缓存-网页加载-PC站","type"=>"pc", "baidu" => 0, "uc" => 0, "qq" => 0),
+		'eva_cpu_nocache_slippage'=>array("name" => '无缓存-页面滑动-手机站', "type"=>"mobile", "baidu" => 0, "uc" => 0, "qq" => 0), 
+		'eva_cpu_nocache_slippage2'=>array("name" => '无缓存-页面滑动-PC站',"type"=>"pc", "baidu" => 0, "uc" => 0, "qq" => 0), 
+		'eva_cpu_nocache_pagequiet'=>array("name" => '无缓存-页面滑动后静置-手机站',"type"=>"mobile", "baidu" => 0, "uc" => 0, "qq" => 0),
+		'eva_cpu_nocache_pagequiet2'=>array("name" => '无缓存-页面滑动后静置-PC站',"type"=>"pc", "baidu" => 0, "uc" => 0, "qq" => 0),
+		'eva_cpu_nocache_backendquiet'=>array("name" => '无缓存-后台静置-手机站',"type"=>"mobile", "baidu" => 0, "uc" => 0, "qq" => 0),
+		'eva_cpu_nocache_backendquiet2'=>array("name" => '无缓存-后台静置-PC站', "type"=>"pc","baidu" => 0, "uc" => 0, "qq" => 0),
+		
+		'eva_cpu_cache_loadpage_mobile'=>array("name" => '有缓存-网页加载-手机站', "type"=>"mobile","baidu" => 0, "uc" => 0, "qq" => 0),
+		'eva_cpu_cache_loadpage_pc'=>array("name" => '有缓存-网页加载-PC站', "type"=>"pc","baidu" => 0, "uc" => 0, "qq" => 0), 
+		'eva_cpu_cache_slippage_mobile'=>array("name" => '有缓存-页面滑动-手机站', "type"=>"mobile","baidu" => 0, "uc" => 0, "qq" => 0),
+		'eva_cpu_cache_slippage_pc'=>array("name" => '有缓存-页面滑动-PC站', "type"=>"pc","baidu" => 0, "uc" => 0, "qq" => 0),
+		'eva_cpu_cache_pagequiet_mobile'=>array("name" => '有缓存-页面滑动后静置-手机站', "type"=>"mobile","baidu" => 0, "uc" => 0, "qq" => 0),
+		'eva_cpu_cache_pagequiet_pc'=>array("name" => '有缓存-页面滑动后静置-PC站', "type"=>"pc","baidu" => 0, "uc" => 0, "qq" => 0), 
+		'eva_cpu_cache_backendquiet_mobile'=>array("name" => '有缓存-后台静置-手机站', "type"=>"mobile","baidu" => 0, "uc" => 0, "qq" => 0),
+		'eva_cpu_cache_backendquiet_pc'=>array("name" => '有缓存-后台静置-手机站', "type"=>"pc","baidu" => 0, "uc" => 0, "qq" => 0),
+		 );
+		 
+	private $avg_json_tpl = array(
+			'chart'=>array('yaxisname'=>'%','caption'=>'CPU','xaxisname'=>'time','compactDataMode'=>'1',"dataseparator"=>'|'),
+			'categories'=>array('category'=>''),
+			'dataset'=>array(array('seriesname'=>'baidu', 'data'=>''),
+				array('seriesname'=>'uc', 'data'=>''),array('seriesname'=>'qq', 'data'=>'')
+			)
+		);
+		 
+	function __construct(){
+		parent::__construct($this->evapoints_cpu);
+	}
+	
+	function avg($ver, $env, $type) {
+		
+		$dataset = $this->getObj($ver, $env)->dataset;
+		$category = "";
+		$avg_str="";
+		for ($i=0; $i <count($dataset); $i++) {
+			 
+			if ($dataset[$i]->type == $type) {
+				$category = $category . $dataset[$i]->seriesname . "|";
+				$data = split('[/.|]', $dataset[$i]->data);
+				$total = 0;
+				for ($j=0; $j < count($data); $j++) { 
+					$total = $total + $data[$j];
+				}
+				$avg = $total / (count($data) - 1) ;
+				$avg_str = $avg_str . $avg . "|";
+			}
+		}
+		$this->avg_json_tpl['categories']['category'] = $category;
+		for ($k=0; $k < count($this->avg_json_tpl['dataset']); $k++) { 
+			if ($this->avg_json_tpl['dataset'][$k]['seriesname'] == $ver) {
+				$this->avg_json_tpl['dataset'][$k]['data'] = $avg_str;
+			}
+		}
+		
+	}
+
+	public function merge($env, $type){
+		$this->avg('baidu', $env, $type);
+		$this->avg('uc', $env, $type);
+		$this->avg('qq', $env, $type);
+		return json_encode($this->avg_json_tpl);
+	}
+
+
+}
+?>

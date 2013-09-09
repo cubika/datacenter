@@ -1,0 +1,26 @@
+<?php
+
+if(!class_exists('EVA')){ include 'inc/eva.core.main.php'; }
+
+Class LCD extends EVA {
+
+	private $evapoints = array( 
+		'eva_lcd_fps_dragonpage'=>array("json" => 'eva_lcd_fps_dragonpage', "name"=>"页面滑动fps", "baidu" => 0, "uc" => 0, "qq" => 0),
+		'eva_lcd_rad_dragonpage'=>array("json" => 'eva_lcd_rad_dragonpage', "name"=>"页面滑动平滑度", "baidu" => 0, "uc" => 0, "qq" => 0),
+		 );
+		 
+		 
+	function __construct(){
+		parent::__construct($this->evapoints);
+	}
+	
+
+	public function merge($env){
+		$this->eva_entry['chart']['caption'] = $env;
+		return json_encode($this->eva_entry);
+	}
+	
+
+
+}
+?>

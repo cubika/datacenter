@@ -22,9 +22,10 @@ $tpl -> assign("v_qq", $v_qq);
 // you can draw the output
 // $tpl->draw( 'page' );
 // or the template output string by setting $return_string = true:
-$html = $tpl -> draw('index', $return_string = true);
+$html = $tpl -> draw('eva_query', $return_string = true);
 
 // and then draw the output
 echo $html;
+
 
 ?>

@@ -1,30 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
 
-		<!-- Le styles -->
-		<link href="bootstrap_assets/css/bootstrap.css" rel="stylesheet">
-		<link href="bootstrap_assets/css/docs.css" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox.css" media="screen" />
-		
-
-	</head>
-
-	<body>
 		{loop="test_scenarios"}	
-        <div id="ld-table" class="bs-docs-example" d_content="æµ‹è¯•åœºæ™¯ï¼š{$value[1]}">
+        <div id="ld-table" class="bs-docs-example" d_content="²âÊÔ³¡¾°£º{$value[1]}">
         <table class="table table-striped">
  			 <thead>
                 <tr>
                   <th>#</th>
                   <th>website</th>
-                  <th>å¼€å§‹æ¸²æŸ“æ—¶é—´(avg)</th>
-                  <th>DOM Readyæ—¶é—´(avg)</th>
-                  <th>é¡µé¢åŠ è½½å®Œæˆæ—¶é—´(avg)</th>
-                  <th>æµè§ˆå™¨</th>
-                  <th>ç‰ˆæœ¬å·</th>
-                  <th>è¯¦ç»†æ•°æ®</th>
+                  <th>¿ªÊ¼äÖÈ¾Ê±¼ä(avg)</th>
+                  <th>DOM ReadyÊ±¼ä(avg)</th>
+                  <th>Ò³Ãæ¼ÓÔØÍê³ÉÊ±¼ä(avg)</th>
+                  <th>ä¯ÀÀÆ÷</th>
+                  <th>°æ±¾ºÅ</th>
+                  <th>ÏêÏ¸Êı¾İ</th>
                 </tr>
               </thead>
               
@@ -38,7 +25,7 @@
                   <td>{$value->avgTTPL}</td>
                   <td>{$value->browser}</td>
                   <td>{$value->engineVersion}</td>
-                  <td><a class="fancybox fancybox.iframe" href="ldt_query_content_details.php?browser={$value->browser}&engineVersion={$value->engineVersion}&website={$value->website}&tsid={$value->tsid}">æŸ¥çœ‹</a></td>
+                  <td><a class="fancybox fancybox.iframe" href="ldt_query_content_details.php?browser={$value->browser}&engineVersion={$value->engineVersion}&website={$value->website}&tsid={$value->tsid}">²é¿´</a></td>
                 </tr>
                 {/loop}
               </tbody>
@@ -48,18 +35,8 @@
 		{/loop}
 		
 
-		<!-- Le javascript
-		================================================== -->
-		<!-- Placed at the end of the document so the pages load faster -->
-		<script src="bootstrap_assets/js/jquery.js"></script>
-		<script src="fancybox/jquery.fancybox.js"></script>
-
 		<script>
 			$(document).ready(function() {
 				$('.fancybox').fancybox();
 			})
-			
 		</script>
-
-	</body>
-</html>

@@ -5,28 +5,11 @@
 		<title>Sumeru, 数据中心</title>
 
 		<!-- Le styles -->
-		<link href="bootstrap_assets/css/bootstrap.css" rel="stylesheet">
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="bootstrap/css/docs.css" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox.css" media="screen" />
-		<link href="css/bootstrap-chosen.css" rel="stylesheet">
-		<style type="text/css">
-			body {
-				padding-top: 60px;
-				padding-bottom: 40px;
-			}
-			.sidebar-nav {
-				padding: 9px 0;
-			}
-
-			@media (max-width: 980px) {
-				/* Enable use of floated navbar text */
-				.navbar-text.pull-right {
-					float: none;
-					padding-left: 5px;
-					padding-right: 5px;
-				}
-			}
-		</style>
-		<link href="bootstrap_assets/css/bootstrap-responsive.css" rel="stylesheet">
+		<link rel="stylesheet" href="css/chosen.min.css">
+		<link rel="stylesheet" href="css/style.css">
 
 		<body>
 
@@ -56,38 +39,38 @@
 								<li class="nav-header">
 									基础性能
 								</li>
-								<li class="{$active_ldt}">
-									<a href="index.php?m=ldt">页面加载时间</a>
+								<li class="active" data-module="ldt">
+									<a href="javascript:void(0)">页面加载时间</a>
 								</li>
-								<li class="{$active_cpu}">
-									<a href="index.php?m=cpu">CPU</a>
+								<li data-module="cpu">
+									<a href="javascript:void(0)">CPU</a>
 								</li>
-								<li class="{$active_mem}">
-									<a href="index.php?m=mem">内存</a>
+								<li data-module="mem">
+									<a href="javascript:void(0)">内存</a>
 								</li>
-								<li class="{$active_trf}">
-									<a href="index.php?m=trf">流量</a>
+								<li data-module="trf">
+									<a href="javascript:void(0)">流量</a>
 								</li>
-								<li class="{$active_pow}">
-									<a href="index.php?m=pow">耗电量</a>
+								<li data-module="pow">
+									<a href="javascript:void(0)">耗电量</a>
 								</li>
-								<li class="{$active_fps}">
-									<a href="index.php?m=fps">流畅度</a>
+								<li data-module="fps">
+									<a href="javascript:void(0)">流畅度</a>
 								</li>
-								<li class="{$active_benchmark}">
-									<a href="index.php?m=benchmark">Benchmark</a>
+								<li data-module="benchmark">
+									<a href="javascript:void(0)">Benchmark</a>
 								</li>
 								<li class="nav-header">
 									稳定性
 								</li>
-								<li class="{$active_mky}">
-									<a href="index.php?m=mky">Monkey</a>
+								<li data-module="mky">
+									<a href="javascript:void(0)">Monkey</a>
 								</li>
 								<li class="nav-header">
 									兼容性
 								</li>
-								<li class="{$active_wpc}">
-									<a href="index.php?m=wpc">网页兼容性</a>
+								<li data-module="wpc">
+									<a href="javascript:void(0)">网页兼容性</a>
 								</li>
 								
 							</ul>
@@ -100,8 +83,8 @@
 										<li class="nav-header">
 											评测
 										</li>
-										<li class="{$active_eva}">
-											<a href="index.php?m=eva">一键生成评测报告</a>
+										<li data-module="eva">
+											<a href="eva_query.php">一键生成评测报告</a>
 										</li>
 									</ul>
 								</div><!--/.well -->
@@ -109,71 +92,32 @@
 						</div><!--/row-->
 					</div><!--/span-->
 
-					{if="$module==eva"}
-					<div class="span9">
-
-						<div class="hero-unit">
-							<div class="row">
-								<div class="col-lg-3">
-									<select id="v_baidu" data-placeholder="请选择Baidu版本号" class="chosen-select" tabindex="2">
-										<option value=""></option>
-										{loop="v_baidu"}
-										<option value="{$value}">{$value}</option>
-										{/loop}
-									</select>
-								</div>
-								<div class="col-lg-3">
-									<select id="v_uc" data-placeholder="请选择UC版本号" class="chosen-select" tabindex="2">
-										<option value=""></option>
-										{loop="v_uc"}
-										<option value="{$value}">{$value}</option>
-										{/loop}
-									</select>
-								</div>
-								<div class="col-lg-3">
-									<select id="v_qq" data-placeholder="请选择QQ版本号" class="chosen-select" tabindex="2">
-										<option value=""></option>
-										{loop="v_qq"}
-										<option value="{$value}">{$value}</option>
-										{/loop}
-									</select>
+					<div id="right-cotent">
+						<div class="span9">
+							<div class="tabbable">
+								<!-- Only required for left/right tabs -->
+								<ul class="nav nav-tabs">
+									<li class="active">
+										<a href="#tab1" data-toggle="tab">数据查询</a>
+									</li>
+									<!-- <li >
+										<a href="#tab2" data-toggle="tab">Daily质量监控</a>
+									</li> -->
+									<li >
+										<a href="#tab4" data-toggle="tab">竞品比较</a>
+									</li>
+								</ul>
+								
+								<div class="tab-content">
+									<div class="tab-pane active " id="tab1"></div>
+									<!-- <div class="tab-pane " id="tab2">
+										<iframe src="{$module}_daily_dashboard.php" frameborder="0" height="1000" width="100%"></iframe>
+									</div> -->
+									<div class="tab-pane" id="tab4"></div>
 								</div>
 							</div>
-							<hr>
-							<a class="btn btn-primary btn-large" onclick="eva();" >一键生成评测报告 &raquo;</a>
-						</div>
+						</div><!--/span-->
 					</div>
-					{else}
-					<div class="span9">
-						<div class="tabbable">
-							<!-- Only required for left/right tabs -->
-							<ul class="nav nav-tabs">
-								<li class="active">
-									<a href="#tab1" data-toggle="tab">数据查询</a>
-								</li>
-								<!-- <li >
-									<a href="#tab2" data-toggle="tab">Daily质量监控</a>
-								</li> -->
-								<li >
-									<a href="#tab4" data-toggle="tab">竞品比较</a>
-								</li>
-							</ul>
-							
-							<div class="tab-content">
-								<div class="tab-pane active " id="tab1">
-									<iframe src="{$module}_query.php" frameborder="0" height="1000" width="100%"></iframe>
-								</div>
-								<!-- <div class="tab-pane " id="tab2">
-									<iframe src="{$module}_daily_dashboard.php" frameborder="0" height="1000" width="100%"></iframe>
-								</div> -->
-								<div class="tab-pane" id="tab4">
-									<iframe src="{$module}_eva.php" frameborder="0" height="1800" width="100%"></iframe>
-								</div>
-							</div>
-
-						</div>
-					</div><!--/span-->
-					{/if}
 
 				</div><!--/row-->
 
@@ -190,42 +134,14 @@
 			<!-- Le javascript
 			================================================== -->
 			<!-- Placed at the end of the document so the pages load faster -->
-			<script src="bootstrap_assets/js/jquery.js"></script>
-			<script src="bootstrap_assets/js/bootstrap-transition.js"></script>
-			<script src="bootstrap_assets/js/bootstrap-alert.js"></script>
-			<script src="bootstrap_assets/js/bootstrap-modal.js"></script>
-			<script src="bootstrap_assets/js/bootstrap-dropdown.js"></script>
-			<script src="bootstrap_assets/js/bootstrap-scrollspy.js"></script>
-			<script src="bootstrap_assets/js/bootstrap-tab.js"></script>
-			<script src="bootstrap_assets/js/bootstrap-tooltip.js"></script>
-			<script src="bootstrap_assets/js/bootstrap-popover.js"></script>
-			<script src="bootstrap_assets/js/bootstrap-button.js"></script>
-			<script src="bootstrap_assets/js/bootstrap-collapse.js"></script>
-			<script src="bootstrap_assets/js/bootstrap-carousel.js"></script>
-			<script src="bootstrap_assets/js/bootstrap-typeahead.js"></script>
-
+	
+			<script src="js/jquery-1.9.1.min.js"></script>
+			<script src="bootstrap/js/bootstrap.min.js"></script>
 			<script src="fancybox/jquery.fancybox.js"></script>
-			<script src="js/chosen.jquery.js"></script>
-
-			<script>
-				function eva() {
-					var v_baidu = $("#v_baidu").val();
-					var v_uc = $("#v_uc").val();
-					var v_qq = $("#v_qq").val();
-					window.open("eva.php?v_baidu=" + v_baidu + "&v_uc=" + v_uc + "&v_qq=" + v_qq);
-				}
-
-				$(function() {
-					$('.chosen-select').chosen();
-					$('.chosen-select-deselect').chosen({
-						allow_single_deselect : true
-					});
-				});
-
-				$(document).ready(function() {
-					$('.fancybox').fancybox();
-				})
-			</script>
+			<script src="js/chosen.jquery.min.js"></script>
+			<script src="js/FusionCharts.js"></script>
+			<script src="js/dc.js"></script>
+			<script src="js/index.js"></script>
 
 		</body>
 </html>

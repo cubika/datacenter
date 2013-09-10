@@ -1,29 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
 
-		<!-- Le styles -->
-		<link href="bootstrap_assets/css/bootstrap.css" rel="stylesheet">
-		<link href="bootstrap_assets/css/docs.css" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox.css" media="screen" />
-		
-
-	</head>
-
-	<body>
 		{loop="test_scenarios"}	
-        <div id="ld-table" class="bs-docs-example" d_content="ÊµãËØïÂú∫ÊôØÔºö{$value[1]}">
+        <div id="ld-table" class="bs-docs-example" d_content="≤‚ ‘≥°æ∞£∫{$value[1]}">
         <table class="table table-striped">
  			 <thead>
                 <tr>
                   <th>#</th>
                   <th>website</th>
-                  <th>ÊµèËßàÂô®</th>
-                  <th>ÁâàÊú¨Âè∑</th>
-                  <th>CPUÂç†Áî®Áéá(%)</th>
-                  <th>ÊµãËØïÊó∂Èó¥</th>
-                  <th>Êìç‰Ωú</th>
+                  <th>‰Ø¿¿∆˜</th>
+                  <th>∞Ê±æ∫≈</th>
+                  <th>CPU’º”√¬ (%)</th>
+                  <th>≤‚ ‘ ±º‰</th>
+                  <th>≤Ÿ◊˜</th>
                 </tr>
               </thead>
               
@@ -36,7 +23,7 @@
                   <td>{$value->engineVersion}</td>
                   <td>{$value->cpuValue}</td>
                   <td>{$value->timeStamp}</td>
-                  <td><a>Âà†Èô§</a></td>
+                  <td><a>…æ≥˝</a></td>
                 </tr>
                 {/loop}
               </tbody>
@@ -46,18 +33,7 @@
 		{/loop}
 		
 
-		<!-- Le javascript
-		================================================== -->
-		<!-- Placed at the end of the document so the pages load faster -->
-		<script src="bootstrap_assets/js/jquery.js"></script>
-		<script src="fancybox/jquery.fancybox.js"></script>
 
 		<script>
-			$(document).ready(function() {
 				$('.fancybox').fancybox();
-			})
-			
 		</script>
-
-	</body>
-</html>

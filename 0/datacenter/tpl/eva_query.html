@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sumeru, 数据中心</title>
+
+<!-- Le styles -->
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css"
+	href="fancybox/jquery.fancybox.css" media="screen" />
+<link rel="stylesheet" href="css/chosen.min.css">
+<link rel="stylesheet" href="css/style.css">
+<body>
+
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<button type="button" class="btn btn-navbar" data-toggle="collapse"
+					data-target=".nav-collapse">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="brand" href="#">Sumeru 数据中心</a>
+				<div class="nav-collapse collapse">
+					<p class="navbar-text pull-right">
+						Logged in as <a href="#" class="navbar-link">Username</a>
+					</p>
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span3">
+				<div class="well sidebar-nav">
+					<ul class="nav nav-list">
+						<li class="nav-header">基础性能</li>
+						<li class="active" data-module="ldt"><a
+							href="javascript:void(0)">页面加载时间</a></li>
+						<li data-module="cpu"><a href="javascript:void(0)">CPU</a></li>
+						<li data-module="mem"><a href="javascript:void(0)">内存</a></li>
+						<li data-module="trf"><a href="javascript:void(0)">流量</a></li>
+						<li data-module="pow"><a href="javascript:void(0)">耗电量</a></li>
+						<li data-module="fps"><a href="javascript:void(0)">流畅度</a></li>
+						<li data-module="benchmark"><a href="javascript:void(0)">Benchmark</a>
+						</li>
+						<li class="nav-header">稳定性</li>
+						<li data-module="mky"><a href="javascript:void(0)">Monkey</a>
+						</li>
+						<li class="nav-header">兼容性</li>
+						<li data-module="wpc"><a href="javascript:void(0)">网页兼容性</a>
+						</li>
+
+					</ul>
+				</div>
+				<!--/.well -->
+
+				<div class="row-fluid">
+					<div class="span12">
+						<div class="well sidebar-nav">
+							<ul class="nav nav-list">
+								<li class="nav-header">评测</li>
+								<li data-module="eva"><a href="eva_query.php">一键生成评测报告</a>
+								</li>
+							</ul>
+						</div>
+						<!--/.well -->
+					</div>
+					<!--/span-->
+				</div>
+				<!--/row-->
+			</div>
+			<!--/span-->
+
+			<div id="right-cotent">
+			
+				<div class="span9">
+					<div class="hero-unit">
+						<div class="row">
+							<div class="col-lg-3">
+								<select id="v_baidu" data-placeholder="请选择Baidu版本号"
+									class="chosen-select" tabindex="2" data-value={$v_baidu}>
+									<option value=""></option> {loop="v_baidu"}
+									<option value="{$value}">{$value}</option> {/loop}
+								</select>
+							</div>
+							<div class="col-lg-3">
+								<select id="v_uc" data-placeholder="请选择UC版本号"
+									class="chosen-select" tabindex="2" data-value={$v_uc}>
+									<option value=""></option> {loop="v_uc"}
+									<option value="{$value}">{$value}</option> {/loop}
+								</select>
+							</div>
+							<div class="col-lg-3">
+								<select id="v_qq" data-placeholder="请选择QQ版本号"
+									class="chosen-select" tabindex="2" data-value={$v_qq}>
+									<option value=""></option> {loop="v_qq"}
+									<option value="{$value}">{$value}</option> {/loop}
+								</select>
+							</div>
+						</div>
+						<hr>
+						<a class="btn btn-primary btn-large" onclick="eva();">一键生成评测报告
+							&raquo;</a>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<!--/row-->
+
+		<hr>
+
+		<footer>
+			<p align="center">&copy; SumeruQA 2013</p>
+		</footer>
+
+	</div>
+	<!--/.fluid-container-->
+
+	<!-- Le javascript
+			================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+
+	<script src="js/jquery-1.9.1.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src="fancybox/jquery.fancybox.js"></script>
+	<script src="js/chosen.jquery.min.js"></script>
+	<script>
+		function eva() {
+			var v_baidu = $("#v_baidu").val();
+			var v_uc = $("#v_uc").val();
+			var v_qq = $("#v_qq").val();
+			window.open("eva.php?v_baidu=" + v_baidu + "&v_uc=" + v_uc + "&v_qq=" + v_qq);
+		}
+	</script>
+
+</body>
+</html>

@@ -2,7 +2,7 @@
 		<div class="hero-unit">
 			<div class="row">
 				<div class="col-lg-3">
-					<select id="browser" data-placeholder="ÇëÑ¡Ôñä¯ÀÀÆ÷" class="chosen-select" tabindex="2">
+					<select id="browser" data-placeholder="è¯·é€‰æ‹©æµè§ˆå™¨" class="chosen-select" tabindex="2">
 						<option value=""></option>
 						<option value="baidu">Baidu</option>
 						<option value="UC">UC</option>
@@ -10,7 +10,7 @@
 					</select>
 				</div>
 				<div class="col-lg-3">
-					<select id="engine_version" data-placeholder="ÇëÑ¡Ôñ°æ±¾ºÅ" class="chosen-select" tabindex="2">
+					<select id="engine_version" data-placeholder="è¯·é€‰æ‹©ç‰ˆæœ¬å·" class="chosen-select" tabindex="2">
 						<option value=""></option>
 						{loop="versions"}
 						<option value="{$value}">{$value}</option>
@@ -19,17 +19,13 @@
 				</div>
 			</div>
 			<hr>
-			<a onclick="query();" class="btn btn-primary btn-large">²éÑ¯ &raquo;</a>
+			<a onclick="query();" class="btn btn-primary btn-large">æŸ¥è¯¢ &raquo;</a>
 		</div>
 		 <div id="content" ></div>
 		 
 		<script>
-			$(function() {
-				$('.chosen-select').chosen();
-				$('.chosen-select-deselect').chosen({
-					allow_single_deselect : true
-				});
-			});
+		$('.chosen-select').chosen();
+		$(".chosen-container-single").css("width","192px");
 			function query() {
 				var browser = $("#browser").val();
 				var engine_version = $("#engine_version").val();

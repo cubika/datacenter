@@ -1,8 +1,7 @@
-
-		<div class="hero-unit">
+<div class="hero-unit">
 			<div class="row">
 				<div class="col-lg-3">
-					<select id="browser" data-placeholder="ÇëÑ¡Ôñä¯ÀÀÆ÷" class="chosen-select" tabindex="2">
+					<select id="browser" data-placeholder="è¯·é€‰æ‹©æµè§ˆå™¨" class="chosen-select">
 						<option value=""></option>
 						<option value="baidu">Baidu</option>
 						<option value="UC">UC</option>
@@ -10,7 +9,7 @@
 					</select>
 				</div>
 				<div class="col-lg-3">
-					<select id="engine_version" data-placeholder="ÇëÑ¡Ôñ°æ±¾ºÅ" class="chosen-select" tabindex="2">
+					<select id="engine_version" data-placeholder="è¯·é€‰æ‹©ç‰ˆæœ¬å·" class="chosen-select">
 						<option value=""></option>
 						{loop="versions"}
 						<option value="{$value}">{$value}</option>
@@ -19,22 +18,17 @@
 				</div>
 			</div>
 			<hr>
-			<a onclick="query();" class="btn btn-primary btn-large">²éÑ¯ &raquo;</a>
+			<button type="button" id="query" class="btn btn-primary btn-large">æŸ¥è¯¢ &raquo;</button>
 		</div>
-		<div id="content" >
-		</div>
-
-
-		<script>
-			$(function() {
-				$('.chosen-select').chosen();
-				$('.chosen-select-deselect').chosen({
-					allow_single_deselect : true
-				});
-			});
-			function query() {
-				var browser = $("#browser").val();
-				var engine_version = $("#engine_version").val();
-				$("#content").load("ldt_query_content.php?browser=" + browser + "&engine_version=" + engine_version);
-			}
-		</script>
+		<div id="content" ></div>
+<script>
+		$('.chosen-select').chosen();
+		$(".chosen-container-single").css("width","192px");
+		
+		$('button#query').on("click",function(){
+			var browser = $("#browser").val();
+			var engine_version = $("#engine_version").val();
+			$("#content").load("ldt_query_content.php?browser=" + browser + "&engine_version=" + engine_version);
+	
+		});
+</script>

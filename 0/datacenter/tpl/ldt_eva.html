@@ -2,7 +2,7 @@
 		<div class="hero-unit">
             <div class="row">
 				<div class="col-lg-3">
-					<select id="v_baidu" data-placeholder="ÇëÑ¡ÔñBaidu°æ±¾ºÅ" class="chosen-select" tabindex="2">
+					<select id="v_baidu" data-placeholder="è¯·é€‰æ‹©Baiduç‰ˆæœ¬å·" class="chosen-select" tabindex="2">
 						<option value=""></option>
 						{loop="v_baidu"}
 						<option value="{$value}">{$value}</option>
@@ -10,7 +10,7 @@
 					</select>
 				</div>
 				<div class="col-lg-3">
-					<select id="v_uc" data-placeholder="ÇëÑ¡ÔñUC°æ±¾ºÅ" class="chosen-select" tabindex="2">
+					<select id="v_uc" data-placeholder="è¯·é€‰æ‹©UCç‰ˆæœ¬å·" class="chosen-select" tabindex="2">
 						<option value=""></option>
 						{loop="v_uc"}
 						<option value="{$value}">{$value}</option>
@@ -18,7 +18,7 @@
 					</select>
 				</div>
 				<div class="col-lg-3">
-					<select id="v_qq" data-placeholder="ÇëÑ¡ÔñQQ°æ±¾ºÅ" class="chosen-select" tabindex="2">
+					<select id="v_qq" data-placeholder="è¯·é€‰æ‹©QQç‰ˆæœ¬å·" class="chosen-select" tabindex="2">
 						<option value=""></option>
 						{loop="v_qq"}
 						<option value="{$value}">{$value}</option>
@@ -27,21 +27,17 @@
 				</div>
 			</div>
 			<hr>
-            <a onclick="compare();" class="btn btn-primary btn-large">±È½Ï &raquo;</a>
+            <button type="button" id="compare" class="btn btn-primary btn-large">æ¯”è¾ƒ &raquo;</button>
         </div>
         <div id="content" ></div>
 
 		<script>
-			$(function() {
-				$('.chosen-select').chosen();
-				$('.chosen-select-deselect').chosen({
-					allow_single_deselect : true
-				});
-			});
-			function compare() {
+			$('.chosen-select').chosen();
+			$(".chosen-container-single").css("width","192px");
+			$("button#compare").on("click",function(){
 				var v_baidu = $("#v_baidu").val();
 				var v_uc = $("#v_uc").val();
 				var v_qq = $("#v_qq").val();
 				$("#content").load("ldt_eva_content.php?v_baidu="+v_baidu+"&v_uc="+v_uc+"&v_qq="+v_qq);
-			}
+			});
 		</script>

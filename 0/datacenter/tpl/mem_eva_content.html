@@ -5,7 +5,7 @@
 				<li class="span12">
 					<div class="thumbnail">
 						<div class="caption">
-							<div id="ts_{$value[0]}"> </div>
+							<div id="mem_ts_{$value[0]}"> </div>
 						</div>
 					</div>
 				</li>
@@ -17,7 +17,7 @@
 
 				var f = 'tpl/fusioncharts/common/ZoomLine.swf';
 				{loop="$eva_scenarios"}
-					draw('ts_{$value[0]}', f, '{$value[2]}', '100%', 400);
+					draw('mem_ts_{$value[0]}', f, '{$value[2]}', '100%', 400);
 				{/loop}
 
 		</script>

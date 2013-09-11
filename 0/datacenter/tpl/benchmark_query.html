@@ -1,12 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-
-		<link href="bootstrap_assets/css/bootstrap.css" rel="stylesheet">
-		<link href="css/bootstrap-chosen.css" rel="stylesheet">
-
-	</head>
 
 	<body>
 		<div class="hero-unit">
@@ -31,25 +22,15 @@
 			<hr>
 			<a onclick="query();" class="btn btn-primary btn-large">查询 &raquo;</a>
 		</div>
-		<div >
-			<iframe id="ifr" src="" frameborder="0" height="600" width="100%"></iframe>
-		</div>
+		<div id="content" ></div>
 
-		<script src="js/jquery.min.js"></script>
-		<script src="js/chosen.jquery.js"></script>
 		<script>
-			$(function() {
-				$('.chosen-select').chosen();
-				$('.chosen-select-deselect').chosen({
-					allow_single_deselect : true
-				});
-			});
+		$('.chosen-select').chosen();
+		$(".chosen-container-single").css("width","192px");
 			function query() {
 				var browser = $("#browser").val();
 				var engine_version = $("#engine_version").val();
-				$("#ifr").attr("src", "benchmark_query_content.php?browser=" + browser + "&engine_version=" + engine_version);
+				$("#content").load("benchmark_query_content.php?browser=" + browser + "&engine_version=" + engine_version);
 			}
 		</script>
 
-	</body>
-</html>

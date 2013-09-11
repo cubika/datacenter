@@ -4,7 +4,7 @@
 		<li class="span12">
 			<div class="thumbnail">
 				<div class="caption">
-					<div id="ts_{$value[0]}"></div>
+					<div id="cpu_ts_{$value[0]}"></div>
 				</div>
 			</div>
 		</li>
@@ -12,13 +12,8 @@
 </div>
 {/loop}
 <script>
-	$(document).ready(function() {
-	
 		var f = 'tpl/fusioncharts/power/MultiAxisLine.swf';
 		{loop="$eva_scenarios"}
-			
-			draw('ts_{$value[0]}', f, '{$value[2]}', '100%', 400);
+			draw('cpu_ts_{$value[0]}', f, '{$value[2]}', '100%', 400);
 		{/loop}
-	
-	})
 </script>

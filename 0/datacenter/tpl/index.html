@@ -1,147 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>Sumeru, 数据中心</title>
+<head>
+<meta charset="utf-8">
+<title>Sumeru, 数据中心</title>
 
-		<!-- Le styles -->
-		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-		<link href="bootstrap/css/docs.css" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox.css" media="screen" />
-		<link rel="stylesheet" href="css/chosen.min.css">
-		<link rel="stylesheet" href="css/style.css">
+<!-- Le styles -->
+<link rel="stylesheet" href="css/bootstrap-chosen.css">
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="fancybox/jquery.fancybox.css" media="screen" />
+<link rel="stylesheet" href="css/style.css">
+<body>
 
-		<body>
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<button type="button" class="btn btn-navbar" data-toggle="collapse"
+					data-target=".nav-collapse">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="brand" href="#">Sumeru 数据中心</a>
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li><a href="">Home</a></li>
+						<li><a href="">浏览内核</a></li>
+						<li><a href="">播放内核</a></li>
+					</ul>
 
-			<div class="navbar navbar-inverse navbar-fixed-top">
-				<div class="navbar-inner">
-					<div class="container-fluid">
-						<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-						<a class="brand" href="#">Sumeru 数据中心</a>
-						<div class="nav-collapse collapse">
-							<p class="navbar-text pull-right">
-								Logged in as <a href="#" class="navbar-link">Username</a>
-							</p>
-						</div><!--/.nav-collapse -->
+					<ul class="nav pull-right">
+						<li>
+							<div>
+								<a class="btn btn-success" href="/users/sign_up"> <i
+									class="icon-edit"></i> 注册
+								</a> <a class="btn btn-info" href="/users/sign_in"> <i
+									class="icon-user"></i> 登录
+								</a>
+							</div>
+						</li>
+					</ul>
+
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span3">
+
+				<div class="panel panel-primary performance">
+					<div class="panel-group">
+						<h4>基础性能</h4>
+						<div class="list-group">
+							<a data-module="ldt" class="list-group-item active" href="javascript:void(0)">页面加载时间</a>
+							<a data-module="cpu" class="list-group-item" href="javascript:void(0)">CPU</a>
+							<a data-module="mem" class="list-group-item" href="javascript:void(0)">内存</a>
+							<a data-module="trf" class="list-group-item" href="javascript:void(0)">流量</a>
+							<a data-module="pow" class="list-group-item" href="javascript:void(0)">耗电量</a>
+							<a data-module="fps" class="list-group-item" href="javascript:void(0)">流畅度</a>
+							<a data-module="benchmark" class="list-group-item" href="javascript:void(0)">Benchmark</a>
+						</div>
+					</div>
+					<div class="panel-group">
+						<h4>稳定性</h4>
+						<div class="list-group">
+							<a data-module="mky" class="list-group-item" href="javascript:void(0)">Monkey</a>
+						</div>
+					</div>
+					<div class="panel-group">
+						<h4>兼容性</h4>
+						<div class="list-group">
+							<a data-module="wpc" class="list-group-item" href="javascript:void(0)">网页兼容性</a>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="row-fluid">
+					<div class="span12">
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								<h3 class="panel-title">评测</h3>
+							</div>
+							<div class="panel-body">
+								<a href="eva_query.php">一键生成评测报告</a>
+							</div>
+						</div>
+					</div>
+					<!--/span-->
+				</div>
+				<!--/row-->
+			</div>
+			<!--/span-->
+
+			<div class="span9">
+				<div id="modal"></div>
+				<div class="tabbable">
+					<!-- Only required for left/right tabs -->
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#tab1" data-toggle="tab">数据查询</a>
+						</li>
+						<!-- <li >
+										<a href="#tab2" data-toggle="tab">Daily质量监控</a>
+									</li> -->
+						<li><a href="#tab4" data-toggle="tab">竞品比较</a></li>
+					</ul>
+
+					<div class="tab-content">
+						<div class="tab-pane active " id="tab1"></div>
+						<!-- <div class="tab-pane " id="tab2">
+										<iframe src="{$module}_daily_dashboard.php" frameborder="0" height="1000" width="100%"></iframe>
+									</div> -->
+						<div class="tab-pane" id="tab4"></div>
 					</div>
 				</div>
 			</div>
+			<!--/span-->
 
-			<div class="container-fluid">
-				<div class="row-fluid">
-					<div class="span3">
-						<div class="well sidebar-nav">
-							<ul class="nav nav-list">
-								<li class="nav-header">
-									基础性能
-								</li>
-								<li class="active" data-module="ldt">
-									<a href="javascript:void(0)">页面加载时间</a>
-								</li>
-								<li data-module="cpu">
-									<a href="javascript:void(0)">CPU</a>
-								</li>
-								<li data-module="mem">
-									<a href="javascript:void(0)">内存</a>
-								</li>
-								<li data-module="trf">
-									<a href="javascript:void(0)">流量</a>
-								</li>
-								<li data-module="pow">
-									<a href="javascript:void(0)">耗电量</a>
-								</li>
-								<li data-module="fps">
-									<a href="javascript:void(0)">流畅度</a>
-								</li>
-								<li data-module="benchmark">
-									<a href="javascript:void(0)">Benchmark</a>
-								</li>
-								<li class="nav-header">
-									稳定性
-								</li>
-								<li data-module="mky">
-									<a href="javascript:void(0)">Monkey</a>
-								</li>
-								<li class="nav-header">
-									兼容性
-								</li>
-								<li data-module="wpc">
-									<a href="javascript:void(0)">网页兼容性</a>
-								</li>
-								
-							</ul>
-						</div><!--/.well -->
+		</div>
+		<!--/row-->
 
-						<div class="row-fluid">
-							<div class="span12">
-								<div class="well sidebar-nav">
-									<ul class="nav nav-list">
-										<li class="nav-header">
-											评测
-										</li>
-										<li data-module="eva">
-											<a href="eva_query.php">一键生成评测报告</a>
-										</li>
-									</ul>
-								</div><!--/.well -->
-							</div><!--/span-->
-						</div><!--/row-->
-					</div><!--/span-->
-
-					<div id="right-cotent">
-						<div class="span9">
-							<div class="tabbable">
-								<!-- Only required for left/right tabs -->
-								<ul class="nav nav-tabs">
-									<li class="active">
-										<a href="#tab1" data-toggle="tab">数据查询</a>
-									</li>
-									<!-- <li >
-										<a href="#tab2" data-toggle="tab">Daily质量监控</a>
-									</li> -->
-									<li >
-										<a href="#tab4" data-toggle="tab">竞品比较</a>
-									</li>
-								</ul>
-								
-								<div class="tab-content">
-									<div class="tab-pane active " id="tab1"></div>
-									<!-- <div class="tab-pane " id="tab2">
-										<iframe src="{$module}_daily_dashboard.php" frameborder="0" height="1000" width="100%"></iframe>
-									</div> -->
-									<div class="tab-pane" id="tab4"></div>
-								</div>
-							</div>
-						</div><!--/span-->
-					</div>
-
-				</div><!--/row-->
-
-				<hr>
-
-				<footer>
-					<p align="center">
-						&copy; SumeruQA 2013
-					</p>
-				</footer>
-
-			</div><!--/.fluid-container-->
-
-			<!-- Le javascript
-			================================================== -->
-			<!-- Placed at the end of the document so the pages load faster -->
+	</div>
+	<!--/.fluid-container-->
 	
-			<script src="js/jquery-1.9.1.min.js"></script>
-			<script src="bootstrap/js/bootstrap.min.js"></script>
-			<script src="fancybox/jquery.fancybox.js"></script>
-			<script src="js/chosen.jquery.min.js"></script>
-			<script src="js/FusionCharts.js"></script>
-			<script src="js/dc.js"></script>
-			<script src="js/index.js"></script>
+	<footer class="footer">
+		<p>&copy; SumeruQA 2013</p>
+	</footer>
 
-		</body>
+	<div class="modal fade" id="timeout">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true">&times;</button>
+			<h3>提示</h3>
+		</div>
+		<div class="modal-body">
+			<p>请求超时或错误</p>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-primary" data-dismiss="modal"
+				aria-hidden="true">关闭</a>
+		</div>
+	</div>
+	<!-- Le javascript
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+
+	<script src="js/jquery-1.9.1.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src="fancybox/jquery.fancybox.js"></script>
+	<script src="js/chosen.jquery.min.js"></script>
+	<script src="js/FusionCharts.js"></script>
+	<script src="js/dc.js"></script>
+	<script src="js/index.js"></script>
+
+</body>
 </html>

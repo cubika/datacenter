@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<link href="bootstrap_assets/css/bootstrap.css" rel="stylesheet">
-		<link href="css/bootstrap-chosen.css" rel="stylesheet">
-	</head>
 
-	<body>
 		<div class="hero-unit">
             <div class="row">
 				<div class="col-lg-3">
@@ -37,26 +29,15 @@
 			<hr>
             <a onclick="compare();" class="btn btn-primary btn-large">比较 &raquo;</a>
         </div>
-        <div >
-			<iframe id="ifr" src="" frameborder="0" height="1600" width="100%"> </iframe>
-		</div>
+        <div id="content" ></div>
 
-		<script src="bootstrap_assets/js/jquery.js"></script>
-		<script src="js/chosen.jquery.js"></script>
 		<script>
-			$(function() {
-				$('.chosen-select').chosen();
-				$('.chosen-select-deselect').chosen({
-					allow_single_deselect : true
-				});
-			});
+		$('.chosen-select').chosen();
+		$(".chosen-container-single").css("width","192px");
 			function compare() {
 				var v_baidu = $("#v_baidu").val();
 				var v_uc = $("#v_uc").val();
 				var v_qq = $("#v_qq").val();
-				$("#ifr").attr("src", "benchmark_eva_content.php?v_baidu="+v_baidu+"&v_uc="+v_uc+"&v_qq="+v_qq);
+				$("#content").load("benchmark_eva_content.php?v_baidu="+v_baidu+"&v_uc="+v_uc+"&v_qq="+v_qq);
 			}
 		</script>
-
-	</body>
-</html>

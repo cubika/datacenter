@@ -2,7 +2,7 @@
 
 include "inc/rain.tpl.class.php";
 include "inc/mem.class.php";
-include "inc/constants.class.php";
+if(!class_exists('Constants')){ include 'inc/constants.class.php'; }
 
 raintpl::configure("base_url", null);
 raintpl::configure("tpl_dir", "tpl/");

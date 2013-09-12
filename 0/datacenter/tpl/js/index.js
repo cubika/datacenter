@@ -1,5 +1,5 @@
 $.ajaxSetup({
-	timeout : 20000,
+	timeout : 15000,
 	error : function() {
 		$("#timeout").modal('show');
 	}
@@ -7,7 +7,7 @@ $.ajaxSetup({
 
 $(document).ajaxStart(function() {
 	$("body").addClass("loading");
-}).ajaxStop(function() {
+}).ajaxComplete(function() {
 	$("body").removeClass("loading");
 });
 

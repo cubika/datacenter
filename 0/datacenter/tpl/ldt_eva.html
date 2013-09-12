@@ -49,12 +49,14 @@
         <div id="eva_content" ></div>
 
 		<script>
-			$('.chosen-select').chosen();
-			$(".chosen-container-single").css("width","192px");
-			$("button#compare").on("click",function(){
-				var v_baidu = $("#v_baidu").val();
-				var v_uc = $("#v_uc").val();
-				var v_qq = $("#v_qq").val();
-				$("#eva_content").load("ldt_eva_content.php?v_baidu="+v_baidu+"&v_uc="+v_uc+"&v_qq="+v_qq);
-			});
+			(function(){
+				$('.chosen-select').chosen();
+				$(".chosen-container-single").css("width","192px");
+				$("button#compare").on("click",function(){
+					var v_baidu = $("#v_baidu").val();
+					var v_uc = $("#v_uc").val();
+					var v_qq = $("#v_qq").val();
+					$("#eva_content").load("ldt_eva_content.php?v_baidu="+v_baidu+"&v_uc="+v_uc+"&v_qq="+v_qq);
+				});
+			})();
 		</script>

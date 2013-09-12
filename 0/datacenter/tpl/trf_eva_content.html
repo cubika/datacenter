@@ -15,9 +15,7 @@
 
 		<script>
 		var f = 'tpl/fusioncharts/common/ZoomLine.swf';
-				{loop="$eva_scenarios"}
-					draw('ts_{$value[0]}', f, '{$value[2]}', '100%', 400);
-				{/loop}
-
-			})
+		{loop="$eva_scenarios"}
+			draw('ts_{$value[0]}', f, '{$value[2]}', '100%', 400);
+		{/loop}
 		</script>

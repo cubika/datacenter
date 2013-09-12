@@ -1,34 +1,17 @@
 
-		<div class="hero-unit">
-			<div class="row">
-				<div class="col-lg-3">
-					<select id="browser" data-placeholder="请选择浏览器" class="chosen-select" tabindex="2">
-						<option value=""></option>
-						<option value="baidu">Baidu</option>
-						<option value="UC">UC</option>
-						<option value="QQ">QQ</option>
-					</select>
-				</div>
-				<div class="col-lg-3">
-					<select id="engine_version" data-placeholder="请选择版本号" class="chosen-select" tabindex="2">
-						<option value=""></option>
-						{loop="versions"}
-						<option value="{$value}">{$value}</option>
-						{/loop}
-					</select>
-				</div>
-			</div>
-			<hr>
-			<a onclick="query();" class="btn btn-primary btn-large">查询 &raquo;</a>
-		</div>
-		<div id="content" ></div>
+		{include="common/query"}
 
 		<script>
 		$('.chosen-select').chosen();
 		$(".chosen-container-single").css("width","192px");
+		
+		setVersion("cpu");
+		$("select#browser").on("change",function(){
+			setVersion("cpu");
+		});
 			function query() {
 				var browser = $("#browser").val();
 				var engine_version = $("#engine_version").val();
-				$("#content").load("cpu_query_content.php?browser=" + browser + "&engine_version=" + engine_version);
+				$("#query_content").load("cpu_query_content.php?browser=" + browser + "&engine_version=" + engine_version);
 			}
 		</script>

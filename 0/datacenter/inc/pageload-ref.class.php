@@ -51,7 +51,7 @@ class PageLoadRef extends DataCenter {
 		return $t;
 	}
 	
-	private function deal($v_baidu, $v_uc, $v_qq, $tsid) {
+	public function deal($v_baidu, $v_uc, $v_qq, $tsid) {
 		
 		$baidu_details = parent::run_http_api(sprintf(Constants::$ldt_fetch_avg_by_browser_version_tsid, "baidu",$v_baidu,$tsid));
 		$uc_details = parent::run_http_api(sprintf(Constants::$ldt_fetch_avg_by_browser_version_tsid, "uc",$v_uc,$tsid));
@@ -261,5 +261,69 @@ class PageLoadRef extends DataCenter {
 		
 		return $eva_points;
 	}	
+
+	public function singleChart($v_baidu, $v_uc, $v_qq, $tsid, $type) {
+		$t = $this->deal($v_baidu, $v_uc, $v_qq, $tsid);
+		
+		$json_tpl = array(
+			'chart' => array('palette' => '1', 'caption' => '', 'xaxisname' => ''), 
+			'categories' => array('font' => "Arial", 'category' => array()), 
+			'dataset' => array(
+				array('seriesname' => 'Baidu', 'color' => '8BBA00', 'data' => array()),
+				array('seriesname' => 'UC', 'color' => 'A66EDD', 'data' => array()),
+				array('seriesname' => 'QQ', 'color' => 'F6BD0F', 'data' => array())
+			)
+		);
+		
+		//print_r($t);exit;
+		
+		foreach ($t as $key => $value) {
+			$o = new stdClass();
+			$o->label = $key;
+			array_push($json_tpl['categories']['category'], $o);
+			
+			if($type == "ttsr"){
+				$o = new stdClass();
+				$o->value = $value['baidu'][0]->avgTimeToStartRender;
+				array_push($json_tpl['dataset'][0]['data'], $o);
+				
+				$o = new stdClass();
+				$o->value = $value['uc'][0]->avgTimeToStartRender;
+				array_push($json_tpl['dataset'][1]['data'], $o);
+				
+				$o = new stdClass();
+				$o->value = $value['qq'][0]->avgTimeToStartRender;
+				array_push($json_tpl['dataset'][2]['data'], $o);
+			}
+			elseif($type == "ttdr"){
+				$o = new stdClass();
+				$o->value = $value['baidu'][0]->avgTimeToDomReady;
+				array_push($json_tpl['dataset'][0]['data'], $o);
+				
+				$o = new stdClass();
+				$o->value = $value['uc'][0]->avgTimeToDomReady;
+				array_push($json_tpl['dataset'][1]['data'], $o);
+				
+				$o = new stdClass();
+				$o->value = $value['qq'][0]->avgTimeToDomReady;
+				array_push($json_tpl['dataset'][2]['data'], $o);
+			}
+			elseif($type == "ttpl"){
+				$o = new stdClass();
+				$o->value = $value['baidu'][0]->avgTimeToPageLoaded;
+				array_push($json_tpl['dataset'][0]['data'], $o);
+				
+				$o = new stdClass();
+				$o->value = $value['uc'][0]->avgTimeToPageLoaded;
+				array_push($json_tpl['dataset'][1]['data'], $o);
+				
+				$o = new stdClass();
+				$o->value = $value['qq'][0]->avgTimeToPageLoaded;
+				array_push($json_tpl['dataset'][2]['data'], $o);
+			}
+		}
+		
+		return json_encode($json_tpl);
+	}
 	
 }

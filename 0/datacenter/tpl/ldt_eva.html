@@ -1,35 +1,52 @@
+		<div class="bs-docs-example" d_content="请输入比较条件">
+			<ul class="thumbnails">
+				<li class="span3">
+					<div  class="bs-docs-example" d_content="baidu浏览器">
+						<select id="v_baidu" data-placeholder="请选择版本号（必选）" class="chosen-select" tabindex="2">
+							<option value=""></option>
+							{loop="v_baidu"}
+							<option value="{$value}">{$value}</option>
+							{/loop}
+						</select>
+						<p></p>
+						<select id="v_baidu" data-placeholder="请选择Token（可选）" class="chosen-select" tabindex="2">
+							<option value=""></option>
+						</select>
+					</div>
+				</li>
+				<li class="span3">
 
-		<div class="hero-unit">
-            <div class="row">
-				<div class="col-lg-3">
-					<select id="v_baidu" data-placeholder="请选择Baidu版本号" class="chosen-select" tabindex="2">
-						<option value=""></option>
-						{loop="v_baidu"}
-						<option value="{$value}">{$value}</option>
-						{/loop}
-					</select>
-				</div>
-				<div class="col-lg-3">
-					<select id="v_uc" data-placeholder="请选择UC版本号" class="chosen-select" tabindex="2">
-						<option value=""></option>
-						{loop="v_uc"}
-						<option value="{$value}">{$value}</option>
-						{/loop}
-					</select>
-				</div>
-				<div class="col-lg-3">
-					<select id="v_qq" data-placeholder="请选择QQ版本号" class="chosen-select" tabindex="2">
-						<option value=""></option>
-						{loop="v_qq"}
-						<option value="{$value}">{$value}</option>
-						{/loop}
-					</select>
-				</div>
-			</div>
-			<hr>
-            <button type="button" id="compare" class="btn btn-primary btn-large">比较 &raquo;</button>
-        </div>
-        <div id="content" ></div>
+					<div  class="bs-docs-example" d_content="UC浏览器">
+						<select id="v_uc" data-placeholder="请选择版本号（必选）" class="chosen-select" tabindex="2">
+							<option value=""></option>
+							{loop="v_uc"}
+							<option value="{$value}">{$value}</option>
+							{/loop}
+						</select>
+						<p></p>
+						<select id="v_baidu" data-placeholder="请选择Token（可选）" class="chosen-select" tabindex="2">
+							<option value=""></option>
+						</select>
+					</div>
+				</li>
+				<li class="span3">
+					<div  class="bs-docs-example" d_content="QQ浏览器">
+						<select id="v_qq" data-placeholder="请选择版本号（必选）" class="chosen-select" tabindex="2">
+							<option value=""></option>
+							{loop="v_qq"}
+							<option value="{$value}">{$value}</option>
+							{/loop}
+						</select>
+						<p></p>
+						<select id="v_baidu" data-placeholder="请选择Token（可选）" class="chosen-select" tabindex="2">
+							<option value=""></option>
+						</select>
+					</div>
+				</li>
+			</ul>
+			<button id="compare" class="btn btn-primary btn-large">比较 &raquo;</button>
+		</div>
+        <div id="eva_content" ></div>
 
 		<script>
 			$('.chosen-select').chosen();
@@ -38,6 +55,6 @@
 				var v_baidu = $("#v_baidu").val();
 				var v_uc = $("#v_uc").val();
 				var v_qq = $("#v_qq").val();
-				$("#content").load("ldt_eva_content.php?v_baidu="+v_baidu+"&v_uc="+v_uc+"&v_qq="+v_qq);
+				$("#eva_content").load("ldt_eva_content.php?v_baidu="+v_baidu+"&v_uc="+v_uc+"&v_qq="+v_qq);
 			});
 		</script>

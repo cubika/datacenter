@@ -2,12 +2,14 @@
 
 class Constants {
 	
+	
 	public static $ldt_fetch_versions = "http://123.125.70.35:8099/sdc/page/vers";
 	public static $ldt_fetch_versions_by_browser = "http://123.125.70.35:8099/sdc/page/vers?browser=%s";
 	public static $ldt_fetch_scenarios = "http://123.125.70.35:8099/sdc/page/ts?browser=%s&engineVersion=%s";
 	public static $ldt_fetch_eva_scenarios = "http://123.125.70.35:8099/sdc/page?eva=[v_baidu:%s,v_uc:%s,v_qq:%s]";
 	public static $ldt_fetch_avg_by_browser_version_tsid = "http://123.125.70.35:8099/sdc/page/avg?browser=%s&engineVersion=%s&ts=%s";
 	public static $ldt_fetch_website_details_by_browser_version_website_tsid = "http://123.125.70.35:8099/sdc/page/website?browser=%s&engineVersion=%s&website=%s&tsid=%s";
+	public static $ldt_del_by_id = "http://123.125.70.35:8099/sdc/page/%s";
 	
 	public static $cpu_fetch_versions = "http://123.125.70.35:8099/sdc/cpu/vers";
 	public static $cpu_fetch_versions_by_browser = "http://123.125.70.35:8099/sdc/cpu/vers?browser=%s";

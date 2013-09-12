@@ -29,7 +29,7 @@
 			<hr>
             <button type="button" id="compare" class="btn btn-primary btn-large">比较 &raquo;</button>
         </div>
-        <div id="content" ></div>
+        <div id="eva_content" ></div>
 
 		<script>
 		$('.chosen-select').chosen();
@@ -38,6 +38,6 @@
 				var v_baidu = $("#v_baidu").val();
 				var v_uc = $("#v_uc").val();
 				var v_qq = $("#v_qq").val();
-				$("#content").load("cpu_eva_content.php?v_baidu="+v_baidu+"&v_uc="+v_uc+"&v_qq="+v_qq);
+				$("#eva_content").load("cpu_eva_content.php?v_baidu="+v_baidu+"&v_uc="+v_uc+"&v_qq="+v_qq);
 			});
 		</script>

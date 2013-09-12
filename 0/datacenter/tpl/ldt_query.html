@@ -1,34 +1,38 @@
-<div class="hero-unit">
-			<div class="row">
-				<div class="col-lg-3">
-					<select id="browser" data-placeholder="请选择浏览器" class="chosen-select">
-						<option value=""></option>
+		<div class="bs-docs-example" d_content="请输入查询条件">
+			<ul class="thumbnails">
+				<li class="span3">
+					<select id="browser" data-placeholder="请选择浏览器（必选）" class="chosen-select" tabindex="2">
 						<option value="baidu">Baidu</option>
 						<option value="UC">UC</option>
 						<option value="QQ">QQ</option>
 					</select>
-				</div>
-				<div class="col-lg-3">
-					<select id="engine_version" data-placeholder="请选择版本号" class="chosen-select">
-						<option value=""></option>
-						{loop="versions"}
-						<option value="{$value}">{$value}</option>
-						{/loop}
+				</li>
+				<li class="span3">
+					<select id="engine_version" data-placeholder="请选择版本号（必选）" class="chosen-select" tabindex="3">
 					</select>
-				</div>
-			</div>
-			<hr>
-			<button type="button" id="query" class="btn btn-primary btn-large">查询 &raquo;</button>
+				</li>
+				<li class="span3">
+					<select id="token_version" data-placeholder="请选择Token（可选）" class="chosen-select" tabindex="4">
+					</select>
+				</li>
+			</ul>
+			<button id="query" class="btn btn-primary btn-large">查询 &raquo;</button>
 		</div>
-		<div id="content" ></div>
+		<div id="query_content" ></div>
+
 <script>
 		$('.chosen-select').chosen();
 		$(".chosen-container-single").css("width","192px");
 		
+		
+		setVersion("ldt");
+		$("select#browser").on("change",function(){
+			setVersion("ldt");
+		});
 		$('button#query').on("click",function(){
 			var browser = $("#browser").val();
 			var engine_version = $("#engine_version").val();
-			$("#content").load("ldt_query_content.php?browser=" + browser + "&engine_version=" + engine_version);
+			$("#query_content").load("ldt_query_content.php?browser=" + browser + "&engine_version=" + engine_version);
 	
 		});
 </script>

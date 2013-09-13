@@ -63,15 +63,20 @@ body.loading #modal {
   padding-left: 0;
 }
 
-
-.hero-unit{
-	overflow-y:hidden;
-}
+/* header */
 .navbar-inverse{
 	background-color: #124690;
 }
 body > .navbar .brand{
 	color:white;
+}
+.navbar-inverse .link>li>a{
+	color:#defefe;
+	text-transform: uppercase;
+}
+.navbar-inverse .link>li>a:hover{
+	background-color:#f89406;
+	box-shadow:0 3px 8px rgba(0, 0, 0, 0.125);
 }
 
 /* sidebar */

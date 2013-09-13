@@ -1,346 +1,346 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-	<head>
-		<meta name="author" content="Luka Cvrk (cssMoban.com.com)" />
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<script type="text/javascript" src="js/jquery.min.js"></script>
-		<script type="text/javascript" src="js/FusionCharts.js"></script>
-		<link href="bootstrap_assets/css/bootstrap.css" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox.css" media="screen" />
-	</head>
-	<body >
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>评测报告</title>
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="http://www.bootcss.com/assets/css/docs.css">
+	<link rel="stylesheet" href="fancybox/jquery.fancybox.css" media="screen" />
+</head>
 
-		<div class="wrap">
-			<div id="left">
-				<p>
-					<h3>一、性能评测</h3>
-					<div class="tabbable">
-						<ul class="nav nav-pills">
-							<li class="active">
-								<a href="#tab1" data-toggle="tab">雷达图</a>
-							</li>
-							<li >
-								<a href="#tab2" data-toggle="tab">1. 页面加载时间</a>
-							</li>
-							<li >
-								<a href="#tab3" data-toggle="tab">2. CPU</a>
-							</li>
-							<li >
-								<a href="#tab4" data-toggle="tab">3. 内存</a>
-							</li>
-							<li>
-								<a href="#tab5" data-toggle="tab">4. 流量</a>
-							</li>
-							<li>
-								<a href="#tab6" data-toggle="tab">5. 流畅度</a>
-							</li>
-							<li>
-								<a href="#tab7" data-toggle="tab">6. 耗电量</a>
-							</li>
-							<li>
-								<a href="#tab8" data-toggle="tab">7. Benchmark</a>
-							</li>
-						</ul>
 
-						<div class="tab-content">
-							<div class="tab-pane active" id="tab1">
-								<div id="perf_radar"></div>
-							</div>
-							<div class="tab-pane " id="tab2">
-								<div>
-									<ul>
-										<li><h4>综合评分</h4></li>
-										<div id="ldt_total"></div>
-										<li><h4>详细评测场景评分</h4></li>
-										<table class="table table-striped">
-											<thead>
-												<tr>
-													<th>#</th>
-													<th>评测场景</th>
-													<th>百度浏览器</th>
-													<th>UC浏览器</th>
-													<th>QQ浏览器</th>
-												</tr>
-											</thead>
-											<tbody>
-											{loop="$ldt_test_scenarios"}
-											<tr>
-												<td>{$counter+1}</td>
-												<td><a class="fancybox fancybox.iframe" href="/eva_ldt.php?v_baidu={$v_baidu}&v_uc={$v_uc}&v_qq={$v_qq}&tsid={$value[0]}&ts={$value[1]}">{$value[1]}</td>
-												<td>{$value[2]['baidu']}</td>
-												<td>{$value[2]['uc']}</td>
-												<td>{$value[2]['qq']}</td>
-											</tr>
-											{/loop}
-											</tbody> 
-										</table>
-									</ul>
-
-								</div>
-							</div>
-							<div class="tab-pane" id="tab3">
-								<div>
-									<ul>
-										<li><h4>综合评分</h4></li>
-										<div id="cpu_total"></div>
-										<li><h4>详细评测场景评分</h4></li>
-										<table class="table table-striped">
-											<thead>
-												<tr>
-													<th>#</th>
-													<th>评测场景</th>
-													<th>百度浏览器</th>
-													<th>UC浏览器</th>
-													<th>QQ浏览器</th>
-													<th>各站点详细打分</th>
-												</tr>
-											</thead>
-											<tbody>
-											{loop="$cpu_test_scenarios"}
-											<tr>
-												<td>{$counter+1}</td>
-												<td><a class="fancybox fancybox.iframe" href="/eva_cpu.php?v_baidu={$v_baidu}&v_uc={$v_uc}&v_qq={$v_qq}&tsid={$value[0]}&ts={$value[1]}">{$value[1]}</td>
-												<td>{$value[2]['baidu']}</td>
-												<td>{$value[2]['uc']}</td>
-												<td>{$value[2]['qq']}</td>
-												<td><a class="fancybox fancybox.iframe" href="/eva_cpu_details.php?v_baidu={$v_baidu}&v_uc={$v_uc}&v_qq={$v_qq}&tsid={$value[0]}&ts={$value[1]}">查看</a></td>
-											</tr>
-											{/loop}
-											</tbody> 
-										</table>
-									</ul>
-
-								</div>
-							</div>
-							<div class="tab-pane" id="tab4">
-								<div>
-									<ul>
-										<li><h4>综合评分</h4></li>
-										<div id="mem_total"></div>
-										<li><h4>详细评测场景评分</h4></li>
-										<table class="table table-striped">
-											<thead>
-												<tr>
-													<th>#</th>
-													<th>评测场景</th>
-													<th>百度浏览器</th>
-													<th>UC浏览器</th>
-													<th>QQ浏览器</th>
-												</tr>
-											</thead>
-											<tbody>
-											{loop="$mem_test_scenarios"}
-											<tr>
-												<td>{$counter+1}</td>
-												<td><a class="fancybox fancybox.iframe" href="/eva_mem.php?v_baidu={$v_baidu}&v_uc={$v_uc}&v_qq={$v_qq}&tsid={$value[0]}&ts={$value[1]}">{$value[1]}</td>
-												<td>{$value[2]['baidu']}</td>
-												<td>{$value[2]['uc']}</td>
-												<td>{$value[2]['qq']}</td>
-											</tr>
-											{/loop}
-											</tbody> 
-										</table>
-									</ul>
-
-								</div>
-							</div>
-							<div class="tab-pane" id="tab5">
-								<div>
-									<ul>
-										<li><h4>综合评分</h4></li>
-										<div id="traffic_total"></div>
-										<li><h4>详细评测场景评分</h4></li>
-										<table class="table table-striped">
-											<thead>
-												<tr>
-													<th>#</th>
-													<th>评测场景</th>
-													<th>百度浏览器</th>
-													<th>UC浏览器</th>
-													<th>QQ浏览器</th>
-												</tr>
-											</thead>
-											<tbody>
-											{loop="$trf_test_scenarios"}
-											<tr>
-												<td>{$counter+1}</td>
-												<td><a class="fancybox fancybox.iframe" href="/eva_trf.php?v_baidu={$v_baidu}&v_uc={$v_uc}&v_qq={$v_qq}&tsid={$value[0]}&ts={$value[1]}">{$value[1]}</td>
-												<td>{$value[2]['baidu']}</td>
-												<td>{$value[2]['uc']}</td>
-												<td>{$value[2]['qq']}</td>
-											</tr>
-											{/loop}
-											</tbody> 
-										</table>
-									</ul>
-
-								</div>
-							</div>
-							<div class="tab-pane" id="tab6">
-								<div>
-									<ul>
-										<li><h4>综合评分</h4></li>
-										<div id="fps_total"></div>
-										<li><h4>详细评测场景评分</h4></li>
-										<table class="table table-striped">
-											<thead>
-												<tr>
-													<th>#</th>
-													<th>评测场景</th>
-													<th>百度浏览器</th>
-													<th>UC浏览器</th>
-													<th>QQ浏览器</th>
-												</tr>
-											</thead>
-											<tbody>
-											{loop="$fps_test_scenarios"}
-											<tr>
-												<td>{$counter+1}</td>
-												<td><a class="fancybox fancybox.iframe" href="/eva_fps.php?v_baidu={$v_baidu}&v_uc={$v_uc}&v_qq={$v_qq}&tsid={$value[0]}&ts={$value[1]}">{$value[1]}</td>
-												<td>{$value[2]['baidu']}</td>
-												<td>{$value[2]['uc']}</td>
-												<td>{$value[2]['qq']}</td>
-											</tr>
-											{/loop}
-											</tbody> 
-										</table>
-									</ul>
-
-								</div>
-							</div>
-							<div class="tab-pane" id="tab7">
-								<div>
-									<ul>
-										<li><h4>综合评分</h4></li>
-										<div id="power_total"></div>
-										<li><h4>详细评测场景评分</h4></li>
-										<table class="table table-striped">
-											<thead>
-												<tr>
-													<th>#</th>
-													<th>评测场景</th>
-													<th>百度浏览器</th>
-													<th>UC浏览器</th>
-													<th>QQ浏览器</th>
-												</tr>
-											</thead>
-											<tbody>
-											{loop="$pow_test_scenarios"}
-											<tr>
-												<td>{$counter+1}</td>
-												<td><a class="fancybox fancybox.iframe" href="/eva_pow.php?v_baidu={$v_baidu}&v_uc={$v_uc}&v_qq={$v_qq}&tsid={$value[0]}&ts={$value[1]}">{$value[1]}</td>
-												<td>{$value[2]['baidu']}</td>
-												<td>{$value[2]['uc']}</td>
-												<td>{$value[2]['qq']}</td>
-											</tr>
-											{/loop}
-											</tbody> 
-										</table>
-									</ul>
-
-								</div>
-							</div>
-							<div class="tab-pane" id="tab8">
-								<div>
-									<ul>
-										<li><h4>综合评分</h4></li>
-										<div id="benchmark_total"></div>
-										<li><h4>详细评测场景评分</h4></li>
-										<table class="table table-striped">
-											<thead>
-												<tr>
-													<th>#</th>
-													<th>评测场景</th>
-													<th>百度浏览器</th>
-													<th>UC浏览器</th>
-													<th>QQ浏览器</th>
-												</tr>
-											</thead>
-											<tbody>
-											{loop="$eva_benchmark_details"}
-											<tr>
-												<td>{$counter+1}</td>
-												<td><a class="fancybox fancybox.iframe" href="/eva_benchmark.php?v_baidu={$v_baidu}&v_uc={$v_uc}&v_qq={$v_qq}&tsid={$key}">{$key}</td>
-												<td>{$value['baidu']}</td>
-												<td>{$value['uc']}</td>
-												<td>{$value['qq']}</td>
-											</tr>
-											{/loop}
-											</tbody> 
-										</table>
-									</ul>
-
-								</div>
-							</div>
-						</div>
-
-					</div>
-				</p>
-			</div>
-
-			<h3>二、稳定性评测</h3>
-			<div class="tabbable">
-				<ul class="nav nav-pills">
-					<li class="active">
-						<a href="#tab21" data-toggle="tab">Monkey</a>
-					</li>
+<body data-spy="scroll" data-target=".bs-docs-sidebar">
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span3 bs-docs-sidebar">
+				<ul class="affix nav nav-list bs-docs-sidenav">
+					<li><a href="#rador"><i class="icon-chevron-right"></i>雷达图</a></li>
+					<li><a href="#ldt"><i class="icon-chevron-right"></i>页面加载时间</a></li>
+					<li><a href="#cpu"><i class="icon-chevron-right"></i>CPU</a></li>
+					<li><a href="#mem"><i class="icon-chevron-right"></i>内存</a></li>
+					<li><a href="#trf"><i class="icon-chevron-right"></i>流量</a></li>
+					<li><a href="#fps"><i class="icon-chevron-right"></i>流畅度</a></li>
+					<li><a href="#pow"><i class="icon-chevron-right"></i>耗电量</a></li>
+					<li><a href="#ben"><i class="icon-chevron-right"></i>Benchmark</a></li>
+					<li><a href="#mky"><i class="icon-chevron-right"></i>Monkey</a></li>
+					<li><a href="#wpc"><i class="icon-chevron-right"></i>网页兼容性</a></li>
 				</ul>
-				<div class="tab-content">
-					<div class="tab-pane active" id="tab21">
-						<div id="monkey"></div>
-					</div>
-				</div>
 			</div>
-			<h3>三、兼容性评测</h3>
-			<div class="tabbable">
-				<ul class="nav nav-pills">
-					<li class="active">
-						<a href="#tab31" data-toggle="tab">网页兼容性</a>
-					</li>
-				</ul>
-				<div class="tab-content">
-					<div class="tab-pane active" id="tab31">
-					</div>
+			<div class="span9">
+				<h2>一、性能评测</h2>
+				<div id="rador">
+					<h3>1.雷达图</h3>
+					<div id="perf_radar"></div>
 				</div>
+				<div id="ldt">
+					<h3>2.平均加载时间</h3>
+					<ul>
+						<li>
+							<h4>综合评分</h4>
+							<div id="ldt_total"></div>
+						</li>
+						<li>
+							<h4>详细评测场景评分</h4>
+							<div id="tableldt">
+								<table class="table table-striped table-bordered">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>评测场景</th>
+											<th>百度浏览器</th>
+											<th>UC浏览器</th>
+											<th>QQ浏览器</th>
+										</tr>
+									</thead>
+									<tbody>
+										{loop="$ldt_test_scenarios"}
+										<tr>
+											<td>{$counter+1}</td>
+											<td><a class="fancybox fancybox.iframe" href="/eva_ldt.php?v_baidu={$v_baidu}&v_uc={$v_uc}&v_qq={$v_qq}&tsid={$value[0]}&ts={$value[1]}">{$value[1]}</td>
+											<td>{$value[2]['baidu']}</td>
+											<td>{$value[2]['uc']}</td>
+											<td>{$value[2]['qq']}</td>
+										</tr>
+										{/loop}
+									</tbody> 
+								</table>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div id="cpu">
+					<h3>3.CPU</h3>
+					<ul>
+						<li>
+							<h4>综合评分</h4>
+							<div id="cpu_total"></div>
+						</li>
+						<li>
+							<h4>详细评测场景评分</h4>
+							<div id="tablecpu">
+								<table class="table table-striped table-bordered">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>评测场景</th>
+											<th>百度浏览器</th>
+											<th>UC浏览器</th>
+											<th>QQ浏览器</th>
+											<th>各站点详细打分</th>
+										</tr>
+									</thead>
+									<tbody>
+										{loop="$cpu_test_scenarios"}
+										<tr>
+											<td>{$counter+1}</td>
+											<td><a class="fancybox fancybox.iframe" href="/eva_cpu.php?v_baidu={$v_baidu}&v_uc={$v_uc}&v_qq={$v_qq}&tsid={$value[0]}&ts={$value[1]}">{$value[1]}</td>
+											<td>{$value[2]['baidu']}</td>
+											<td>{$value[2]['uc']}</td>
+											<td>{$value[2]['qq']}</td>
+											<td><a class="fancybox fancybox.iframe" href="/eva_cpu_details.php?v_baidu={$v_baidu}&v_uc={$v_uc}&v_qq={$v_qq}&tsid={$value[0]}&ts={$value[1]}">查看</a></td>
+										</tr>
+										{/loop}
+									</tbody> 
+								</table>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div id="mem">
+					<h3>4.内存</h3>
+					<ul>
+						<li>
+							<h4>综合评分</h4>
+							<div id="mem_total"></div>
+						</li>
+						<li>
+							<h4>详细评测场景评分</h4>
+							<div id="tablemem">
+								<table class="table table-striped table-bordered">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>评测场景</th>
+											<th>百度浏览器</th>
+											<th>UC浏览器</th>
+											<th>QQ浏览器</th>
+										</tr>
+									</thead>
+									<tbody>
+										{loop="$mem_test_scenarios"}
+										<tr>
+											<td>{$counter+1}</td>
+											<td><a class="fancybox fancybox.iframe" href="/eva_mem.php?v_baidu={$v_baidu}&v_uc={$v_uc}&v_qq={$v_qq}&tsid={$value[0]}&ts={$value[1]}">{$value[1]}</td>
+											<td>{$value[2]['baidu']}</td>
+											<td>{$value[2]['uc']}</td>
+											<td>{$value[2]['qq']}</td>
+										</tr>
+										{/loop}
+									</tbody> 
+								</table>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div id="trf">
+					<h3>5.流量</h3>
+					<ul>
+						<li>
+							<h4>综合评分</h4>
+							<div id="traffic_total"></div>
+						</li>
+						<li>
+							<h4>详细评测场景评分</h4>
+							<div id="tabletrf">
+								<table class="table table-striped table-bordered">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>评测场景</th>
+											<th>百度浏览器</th>
+											<th>UC浏览器</th>
+											<th>QQ浏览器</th>
+										</tr>
+									</thead>
+									<tbody>
+										{loop="$trf_test_scenarios"}
+										<tr>
+											<td>{$counter+1}</td>
+											<td><a class="fancybox fancybox.iframe" href="/eva_trf.php?v_baidu={$v_baidu}&v_uc={$v_uc}&v_qq={$v_qq}&tsid={$value[0]}&ts={$value[1]}">{$value[1]}</td>
+											<td>{$value[2]['baidu']}</td>
+											<td>{$value[2]['uc']}</td>
+											<td>{$value[2]['qq']}</td>
+										</tr>
+										{/loop}
+									</tbody> 
+								</table>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div id="fps">
+					<h3>6.流畅度</h3>
+					<ul>
+						<li>
+							<h4>综合评分</h4>
+							<div id="fps_total"></div>
+						</li>
+						<li>
+							<h4>详细评测场景评分</h4>
+							<div id="tablefps">
+								<table class="table table-striped table-bordered">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>评测场景</th>
+											<th>百度浏览器</th>
+											<th>UC浏览器</th>
+											<th>QQ浏览器</th>
+										</tr>
+									</thead>
+									<tbody>
+										{loop="$fps_test_scenarios"}
+										<tr>
+											<td>{$counter+1}</td>
+											<td><a class="fancybox fancybox.iframe" href="/eva_fps.php?v_baidu={$v_baidu}&v_uc={$v_uc}&v_qq={$v_qq}&tsid={$value[0]}&ts={$value[1]}">{$value[1]}</td>
+											<td>{$value[2]['baidu']}</td>
+											<td>{$value[2]['uc']}</td>
+											<td>{$value[2]['qq']}</td>
+										</tr>
+										{/loop}
+									</tbody> 
+								</table>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div id="pow">
+					<h3>7.耗电量</h3>
+					<ul>
+						<li>
+							<h4>综合评分</h4>
+							<div id="power_total"></div>
+						</li>
+						<li>
+							<h4>详细评测场景评分</h4>
+							<div id="tablepow">
+								<table class="table table-striped table-bordered">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>评测场景</th>
+											<th>百度浏览器</th>
+											<th>UC浏览器</th>
+											<th>QQ浏览器</th>
+										</tr>
+									</thead>
+									<tbody>
+										{loop="$pow_test_scenarios"}
+										<tr>
+											<td>{$counter+1}</td>
+											<td><a class="fancybox fancybox.iframe" href="/eva_pow.php?v_baidu={$v_baidu}&v_uc={$v_uc}&v_qq={$v_qq}&tsid={$value[0]}&ts={$value[1]}">{$value[1]}</td>
+											<td>{$value[2]['baidu']}</td>
+											<td>{$value[2]['uc']}</td>
+											<td>{$value[2]['qq']}</td>
+										</tr>
+										{/loop}
+									</tbody> 
+								</table>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div id="ben">
+					<h3>8.Benchmark</h3>
+					<ul>
+						<li>
+							<h4>综合评分</h4>
+							<div id="benchmark_total"></div>
+						</li>
+						<li>
+							<h4>详细评测场景评分</h4>
+							<div id="tableben">
+								<table class="table table-striped table-bordered">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>评测场景</th>
+											<th>百度浏览器</th>
+											<th>UC浏览器</th>
+											<th>QQ浏览器</th>
+										</tr>
+									</thead>
+									<tbody>
+										{loop="$eva_benchmark_details"}
+										<tr>
+											<td>{$counter+1}</td>
+											<td><a class="fancybox fancybox.iframe" href="/eva_benchmark.php?v_baidu={$v_baidu}&v_uc={$v_uc}&v_qq={$v_qq}&tsid={$key}">{$key}</td>
+											<td>{$value['baidu']}</td>
+											<td>{$value['uc']}</td>
+											<td>{$value['qq']}</td>
+										</tr>
+										{/loop}
+									</tbody> 
+								</table>
+							</div>
+						</li>
+					</ul>
+				</div>
+				
+				
+				<h3>二、稳定性评测</h3>
+				<div id="mky">
+					<div id="monkey"></div>
+				</div>
+				<h3>三、兼容性评测</h3>
+				<div id="wpc"></div>
 			</div>
 		</div>
-		<script src="bootstrap_assets/js/jquery.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-transition.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-alert.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-modal.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-dropdown.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-scrollspy.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-tab.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-tooltip.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-popover.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-button.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-collapse.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-carousel.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-typeahead.js"></script>
-		<script src="fancybox/jquery.fancybox.js"></script>
-		<script src="js/dc.js"></script>
-		<script type='text/javascript'>
-			$(document).ready(function() {
-				$('.fancybox').fancybox();
-				
-				var f_radar = 'tpl/fusioncharts/power/Radar.swf';
-				draw('perf_radar', f_radar, '{$json_radar}', 600, 300);
+	</div>
 
-				var f_mal = 'tpl/	fusioncharts/common/ScrollCombiDY2D.swf';
-				draw('monkey', f_mal, '{$json_monkey}', 600, 300);
-				
-				var f_c2d = 'tpl/fusioncharts/common/Column2D.swf';
-				draw('ldt_total', f_c2d, '{$json_ldt_point}', 600, 300);
-				draw('cpu_total', f_c2d, '{$json_cpu_point}', 600, 300);
-				draw('mem_total', f_c2d, '{$json_mem_point}', 600, 300);
-				draw('traffic_total', f_c2d, '{$json_traffic_point}', 600, 300);
-				draw('fps_total', f_c2d, '{$json_fps_point}', 600, 300);
-				draw('power_total', f_c2d, '{$json_pow_point}', 600, 300);
-				draw('benchmark_total', f_c2d, '{$json_benchmark_point}', 600, 300);
-				
-			})
+	<script src="js/jquery-1.9.1.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src="fancybox/jquery.fancybox.js"></script>
+	<script src="js/chosen.jquery.min.js"></script>
+	<script src="js/FusionCharts.js"></script>
+	<script src="js/dc.js"></script>
+	<script type="text/javascript">
+	$(".fancybox").fancybox();
+	
+	var f_radar = 'tpl/fusioncharts/power/Radar.swf';
+	draw('perf_radar', f_radar, '{$json_radar}', 600, 300);
 
-		</script>
+	var f_mal = 'tpl/fusioncharts/common/ScrollCombiDY2D.swf';
+	draw('monkey', f_mal, '{$json_monkey}', 600, 300);
+	
+	var f_c2d = 'tpl/fusioncharts/common/Column2D.swf';
+	draw('ldt_total', f_c2d, '{$json_ldt_point}', 600, 300);
+	draw('cpu_total', f_c2d, '{$json_cpu_point}', 600, 300);
+	draw('mem_total', f_c2d, '{$json_mem_point}', 600, 300);
+	draw('traffic_total', f_c2d, '{$json_traffic_point}', 600, 300);
+	draw('fps_total', f_c2d, '{$json_fps_point}', 600, 300);
+	draw('power_total', f_c2d, '{$json_pow_point}', 600, 300);
+	draw('benchmark_total', f_c2d, '{$json_benchmark_point}', 600, 300);
+	
+	var $window = $(window)
 
-	</body>
+    // Disable certain links in docs
+    $('section [href^=#]').click(function (e) {
+      e.preventDefault()
+    })
+
+    // side bar
+    setTimeout(function () {
+      $('.bs-docs-sidenav').affix({
+        offset: {
+          top: function () { return $window.width() <= 980 ? 290 : 210 }
+        , bottom: 270
+        }
+      })
+    }, 100)
+
+	</script>
+
+</body>
 </html>

@@ -36,7 +36,8 @@ $tpl -> assign("json_monkey", $monkey->toJson());
 
 $ldt = new PageLoadRef;
 $ldt_test_scenarios = $ldt->run_http_api(sprintf(Constants::$ldt_fetch_scenarios, 'uc',$v_uc));
-for ($i=0; $i < count($ldt_test_scenarios); $i++) { 
+$ldt_size = count($ldt_test_scenarios);
+for ($i=0; $i < $ldt_size; $i++) { 
 	$eva_points = $ldt->generateEvaPoints($v_baidu, $v_uc, $v_qq, $ldt_test_scenarios[$i][0]);
 	array_push($ldt_test_scenarios[$i], $eva_points);
 }
@@ -64,7 +65,8 @@ $tpl -> assign("json_ldt_point", $eva -> generateTotalPoints('页面加载时间
 $cpu = new CPU;
 $cpu_test_scenarios = $cpu->run_http_api(sprintf(Constants::$cpu_fetch_scenarios, 'uc',$v_uc));
 //print_r($cpu_test_scenarios);
-for ($i=0; $i < count($cpu_test_scenarios); $i++) { 
+$cpu_size = count($cpu_test_scenarios);
+for ($i=0; $i < $cpu_size; $i++) { 
 	$cpu_eva_points = $cpu->generateEvaPoints($v_baidu, $v_uc, $v_qq, $cpu_test_scenarios[$i][0]);
 	array_push($cpu_test_scenarios[$i], $cpu_eva_points);
 }
@@ -89,7 +91,8 @@ $tpl -> assign("json_cpu_point", $eva -> generateTotalPoints('CPU表现评分', 
 
 $mem = new Memory;
 $mem_test_scenarios = $mem->run_http_api(sprintf(Constants::$mem_fetch_scenarios, 'uc',$v_uc));
-for ($i=0; $i < count($mem_test_scenarios); $i++) { 
+$mem_size = count($mem_test_scenarios);
+for ($i=0; $i < $mem_size; $i++) { 
 	$mem_eva_points = $mem->generateEvaPoints($v_baidu, $v_uc, $v_qq, $mem_test_scenarios[$i][0]);
 	array_push($mem_test_scenarios[$i], $mem_eva_points);
 }
@@ -113,7 +116,8 @@ $tpl -> assign("json_mem_point", $eva -> generateTotalPoints('内存表现评分
 
 $trf = new Traffic;
 $trf_test_scenarios = $trf->run_http_api(sprintf(Constants::$trf_fetch_scenarios, 'uc',$v_uc));
-for ($i=0; $i < count($trf_test_scenarios); $i++) { 
+$trf_size = count($trf_test_scenarios);
+for ($i=0; $i < $trf_size; $i++) { 
 	$trf_eva_points = $trf->generateEvaPoints($v_baidu, $v_uc, $v_qq, $trf_test_scenarios[$i][0]);
 	array_push($trf_test_scenarios[$i], $trf_eva_points);
 }
@@ -138,7 +142,8 @@ $tpl -> assign("json_traffic_point", $eva -> generateTotalPoints('省流表现�
 
 $fps = new Fps;
 $fps_test_scenarios = $fps->run_http_api(sprintf(Constants::$fps_fetch_scenarios, 'uc',$v_uc));
-for ($i=0; $i < count($fps_test_scenarios); $i++) { 
+$fps_size = count($fps_test_scenarios);
+for ($i=0; $i < $fps_size; $i++) { 
 	$fps_eva_points = $fps->generateEvaPoints($v_baidu, $v_uc, $v_qq, $fps_test_scenarios[$i][0]);
 	array_push($fps_test_scenarios[$i], $fps_eva_points);
 }
@@ -166,7 +171,8 @@ $tpl -> assign("json_fps_point", $eva -> generateTotalPoints('流畅度表现评
 $pow = new Power;
 $pow_test_scenarios = $pow->run_http_api(sprintf(Constants::$pow_fetch_scenarios, 'uc',$v_uc));
 //print_r($pow_test_scenarios);
-for ($i=0; $i < count($pow_test_scenarios); $i++) { 
+$pow_size = count($pow_test_scenarios);
+for ($i=0; $i < $pow_size; $i++) { 
 	$pow_eva_points = $pow->generateEvaPoints($v_baidu, $v_uc, $v_qq, $pow_test_scenarios[$i][0]);
 	array_push($pow_test_scenarios[$i], $pow_eva_points);
 }
@@ -257,6 +263,9 @@ $tpl -> assign("json_radar", json_encode($radar_json));
 // $tpl->draw( 'page' );
 // or the template output string by setting $return_string = true:
 $html = $tpl -> draw('eva_tech', $return_string = true);
+
+
+
 
 // and then draw the output
 echo $html;

@@ -7,7 +7,7 @@
 <!-- Le styles -->
 <link rel="stylesheet" href="css/bootstrap-chosen.css">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+<link rel="stylesheet" href="css/style.css">
 <body>
 
 	<div class="navbar navbar-inverse navbar-fixed-top">
@@ -20,10 +20,10 @@
 				</button>
 				<a class="brand" href="#">Sumeru 数据中心</a>
 				<div class="nav-collapse collapse">
-					<ul class="nav">
-						<li><a href="">Home</a></li>
-						<li><a href="">浏览内核</a></li>
-						<li><a href="">播放内核</a></li>
+					<ul class="nav link">
+						<li><a href="/home.php">Home</a></li>
+						<li><a href="#">浏览内核</a></li>
+						<li><a href="#">播放内核</a></li>
 					</ul>
 
 					<ul class="nav pull-right">
@@ -52,31 +52,25 @@
 					<div class="panel-group">
 						<h4>基础性能</h4>
 						<div class="list-group">
-							<a data-module="ldt" class="list-group-item active"
-								href="javascript:void(0)">页面加载时间</a> <a data-module="cpu"
-								class="list-group-item" href="javascript:void(0)">CPU</a> <a
-								data-module="mem" class="list-group-item"
-								href="javascript:void(0)">内存</a> <a data-module="trf"
-								class="list-group-item" href="javascript:void(0)">流量</a> <a
-								data-module="pow" class="list-group-item"
-								href="javascript:void(0)">耗电量</a> <a data-module="fps"
-								class="list-group-item" href="javascript:void(0)">流畅度</a> <a
-								data-module="benchmark" class="list-group-item"
-								href="javascript:void(0)">Benchmark</a>
+							<a data-module="ldt" class="list-group-item active" href="javascript:void(0)">页面加载时间</a>
+							<a data-module="cpu" class="list-group-item" href="javascript:void(0)">CPU</a>
+							<a data-module="mem" class="list-group-item" href="javascript:void(0)">内存</a>
+							<a data-module="trf" class="list-group-item" href="javascript:void(0)">流量</a>
+							<a data-module="pow" class="list-group-item" href="javascript:void(0)">耗电量</a>
+							<a data-module="fps" class="list-group-item" href="javascript:void(0)">流畅度</a>
+							<a data-module="benchmark" class="list-group-item" href="javascript:void(0)">Benchmark</a>
 						</div>
 					</div>
 					<div class="panel-group">
 						<h4>稳定性</h4>
 						<div class="list-group">
-							<a data-module="mky" class="list-group-item"
-								href="javascript:void(0)">Monkey</a>
+							<a data-module="mky" class="list-group-item" href="javascript:void(0)">Monkey</a>
 						</div>
 					</div>
 					<div class="panel-group">
 						<h4>兼容性</h4>
 						<div class="list-group">
-							<a data-module="wpc" class="list-group-item"
-								href="javascript:void(0)">网页兼容性</a>
+							<a data-module="wpc" class="list-group-item" href="javascript:void(0)">网页兼容性</a>
 						</div>
 					</div>
 
@@ -100,25 +94,25 @@
 			<!--/span-->
 
 			<div class="span9">
-				<div class="hero-unit">
+				<div class="hero-unit" style="min-height:250px">
 					<div class="row">
 						<div class="col-lg-3">
 							<select id="v_baidu" data-placeholder="请选择Baidu版本号"
-								class="chosen-select" tabindex="2" data-value={$v_baidu}>
+								class="chosen-select" tabindex="2">
 								<option value=""></option> {loop="v_baidu"}
 								<option value="{$value}">{$value}</option> {/loop}
 							</select>
 						</div>
 						<div class="col-lg-3">
 							<select id="v_uc" data-placeholder="请选择UC版本号"
-								class="chosen-select" tabindex="2" data-value={$v_uc}>
+								class="chosen-select" tabindex="2">
 								<option value=""></option> {loop="v_uc"}
 								<option value="{$value}">{$value}</option> {/loop}
 							</select>
 						</div>
 						<div class="col-lg-3">
 							<select id="v_qq" data-placeholder="请选择QQ版本号"
-								class="chosen-select" tabindex="2" data-value={$v_qq}>
+								class="chosen-select" tabindex="2">
 								<option value=""></option> {loop="v_qq"}
 								<option value="{$value}">{$value}</option> {/loop}
 							</select>
@@ -136,12 +130,11 @@
 
 	</div>
 	<!--/.fluid-container-->
-
+	
 	<footer class="footer">
 		<p>&copy; SumeruQA 2013</p>
 	</footer>
 
-	
 	<!-- Le javascript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
@@ -149,15 +142,16 @@
 	<script src="js/jquery-1.9.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="js/chosen.jquery.min.js"></script>
-
+	<script src="js/dc.js"></script>
 	<script>
 		function eva() {
 			var v_baidu = $("#v_baidu").val();
 			var v_uc = $("#v_uc").val();
 			var v_qq = $("#v_qq").val();
-			window.open("eva.php?v_baidu=" + v_baidu + "&v_uc=" + v_uc + "&v_qq="
-					+ v_qq);
+			window.open("eva.php?v_baidu=" + v_baidu + "&v_uc=" + v_uc + "&v_qq=" + v_qq);
 		}
+		$('.chosen-select').chosen();
+		$(".chosen-container-single").css("width","192px");
 	</script>
 
 </body>

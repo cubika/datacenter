@@ -19,10 +19,12 @@ $html='<html>
 			<style>
 				table,th,td{ border:1px solid black;}
 				table{border-collapse:collapse;}
+				h1{text-align:center;}
 			</style>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		</head>
 		<body>
+			<h1>浏览内核评测报告</h1>
 			<h2>一、性能评测</h2>
 			<h3>1.雷达图</h3>
 			FLASH HERE

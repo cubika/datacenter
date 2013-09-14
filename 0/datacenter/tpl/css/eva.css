@@ -17,3 +17,10 @@ body{
 #version{
 	margin: 15px 0;
 }
+#btngroup{
+	float:right;
+	margin-top:10px;
+}
+#btngroup button{
+	margin-right:10px;
+}

@@ -41,6 +41,9 @@
 						<li>
 							<a href="#tab5" data-toggle="tab">用户反馈</a>
 						</li>
+						<li>
+							<a href="#tab6" data-toggle="tab">评测总结</a>
+						</li>
 					</ul>
 
 					<div class="tab-content">
@@ -51,13 +54,25 @@
 							<iframe src="" frameborder="0" height="1000" width="100%"></iframe>
 						</div>
 						<div class="tab-pane active" id="tab3">
-							<iframe id="iframe_tech" src="eva_tech.php?v_baidu={$v_baidu}&v_uc={$v_uc}&v_qq={$v_qq}" frameborder="0" height="3000" width="100%"></iframe>
+							<iframe id="iframe_tech" src="eva_tech.php?v_baidu={$v_baidu}&v_uc={$v_uc}&v_qq={$v_qq}" frameborder="0" height="1000" width="100%"></iframe>
 						</div>
 						<div class="tab-pane" id="tab4">
 							<iframe src="eva_badcase.php" frameborder="0" height="4000" width="100%" scrolling="no"></iframe>
 						</div>
 						<div class="tab-pane" id="tab5">
 							<iframe src="" frameborder="0" height="1000" width="100%"></iframe>
+						</div>
+						<div class="tab-pane" id="tab6">
+							<form method="post" action="eva_save_summary.php">
+							  <fieldset>
+							    <legend>评测总结</legend>
+							    <textarea id="summary" name="summary"></textarea>
+							    <div id="btngroup">
+								    <button class="btn btn-primary" id="edit">编辑</button>
+								    <button type="submit" class="btn btn-primary" id="save">保存</button>
+								</div>
+							  </fieldset>
+							</form>
 						</div>
 					</div>
 
@@ -69,38 +84,8 @@
 		<script src="bootstrap/js/bootstrap.min.js"></script>
 		<script src="js/FusionCharts.js"></script>
 		<script src="js/dc.js"></script>
-		<script>
-		function post(url, params) {
-		    var temp = document.createElement("form");
-		    temp.action = url;        
-		    temp.method = "post";        
-		    temp.style.display = "none";        
-		    for (var x in params) {        
-		        var opt = document.createElement("textarea");
-		        opt.maxlength=8000;
-		        opt.name = x;        
-		        opt.value = params[x];
-		        temp.appendChild(opt);
-		    }        
-		    document.body.appendChild(temp);
-		    temp.submit();
-		    return temp;
-		}
-		
-		$("#export").on("click",function(){
-			var tech=$("#iframe_tech").contents();
-			post("exportpdf.php",{
-				ldt:tech.find("#tableldt").html(),
-				cpu:tech.find("#tablecpu").html(),
-				mem:tech.find("#tablemem").html(),
-				trf:tech.find("#tabletrf").html(),
-				fps:tech.find("#tablefps").html(),
-				pow:tech.find("#tablepow").html(),
-				ben:tech.find("#tableben").html()
-			});
-		});
-
-		</script>
+		<script src="http://tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+		<script src="js/eva.js"></script>
 
 	</body>
 </html>

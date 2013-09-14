@@ -9,9 +9,10 @@
 		$("select#browser").on("change",function(){
 			setVersion("cpu");
 		});
-			function query() {
-				var browser = $("#browser").val();
-				var engine_version = $("#engine_version").val();
-				$("#query_content").load("cpu_query_content.php?browser=" + browser + "&engine_version=" + engine_version);
-			}
+		function query() {
+			var browser = $("#browser").val();
+			var engine_version = $("#engine_version").val();
+			$("#query_content").load("cpu_query_content.php?browser=" + browser + "&engine_version=" + engine_version);
+		}
+		
 		</script>

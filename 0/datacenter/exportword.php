@@ -1,19 +1,8 @@
 <?php
-// require_once("inc/dompdf/dompdf_config.inc.php");
-// // spl_autoload_register('DOMPDF_autoload');
-
-// ob_start();
-// include 'eva_tech.php';
-// $html = ob_get_clean();
-
-// $dompdf = new DOMPDF();
-// $dompdf->load_html($html);
-// $dompdf->render();
-// $dompdf->stream("sample.pdf");
-
-include('inc/mpdf/mpdf.php');
-
-$mpdf = new mPDF('utf-8', 'A4');
+header("Content-Type:   application/msword");
+header("Content-Disposition:   attachment;   filename=doc.doc"); //指定文件名称
+header("Pragma:   no-cache");
+header("Expires:   0");
 $html='<html>
 		<head>
 			<style>
@@ -69,30 +58,5 @@ $html='<html>
 		</body>
 		</html>
 		';
-
-$mpdf->useLang = true;
-$mpdf->useAdobeCJK = true;
-$mpdf->SetAutoFont(AUTOFONT_ALL);
-$mpdf->WriteHTML($html);
-$mpdf->Output();
-exit;
-
-// require_once("inc/html2pdf/html2pdf.class.php");
-
-// ob_start();
-// include 'eva_tech.php';
-// $html = ob_get_clean();
-// $html2pdf = new HTML2PDF('P','A4','en');
-// $html2pdf->WriteHTML($html);
-// $html2pdf->Output('exemple.pdf');
-
-
-// require('inc/html2fpdf/html2fpdf.php');
-// $pdf=new HTML2FPDF();
-// $pdf->AddPage();
-// ob_start();
-// include 'eva_tech.php';
-// $html = ob_get_clean();
-// $pdf->WriteHTML($html);
-// $pdf->Output("docs.pdf");
+echo  $html;
 ?>

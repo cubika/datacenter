@@ -33,8 +33,37 @@
 			<hr>
 			<a onclick="query();" class="btn btn-primary btn-large">查询 &raquo;</a>
 		</div>
+		<div class="span9">
+						<div class="tabbable">
+							<!-- Only required for left/right tabs -->
+							<ul class="nav nav-tabs">
+								<li class="active">
+									<a href="#tab1" data-toggle="tab">数据查询</a>
+								</li>
+								<!-- <li >
+									<a href="#tab2" data-toggle="tab">Daily质量监控</a>
+								</li> -->
+								<li >
+									<a href="#tab4" data-toggle="tab">竞品比较</a>
+								</li>
+							</ul>
+							
+							<div class="tab-content">
+								<div class="tab-pane active " id="tab1">
+									<iframe src="<?php echo $module;?>_query.php" frameborder="0" height="1000" width="100%"></iframe>
+								</div>
+								<!-- <div class="tab-pane " id="tab2">
+									<iframe src="<?php echo $module;?>_daily_dashboard.php" frameborder="0" height="1000" width="100%"></iframe>
+								</div> -->
+								<div class="tab-pane" id="tab4">
+									<iframe src="<?php echo $module;?>_eva.php" frameborder="0" height="1800" width="100%"></iframe>
+								</div>
+							</div>
+
+						</div>
+					</div><!--/span-->
 		<div >
-			<iframe id="ifr" src="" frameborder="0" height="600" width="100%"></iframe>
+			<iframe id="ifr" src="" frameborder="0" height="1000" width="100%"></iframe>
 		</div>
 
 		<script src="tpl/js/jquery.min.js"></script>

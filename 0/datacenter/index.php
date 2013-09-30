@@ -10,6 +10,13 @@ raintpl::configure("tpl_dir", "tpl/");
 //initialize a Rain TPL object
 $tpl = new RainTPL;
 
+$module = $_GET['m'];
+if(!$module){
+	$module = "ldt";
+}
+$tpl -> assign("active_".$module, "active");
+$tpl -> assign("module", $module);
+
 $pl = new PageLoadRef;
 $v_baidu = $pl->run_http_api(sprintf(Constants::$ldt_fetch_versions_by_browser,"baidu"));
 $v_uc = $pl->run_http_api(sprintf(Constants::$ldt_fetch_versions_by_browser,"uc"));
@@ -27,7 +34,4 @@ $html = $tpl -> draw('index', $return_string = true);
 // and then draw the output
 echo $html;
 
-
 ?>
-
-

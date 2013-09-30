@@ -1,37 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<link href="bootstrap_assets/css/bootstrap.css" rel="stylesheet">
+		<link href="css/bootstrap-chosen.css" rel="stylesheet">
+		<link href="bootstrap_assets/css/docs.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox.css" media="screen" />
+	</head>
+
+	<body>
 		<div class="bs-docs-example" d_content="请输入查询条件">
 			<ul class="thumbnails">
 				<li class="span3">
 					<select id="browser" data-placeholder="请选择浏览器（必选）" class="chosen-select" tabindex="2">
-						<option value="baidu" selected="selected">Baidu</option>
+						<option value=""></option>
+						<option value="baidu">Baidu</option>
 						<option value="UC">UC</option>
 						<option value="QQ">QQ</option>
 					</select>
 				</li>
 				<li class="span3">
-					<select id="engine_version" data-placeholder="请选择版本号（必选）" class="chosen-select" tabindex="3">
+					<select id="engine_version" data-placeholder="请选择版本号（必选）" class="chosen-select" tabindex="2">
+						<option value=""></option>
+						{loop="versions"}
+						<option value="{$value}">{$value}</option>
+						{/loop}
 					</select>
 				</li>
 				<li class="span3">
-					<select id="token_version" data-placeholder="请选择Token（可选）" class="chosen-select" tabindex="4">
+					<select id="engine_version" data-placeholder="请选择Token（可选）" class="chosen-select" tabindex="2">
+						<option value=""></option>
+						{loop="versions"}
+						<option value="{$value}">{$value}</option>
+						{/loop}
 					</select>
 				</li>
 			</ul>
-			<button id="query" class="btn btn-primary btn-large">查询 &raquo;</button>
+			<a id="qry" onclick="query();" class="btn btn-primary btn-large">查询 &raquo;</a>
 		</div>
-		<div id="query_content" ></div>
+		<div class="tabbable">
+			<ul class="nav nav-tabs">
+				<li >
+					<a href="#tab1" data-toggle="tab">开始渲染时间</a>
+				</li>
+				<li >
+					<a href="#tab2" data-toggle="tab">DOM Ready时间</a>
+				</li>
+				<li class="active">
+					<a href="#tab3" data-toggle="tab">页面加载完成时间</a>
+				</li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane " id="tab1">
+					{loop="test_scenarios"}
+					<div id="ld-table" class="bs-docs-example" d_content="测试场景：{$value[1]}">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>website</th>
+									<th>浏览器</th>
+									<th>版本号</th>
+									<th>平均值</th>
+									<th>标准差/平均值</th>
+									{loop="$value[2][0]->details"}
+									<th>第{$counter+1}轮</th>
+									{/loop}
 
-<script>
-		$('.chosen-select').chosen();
-		$(".chosen-container-single").css("width","192px");
-		
-		setVersion("ldt");
-		$("select#browser").on("change",function(){
-			setVersion("ldt");
-		});
-		$("button#query").on("click",function(){
-			var browser = $("#browser").val();
-			var engine_version = $("#engine_version").val();
-			$("#query_content").load("ldt_query_content.php?browser=" + browser + "&engine_version=" + engine_version);
-		});
-		
-</script>
+								</tr>
+							</thead>
+
+							<tbody>
+								{loop="$value[2]"}
+								<tr>
+									<td>{$counter+1}</td>
+									<td><a class="fancybox fancybox.iframe" href="ldt_query_content_details.php?browser={$value->browser}&engineVersion={$value->engineVersion}&website={$value->website}&tsid={$value->tsid}">{$value->website}</a></td>
+									<td>{$value->browser}</td>
+									<td>{$value->engineVersion}</td>
+									<td>{$value->avgTimeToStartRender}</td>
+									<td>{$value->v_ttsr}</td>
+									{loop="$value->details"}
+									<td>{$value->timeToStartRender}</td>
+									{/loop}
+									<!-- <td><a class="fancybox fancybox.iframe" href="ldt_query_content_details.php?browser={$value->browser}&engineVersion={$value->engineVersion}&website={$value->website}&tsid={$value->tsid}">查看</a></td> -->
+								</tr>
+								{/loop}
+							</tbody>
+
+						</table>
+					</div>
+					{/loop}
+				</div>
+				<div class="tab-pane " id="tab2">
+					{loop="test_scenarios"}
+					<div id="ld-table" class="bs-docs-example" d_content="测试场景：{$value[1]}">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>website</th>
+									<th>浏览器</th>
+									<th>版本号</th>
+									<th>平均值</th>
+									<th>标准差/平均值</th>
+									{loop="$value[2][0]->details"}
+									<th>第{$counter+1}轮</th>
+									{/loop}
+
+								</tr>
+							</thead>
+
+							<tbody>
+								{loop="$value[2]"}
+								<tr>
+									<td>{$counter+1}</td>
+									<td><a class="fancybox fancybox.iframe" href="ldt_query_content_details.php?browser={$value->browser}&engineVersion={$value->engineVersion}&website={$value->website}&tsid={$value->tsid}">{$value->website}</a></td>
+									<td>{$value->browser}</td>
+									<td>{$value->engineVersion}</td>
+									<td>{$value->avgTimeToDomReady}</td>
+									<td>{$value->v_ttdr}</td>
+									{loop="$value->details"}
+									<td>{$value->timeToDomReady}</td>
+									{/loop}
+									<!-- <td><a class="fancybox fancybox.iframe" href="ldt_query_content_details.php?browser={$value->browser}&engineVersion={$value->engineVersion}&website={$value->website}&tsid={$value->tsid}">查看</a></td> -->
+								</tr>
+								{/loop}
+							</tbody>
+
+						</table>
+					</div>
+					{/loop}
+				</div>
+				<div class="tab-pane active" id="tab3">
+					{loop="test_scenarios"}
+					<div id="ld-table" class="bs-docs-example" d_content="测试场景：{$value[1]}">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>website</th>
+									<th>浏览器</th>
+									<th>版本号</th>
+									<th>平均值</th>
+									<th>标准差/平均值</th>
+									{loop="$value[2][0]->details"}
+									<th>第{$counter+1}轮</th>
+									{/loop}
+
+								</tr>
+							</thead>
+
+							<tbody>
+								{loop="$value[2]"}
+								<tr>
+									<td>{$counter+1}</td>
+									<td><a class="fancybox fancybox.iframe" href="ldt_query_content_details.php?browser={$value->browser}&engineVersion={$value->engineVersion}&website={$value->website}&tsid={$value->tsid}">{$value->website}</a></td>
+									<td>{$value->browser}</td>
+									<td>{$value->engineVersion}</td>
+									<td>{$value->avgTimeToPageLoaded}</td>
+									<td>{$value->v_ttpl}</td>
+									{loop="$value->details"}
+									<td>{$value->timeToPageLoaded}</td>
+									{/loop}
+									<!-- <td><a class="fancybox fancybox.iframe" href="ldt_query_content_details.php?browser={$value->browser}&engineVersion={$value->engineVersion}&website={$value->website}&tsid={$value->tsid}">查看</a></td> -->
+								</tr>
+								{/loop}
+							</tbody>
+
+						</table>
+					</div>
+					{/loop}
+				</div>
+			</div>
+		</div>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/chosen.jquery.js"></script>
+		<script src="bootstrap_assets/js/bootstrap-tab.js"></script>
+		<script src="fancybox/jquery.fancybox.js"></script>
+		<script>
+			$(function() {
+				$('.chosen-select').chosen();
+				$('.chosen-select-deselect').chosen({
+					allow_single_deselect : true
+				});
+			});
+			function query() {
+				var browser = $("#browser").val();
+				var engine_version = $("#engine_version").val();
+				//$("#ifr").attr("src", "ldt_query_content.php?browser=" + browser + "&engine_version=" + engine_version);
+				$("#qry").attr("href", "ldt_query.php?browser=" + browser + "&engine_version=" + engine_version);
+			}
+			$(document).ready(function() {
+				$('.fancybox').fancybox();
+			})
+		</script>
+
+	</body>
+</html>

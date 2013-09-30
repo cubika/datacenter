@@ -1,151 +1,89 @@
-{if="$test_scenarios"}
-	<div class="tabbable">
-			<ul class="nav nav-tabs">
-				<li >
-					<a href="#tab5" data-toggle="tab">开始渲染时间</a>
-				</li>
-				<li >
-					<a href="#tab6" data-toggle="tab">DOM Ready时间</a>
-				</li>
-				<li class="active">
-					<a href="#tab7" data-toggle="tab">页面加载完成时间</a>
-				</li>
-			</ul>
-			<div class="tab-content">
-				<div class="tab-pane " id="tab5">
-					{loop="test_scenarios"}
-					<div id="ld-table" class="bs-docs-example" d_content="测试场景：{$value[1]}">
-						<table class="table table-striped table-bordered">
-							<thead>
-								<tr>
-									<th>#</th>
-									<th>website</th>
-									<th>浏览器</th>
-									<th>版本号</th>
-									<th>平均值</th>
-									<th>标准差/平均值</th>
-									{loop="$value[2][0]->details"}
-									<th>第{$counter+1}轮</th>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+
+		<!-- Le styles -->
+		<link href="bootstrap_assets/css/bootstrap.css" rel="stylesheet">
+		<link href="bootstrap_assets/css/docs.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox.css" media="screen" />
+
+	</head>
+
+	<body>
+
+		<div class="span9">
+			<div class="tabbable">
+				<!-- Only required for left/right tabs -->
+				<ul class="nav nav-tabs">
+					<li class="active">
+						<a href="#tab1" data-toggle="tab">开始渲染时间</a>
+					</li>
+					<li >
+						<a href="#tab2" data-toggle="tab">DOM Ready时间</a>
+					</li>
+					<li >
+						<a href="#tab3" data-toggle="tab">页面加载完成时间</a>
+					</li>
+				</ul>
+
+				<div class="tab-content">
+					<div class="tab-pane active " id="tab1">
+						{loop="test_scenarios"}
+						<div id="ld-table" class="bs-docs-example" d_content="测试场景：{$value[1]}">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>website</th>
+										<th>开始渲染时间(avg)</th>
+										<th>DOM Ready时间(avg)</th>
+										<th>页面加载完成时间(avg)</th>
+										<th>浏览器</th>
+										<th>版本号</th>
+										<th>详细数据</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									{loop="$value[2]"}
+									<tr>
+										<td>{$counter+1}</td>
+										<td>{$value->website}</td>
+										<td>{$value->avgTTSR}</td>
+										<td>{$value->avgTTDR}</td>
+										<td>{$value->avgTTPL}</td>
+										<td>{$value->browser}</td>
+										<td>{$value->engineVersion}</td>
+										<td><a class="fancybox fancybox.iframe" href="ldt_query_content_details.php?browser={$value->browser}&engineVersion={$value->engineVersion}&website={$value->website}&tsid={$value->tsid}">查看</a></td>
+									</tr>
 									{/loop}
+								</tbody>
 
-								</tr>
-							</thead>
-
-							<tbody>
-								{loop="$value[2]"}
-								<tr>
-									<td>{$counter+1}</td>
-									<td><a class="ldt_details" href="ldt_query_content_details.php?browser={$value->browser}&engineVersion={$value->engineVersion}&website={$value->website}&tsid={$value->tsid}">{$value->website}</a></td>
-									<td>{$value->browser}</td>
-									<td>{$value->engineVersion}</td>
-									<td>{$value->avgTimeToStartRender}</td>
-									<td>{$value->v_ttsr}</td>
-									{loop="$value->details"}
-									<td>{$value->timeToStartRender}</td>
-									{/loop}
-									<!-- <td><a class="fancybox fancybox.iframe" href="ldt_query_content_details.php?browser={$value->browser}&engineVersion={$value->engineVersion}&website={$value->website}&tsid={$value->tsid}">查看</a></td> -->
-								</tr>
-								{/loop}
-							</tbody>
-
-						</table>
+							</table>
+						</div>
+						{/loop}
 					</div>
-					{/loop}
-				</div>
-				<div class="tab-pane " id="tab6">
-					{loop="test_scenarios"}
-					<div id="ld-table" class="bs-docs-example" d_content="测试场景：{$value[1]}">
-						<table class="table table-striped table-bordered">
-							<thead>
-								<tr>
-									<th>#</th>
-									<th>website</th>
-									<th>浏览器</th>
-									<th>版本号</th>
-									<th>平均值</th>
-									<th>标准差/平均值</th>
-									{loop="$value[2][0]->details"}
-									<th>第{$counter+1}轮</th>
-									{/loop}
+					<div class="tab-pane " id="tab2">
 
-								</tr>
-							</thead>
-
-							<tbody>
-								{loop="$value[2]"}
-								<tr>
-									<td>{$counter+1}</td>
-									<td><a class="ldt_details" href="ldt_query_content_details.php?browser={$value->browser}&engineVersion={$value->engineVersion}&website={$value->website}&tsid={$value->tsid}">{$value->website}</a></td>
-									<td>{$value->browser}</td>
-									<td>{$value->engineVersion}</td>
-									<td>{$value->avgTimeToDomReady}</td>
-									<td>{$value->v_ttdr}</td>
-									{loop="$value->details"}
-									<td>{$value->timeToDomReady}</td>
-									{/loop}
-									<!-- <td><a class="fancybox fancybox.iframe" href="ldt_query_content_details.php?browser={$value->browser}&engineVersion={$value->engineVersion}&website={$value->website}&tsid={$value->tsid}">查看</a></td> -->
-								</tr>
-								{/loop}
-							</tbody>
-
-						</table>
 					</div>
-					{/loop}
-				</div>
-				<div class="tab-pane active" id="tab7">
-					{loop="test_scenarios"}
-					<div id="ld-table" class="bs-docs-example" d_content="测试场景：{$value[1]}">
-						<table class="table table-striped table-bordered">
-							<thead>
-								<tr>
-									<th>#</th>
-									<th>website</th>
-									<th>浏览器</th>
-									<th>版本号</th>
-									<th>平均值</th>
-									<th>标准差/平均值</th>
-									{loop="$value[2][0]->details"}
-									<th>第{$counter+1}轮</th>
-									{/loop}
+					<div class="tab-pane" id="tab3">
 
-								</tr>
-							</thead>
-
-							<tbody>
-								{loop="$value[2]"}
-								<tr>
-									<td>{$counter+1}</td>
-									<td><a class="ldt_details" href="ldt_query_content_details.php?browser={$value->browser}&engineVersion={$value->engineVersion}&website={$value->website}&tsid={$value->tsid}">{$value->website}</a></td>
-									<td>{$value->browser}</td>
-									<td>{$value->engineVersion}</td>
-									<td>{$value->avgTimeToPageLoaded}</td>
-									<td>{$value->v_ttpl}</td>
-									{loop="$value->details"}
-									<td>{$value->timeToPageLoaded}</td>
-									{/loop}
-									<!-- <td><a class="fancybox fancybox.iframe" href="ldt_query_content_details.php?browser={$value->browser}&engineVersion={$value->engineVersion}&website={$value->website}&tsid={$value->tsid}">查看</a></td> -->
-								</tr>
-								{/loop}
-							</tbody>
-
-						</table>
 					</div>
-					{/loop}
 				</div>
+
 			</div>
-		</div>
-		
+		</div><!--/span-->
+
+		<script src="bootstrap_assets/js/jquery.js"></script>
+		<script src="fancybox/jquery.fancybox.js"></script>
+
 		<script>
-				$('.ldt_details').fancybox({
-					'width'				: '75%',
-					'height'			: '75%',
-			        'autoScale'     	: false,
-			        'transitionIn'		: 'none',
-					'transitionOut'		: 'none',
-					'type'				: 'iframe'
-				});
+			$(document).ready(function() {
+				$('.fancybox').fancybox();
+			})
+
 		</script>
-		
-{else}
-		<h2>数据为空</h2>
-{/if}		
+
+	</body>
+</html>

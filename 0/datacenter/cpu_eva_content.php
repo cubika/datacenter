@@ -17,20 +17,13 @@ $v_baidu = $_GET['v_baidu'];
 $v_uc = $_GET['v_uc'];
 $v_qq = $_GET['v_qq'];
 
-if(! isset($_SESSION['eva_scenarios']['cpu']['baidu'.$v_baidu.'uc'.$v_uc.'qq'.$v_qq])){
-	$eva_scenarios = $cpu->run_http_api(sprintf(Constants::$cpu_fetch_scenarios,'baidu',$v_baidu));
-	$scenarios_size = count($eva_scenarios);
-	for ($i=0; $i < $scenarios_size ; $i++) { 
-		$json_tpl = $cpu->dashboard($v_baidu, $v_uc, $v_qq, $eva_scenarios[$i][0], $eva_scenarios[$i][1]);
-		//print $json_tpl;
-		//exit;
-		array_push($eva_scenarios[$i],$json_tpl);
-	}
-	session_start();
-	session_set_cookie_params(3600);
-	$_SESSION['eva_scenarios']['cpu']['baidu'.$v_baidu.'uc'.$v_uc.'qq'.$v_qq]=$eva_scenarios;
-}else{
-	$eva_scenarios = $_SESSION['eva_scenarios']['cpu']['baidu'.$v_baidu.'uc'.$v_uc.'qq'.$v_qq];
+
+$eva_scenarios = $cpu->run_http_api(sprintf(Constants::$cpu_fetch_scenarios,'baidu',$v_baidu));
+for ($i=0; $i < count($eva_scenarios); $i++) { 
+	$json_tpl = $cpu->dashboard($v_baidu, $v_uc, $v_qq, $eva_scenarios[$i][0], $eva_scenarios[$i][1]);
+	//print $json_tpl;
+	//exit;
+	array_push($eva_scenarios[$i],$json_tpl);
 }
 
 $tpl -> assign('eva_scenarios', $eva_scenarios);

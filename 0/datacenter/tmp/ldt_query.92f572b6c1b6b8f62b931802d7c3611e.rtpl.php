@@ -2,17 +2,16 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-
 		<link href="tpl/bootstrap_assets/css/bootstrap.css" rel="stylesheet">
 		<link href="tpl/css/bootstrap-chosen.css" rel="stylesheet">
-
+		<link href="tpl/bootstrap_assets/css/docs.css" rel="stylesheet">
 	</head>
 
 	<body>
 		<div class="hero-unit">
 			<div class="row">
 				<div class="col-lg-3">
-					<select id="browser" data-placeholder="请选择浏览器" class="chosen-select" tabindex="2">
+					<select id="browser" data-placeholder="请选择浏览器（必选）" class="chosen-select" tabindex="2">
 						<option value=""></option>
 						<option value="baidu">Baidu</option>
 						<option value="UC">UC</option>
@@ -20,7 +19,17 @@
 					</select>
 				</div>
 				<div class="col-lg-3">
-					<select id="engine_version" data-placeholder="请选择版本号" class="chosen-select" tabindex="2">
+					<select id="engine_version" data-placeholder="请选择版本号（必选）" class="chosen-select" tabindex="2">
+						<option value=""></option>
+						<?php $counter1=-1; if( isset($versions) && is_array($versions) && sizeof($versions) ) foreach( $versions as $key1 => $value1 ){ $counter1++; ?>
+
+						<option value="<?php echo $value1;?>"><?php echo $value1;?></option>
+						<?php } ?>
+
+					</select>
+				</div>
+				<div class="col-lg-3">
+					<select id="engine_version" data-placeholder="请选择Token（可选）" class="chosen-select" tabindex="2">
 						<option value=""></option>
 						<?php $counter1=-1; if( isset($versions) && is_array($versions) && sizeof($versions) ) foreach( $versions as $key1 => $value1 ){ $counter1++; ?>
 
@@ -31,14 +40,170 @@
 				</div>
 			</div>
 			<hr>
-			<a onclick="query();" class="btn btn-primary btn-large">查询 &raquo;</a>
+			<a id="qry" onclick="query();" class="btn btn-primary btn-large">查询 &raquo;</a>
 		</div>
-		<div >
-			<iframe id="ifr" src="" frameborder="0" height="600" width="100%"></iframe>
-		</div>
+			<div class="tabbable">
+				<ul class="nav nav-pills">
+					<li class="active">
+						<a href="#tab1" data-toggle="tab">开始渲染时间</a>
+					</li>
+					<li >
+						<a href="#tab2" data-toggle="tab">DOM Ready时间</a>
+					</li>
+					<li >
+						<a href="#tab3" data-toggle="tab">页面加载完成时间</a>
+					</li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab1">
+						<?php $counter1=-1; if( isset($test_scenarios) && is_array($test_scenarios) && sizeof($test_scenarios) ) foreach( $test_scenarios as $key1 => $value1 ){ $counter1++; ?>
 
+						<div id="ld-table" class="bs-docs-example" d_content="测试场景：<?php echo $value1["1"];?>">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>website</th>
+										<th>浏览器</th>
+										<th>版本号</th>
+										<th>平均值</th>
+										<th>标准差/平均值</th>
+										<?php $counter2=-1; if( isset($value1["2"]["0"]->details) && is_array($value1["2"]["0"]->details) && sizeof($value1["2"]["0"]->details) ) foreach( $value1["2"]["0"]->details as $key2 => $value2 ){ $counter2++; ?>
+
+										<th>第<?php echo $counter2+1;?>轮</th>
+										<?php } ?>
+
+
+									</tr>
+								</thead>
+
+								<tbody>
+									<?php $counter2=-1; if( isset($value1["2"]) && is_array($value1["2"]) && sizeof($value1["2"]) ) foreach( $value1["2"] as $key2 => $value2 ){ $counter2++; ?>
+
+									<tr>
+										<td><?php echo $counter2+1;?></td>
+										<td><?php echo $value2->website;?></td>
+										<td><?php echo $value2->browser;?></td>
+										<td><?php echo $value2->engineVersion;?></td>
+										<td><?php echo $value2->avgTimeToStartRender;?></td>
+										<td><?php echo $value2->v_ttsr;?></td>
+										<?php $counter3=-1; if( isset($value2->details) && is_array($value2->details) && sizeof($value2->details) ) foreach( $value2->details as $key3 => $value3 ){ $counter3++; ?>
+
+										<td><?php echo $value3->timeToStartRender;?></td>
+										<?php } ?>
+
+										<!-- <td><a class="fancybox fancybox.iframe" href="ldt_query_content_details.php?browser=<?php echo $value2->browser;?>&engineVersion=<?php echo $value2->engineVersion;?>&website=<?php echo $value2->website;?>&tsid=<?php echo $value2->tsid;?>">查看</a></td> -->
+									</tr>
+									<?php } ?>
+
+								</tbody>
+
+							</table>
+						</div>
+						<?php } ?>
+
+					</div>
+					<div class="tab-pane " id="tab2">
+						<?php $counter1=-1; if( isset($test_scenarios) && is_array($test_scenarios) && sizeof($test_scenarios) ) foreach( $test_scenarios as $key1 => $value1 ){ $counter1++; ?>
+
+						<div id="ld-table" class="bs-docs-example" d_content="测试场景：<?php echo $value1["1"];?>">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>website</th>
+										<th>浏览器</th>
+										<th>版本号</th>
+										<th>平均值</th>
+										<th>标准差/平均值</th>
+										<?php $counter2=-1; if( isset($value1["2"]["0"]->details) && is_array($value1["2"]["0"]->details) && sizeof($value1["2"]["0"]->details) ) foreach( $value1["2"]["0"]->details as $key2 => $value2 ){ $counter2++; ?>
+
+										<th>第<?php echo $counter2+1;?>轮</th>
+										<?php } ?>
+
+
+									</tr>
+								</thead>
+
+								<tbody>
+									<?php $counter2=-1; if( isset($value1["2"]) && is_array($value1["2"]) && sizeof($value1["2"]) ) foreach( $value1["2"] as $key2 => $value2 ){ $counter2++; ?>
+
+									<tr>
+										<td><?php echo $counter2+1;?></td>
+										<td><?php echo $value2->website;?></td>
+										<td><?php echo $value2->browser;?></td>
+										<td><?php echo $value2->engineVersion;?></td>
+										<td><?php echo $value2->avgTimeToDomReady;?></td>
+										<td><?php echo $value2->v_ttdr;?></td>
+										<?php $counter3=-1; if( isset($value2->details) && is_array($value2->details) && sizeof($value2->details) ) foreach( $value2->details as $key3 => $value3 ){ $counter3++; ?>
+
+										<td><?php echo $value3->timeToDomReady;?></td>
+										<?php } ?>
+
+										<!-- <td><a class="fancybox fancybox.iframe" href="ldt_query_content_details.php?browser=<?php echo $value2->browser;?>&engineVersion=<?php echo $value2->engineVersion;?>&website=<?php echo $value2->website;?>&tsid=<?php echo $value2->tsid;?>">查看</a></td> -->
+									</tr>
+									<?php } ?>
+
+								</tbody>
+
+							</table>
+						</div>
+						<?php } ?>
+
+					</div>
+					<div class="tab-pane" id="tab3">
+						<?php $counter1=-1; if( isset($test_scenarios) && is_array($test_scenarios) && sizeof($test_scenarios) ) foreach( $test_scenarios as $key1 => $value1 ){ $counter1++; ?>
+
+						<div id="ld-table" class="bs-docs-example" d_content="测试场景：<?php echo $value1["1"];?>">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>website</th>
+										<th>浏览器</th>
+										<th>版本号</th>
+										<th>平均值</th>
+										<th>标准差/平均值</th>
+										<?php $counter2=-1; if( isset($value1["2"]["0"]->details) && is_array($value1["2"]["0"]->details) && sizeof($value1["2"]["0"]->details) ) foreach( $value1["2"]["0"]->details as $key2 => $value2 ){ $counter2++; ?>
+
+										<th>第<?php echo $counter2+1;?>轮</th>
+										<?php } ?>
+
+
+									</tr>
+								</thead>
+
+								<tbody>
+									<?php $counter2=-1; if( isset($value1["2"]) && is_array($value1["2"]) && sizeof($value1["2"]) ) foreach( $value1["2"] as $key2 => $value2 ){ $counter2++; ?>
+
+									<tr>
+										<td><?php echo $counter2+1;?></td>
+										<td><?php echo $value2->website;?></td>
+										<td><?php echo $value2->browser;?></td>
+										<td><?php echo $value2->engineVersion;?></td>
+										<td><?php echo $value2->avgTimeToPageLoaded;?></td>
+										<td><?php echo $value2->v_ttpl;?></td>
+										<?php $counter3=-1; if( isset($value2->details) && is_array($value2->details) && sizeof($value2->details) ) foreach( $value2->details as $key3 => $value3 ){ $counter3++; ?>
+
+										<td><?php echo $value3->timeToPageLoaded;?></td>
+										<?php } ?>
+
+										<!-- <td><a class="fancybox fancybox.iframe" href="ldt_query_content_details.php?browser=<?php echo $value2->browser;?>&engineVersion=<?php echo $value2->engineVersion;?>&website=<?php echo $value2->website;?>&tsid=<?php echo $value2->tsid;?>">查看</a></td> -->
+									</tr>
+									<?php } ?>
+
+								</tbody>
+
+							</table>
+						</div>
+						<?php } ?>
+
+					</div>
+				</div>
+			</div>
 		<script src="tpl/js/jquery.min.js"></script>
 		<script src="tpl/js/chosen.jquery.js"></script>
+		<script src="tpl/bootstrap_assets/js/bootstrap-tab.js"></script>
 		<script>
 			$(function() {
 				$('.chosen-select').chosen();
@@ -49,7 +214,8 @@
 			function query() {
 				var browser = $("#browser").val();
 				var engine_version = $("#engine_version").val();
-				$("#ifr").attr("src", "ldt_query_content.php?browser=" + browser + "&engine_version=" + engine_version);
+				//$("#ifr").attr("src", "ldt_query_content.php?browser=" + browser + "&engine_version=" + engine_version);
+				$("#qry").attr("href", "ldt_query.php?browser=" + browser + "&engine_version=" + engine_version);
 			}
 		</script>
 

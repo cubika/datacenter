@@ -1,4 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<link href="bootstrap_assets/css/bootstrap.css" rel="stylesheet">
+	</head>
 
+	<body>
 		{loop="$eva_scenarios"}	
 		<div class="row-fluid">
 			<ul class="thumbnails">
@@ -13,10 +20,20 @@
 		</div>
 		{/loop}
 		
-		<script>
+		<script src="bootstrap_assets/js/jquery.js"></script>
 
-				var f = 'tpl/fusioncharts/common/ZoomLine.swf';
+		<script src="js/FusionCharts.js"></script>
+		<script src="js/dc.js"></script>
+		<script>
+			$(document).ready(function() {
+
+				var f = '/tpl/fusioncharts/common/ZoomLine.swf';
 				{loop="$eva_scenarios"}
 					draw('ts_{$value[0]}', f, '{$value[2]}', '100%', 400);
 				{/loop}
+
+			})
 		</script>
+
+	</body>
+</html>

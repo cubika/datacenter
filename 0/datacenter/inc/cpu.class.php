@@ -46,7 +46,7 @@ class CPU extends DataCenter {
 		return $item;
 	}
 	
-	public function dashboard($v_baidu, $v_uc, $v_qq, $tsid, $ts){
+	public function dashboard($plid, $pns, $tsid, $ts){
 		$json_tpl = array(
 			'chart' => array(
 				'palette' => '2',
@@ -68,150 +68,144 @@ class CPU extends DataCenter {
 					array("label"=>"36"),array("label"=>"37"),array("label"=>"38"),array("label"=>"39"),array("label"=>"40")
 				)
 			), 
-			'axis' => array( 
-				// array(
-					// 'title' => '', 
-					// 'axisonleft' => '0', 
-					// 'titlepos' => 'right', 
-					// 'numdivlines' => '4', 
-					// 'tickwidth' => '10', 
-					// 'divlineisdashed' => '1', 
-					// 'formatnumberscale' => '1', 
-					// 'numberscaleunit' => '秒', 
-					// 'numberscalevalue' => '1000', 
-					// 'dataset' => array()
-				// )
-			)
+			'axis' => array()
 		);
 		
-		$baidu_details = json_decode(parent::http(sprintf(Constants::$cpu_fetch_details_by_browser_version_tsid, 'baidu', $v_baidu, $tsid)));
-		$uc_details = json_decode(parent::http(sprintf(Constants::$cpu_fetch_details_by_browser_version_tsid, 'uc', $v_uc, $tsid)));
-		$qq_details = json_decode(parent::http(sprintf(Constants::$cpu_fetch_details_by_browser_version_tsid, 'qq', $v_qq, $tsid)));
-		$websites = $this->findWebsite($baidu_details);
-		//print_r($websites);
-		
-		$counter = 0;
-		foreach ($websites as $key => $value) {
-			$counter++;
-			if($counter > 6){
-				break;
-			}
-			
-			$axis_item = array( 
-				'title' => $value,
-				'axisonleft' => '0', 
-				'titlepos' => 'right', 
-				'numdivlines' => '4', 
-				'tickwidth' => '10', 
-				'divlineisdashed' => '1', 
-				'formatnumberscale' => '1', 
-				'numberscaleunit' => '%', 
-				'numberscalevalue' => '1000', 
-				'dataset' => array()
-			);
-			
-			$series_baidu = array("seriesname"=>'baidu_'.$value, "color"=>"CC0000", "data"=>array());
-			$baidu_data = $this->sortByWebsite($baidu_details);
-			foreach ($baidu_data[$value] as $key2 => $value2) {
-				$tmp = new stdClass;
-				$tmp->value = $value2;
-				array_push($series_baidu['data'], $tmp);
-			}
-			
-			array_push($axis_item['dataset'], $series_baidu);
-			//array_push($json_tpl['axis'], $axis_item);
-			
-			$series_uc = array("seriesname"=>'uc_'.$value, "color"=>"0372AB", "data"=>array());
-			$uc_data = $this->sortByWebsite($uc_details);
-			foreach ($uc_data[$value] as $key2 => $value2) {
-				$tmp = new stdClass;
-				$tmp->value = $value2;
-				array_push($series_uc['data'], $tmp);
-			}
-			
-			array_push($axis_item['dataset'], $series_uc);
-			
-			$series_qq = array("seriesname"=>'qq_'.$value, "color"=>"00FF40", "data"=>array());
-			$qq_data = $this->sortByWebsite($qq_details);
-			foreach ($qq_data[$value] as $key2 => $value2) {
-				$tmp = new stdClass;
-				$tmp->value = $value2;
-				array_push($series_qq['data'], $tmp);
-			}
-			
-			array_push($axis_item['dataset'], $series_qq);
-			
-			
-			array_push($json_tpl['axis'], $axis_item);
+		$pns = substr($pns, 1, strlen($pns) - 2);
+		$arr_pns = split(",", $pns);
+		$_pns = array();
+		foreach ($arr_pns as $key => $value) {
+			$items = split(":", $value);
+			$_pns[$items[0]] = $items[1];
 		}
 		
+		
+		$_baidu = $_pns['baidu'];
+			$details = parent::run_http_api(sprintf(Constants::$cpu_fetch_details, $plid, 'baidu', $_baidu, $tsid));
+			$websites = $this->findWebsite($details);
+			$counter = 0;
+			//print_r($websites);exit;
+			foreach ($websites as $index => $website) {
+				$counter++;
+				if($counter > 1){
+					break;
+				}
+				
+				$axis_item = array( 
+					'title' => $website,
+					'axisonleft' => '0', 
+					'titlepos' => 'right', 
+					'numdivlines' => '4', 
+					'tickwidth' => '10', 
+					'divlineisdashed' => '1', 
+					'formatnumberscale' => '1', 
+					'numberscaleunit' => '%', 
+					'numberscalevalue' => '1000', 
+					'dataset' => array()
+				);
+				
+				foreach ($_pns as $pn => $v) {
+					$series = array("seriesname"=>$pn.'_'.$website, "data"=>array());
+					
+					$_details = parent::run_http_api(sprintf(Constants::$cpu_fetch_details, $plid, $pn, $v, $tsid));
+					$data = $this->sortByWebsite($_details);
+					foreach ($data[$website] as $key => $value) {
+						$tmp = new stdClass;
+						$tmp->value = $value;
+						array_push($series['data'], $tmp);
+					}
+			
+					array_push($axis_item['dataset'], $series);
+				}
+				array_push($json_tpl['axis'], $axis_item);
+				
+			}
 		
 		return json_encode($json_tpl);
 	}
 
-	public function generateEvaPoints($v_baidu, $v_uc, $v_qq, $tsid){
+	public function generateEvaPoints($plid, $pns, $tsid){
 		
-		$eva_points_by_website = $this->generateWebsiteEVADetails($v_baidu, $v_uc, $v_qq, $tsid);
+		$eva_points_by_website = $this->generateWebsiteEVADetails($plid, $pns, $tsid);
 		
 		if($tsid == 16){
 			//print_r($eva_points_by_website);//exit;
 		}
 		
-		$eva_points = array("baidu"=>0, "uc"=>0, "qq"=>0);
-		foreach ($eva_points_by_website as $key => $value) {
-			$eva_points["baidu"] += $value["baidu"];
-			$eva_points["uc"] += $value["uc"];
-			$eva_points["qq"] += $value["qq"];
+		$eva_points = array();
+		foreach ($pns as $key2 => $value2) {
+			$eva_points[$key2] = 0;
 		}
-		$eva_points["baidu"] = round($eva_points["baidu"] / count($eva_points_by_website),1);
-		$eva_points["uc"] = round($eva_points["uc"] / count($eva_points_by_website),1);
-		$eva_points["qq"] = round($eva_points["qq"] / count($eva_points_by_website),1);
 		
+		foreach ($eva_points_by_website as $key => $value) {
+			foreach ($pns as $key2 => $value2) {
+				$eva_points[$key2] += $value[$key2];
+			}
+		}
+		
+		foreach ($pns as $key => $value) {
+			$eva_points[$key] = round($eva_points[$key] / count($eva_points_by_website),1);
+		}
+		ksort($eva_points);
 		return $eva_points;
 	}
 
-	public function generateWebsiteEVADetails($v_baidu, $v_uc, $v_qq, $tsid){
-		$arr_baidu = parent::run_http_api(sprintf(Constants::$cpu_fetch_details_by_browser_version_tsid, "baidu", $v_baidu, $tsid));
-		$arr_uc = parent::run_http_api(sprintf(Constants::$cpu_fetch_details_by_browser_version_tsid, "uc", $v_uc, $tsid));
-		$arr_qq = parent::run_http_api(sprintf(Constants::$cpu_fetch_details_by_browser_version_tsid, "qq", $v_qq, $tsid));
+	public function generateWebsiteEVADetails($plid, $pns, $tsid){
+		$v_baidu = $pns['baidu'];
+		$arr_baidu = parent::run_http_api(sprintf(Constants::$cpu_fetch_details, $plid, "baidu", $v_baidu, $tsid));
+		// $arr_uc = parent::run_http_api(sprintf(Constants::$cpu_fetch_details_by_browser_version_tsid, "uc", $v_uc, $tsid));
+		// $arr_qq = parent::run_http_api(sprintf(Constants::$cpu_fetch_details_by_browser_version_tsid, "qq", $v_qq, $tsid));
 		
 		$websites = $this->findWebsite($arr_baidu);
 		$baidu_data = $this->sortByWebsite($arr_baidu);
-		$uc_data = $this->sortByWebsite($arr_uc);
-		$qq_data = $this->sortByWebsite($arr_qq);
+		// $uc_data = $this->sortByWebsite($arr_uc);
+		// $qq_data = $this->sortByWebsite($arr_qq);
 		$eva_points_by_website = array();
+		
 		foreach ($websites as $key => $value) {
-			$eva_points_by_website[$value] = array('baidu'=>0, 'uc'=>0, 'qq'=>0);
-			$tmp = 0;
-			foreach ($baidu_data[$value] as $key2 => $value2) {
-				$tmp += $value2;
+			foreach ($pns as $pkey => $pvalue) {
+				$eva_points_by_website[$value][$pkey] = 0;
 			}
-			$eva_points_by_website[$value]['baidu'] = $tmp;
-			$tmp = 0;
-			foreach ($uc_data[$value] as $key2 => $value2) {
-				$tmp += $value2;
-			}
-			$eva_points_by_website[$value]['uc'] = $tmp;
-			$tmp = 0;
-			foreach ($qq_data[$value] as $key2 => $value2) {
-				$tmp += $value2;
-			}
-			$eva_points_by_website[$value]['qq'] = $tmp;
 			
+			// $tmp = 0;
+			// foreach ($baidu_data[$value] as $key2 => $value2) {
+				// $tmp += $value2;
+			// }
+			// $eva_points_by_website[$value]['baidu'] = $tmp;
+			// $tmp = 0;
+			// foreach ($uc_data[$value] as $key2 => $value2) {
+				// $tmp += $value2;
+			// }
+			// $eva_points_by_website[$value]['uc'] = $tmp;
+			// $tmp = 0;
+			// foreach ($qq_data[$value] as $key2 => $value2) {
+				// $tmp += $value2;
+			// }
+			// $eva_points_by_website[$value]['qq'] = $tmp;
+			
+			foreach ($pns as $key2 => $value2) {
+				$arr = parent::run_http_api(sprintf(Constants::$cpu_fetch_details, $plid, $key2, $value2, $tsid));
+				$_data = $this->sortByWebsite($arr);
+				$tmp = 0;
+				foreach ($_data[$value] as $key3 => $value3) {
+					$tmp += $value3;
+				}
+				$eva_points_by_website[$value][$key2] = $tmp;
+			}
 			
 			asort($eva_points_by_website[$value]);
 			
 			$counter = 0;
 			$base = 1;
-			foreach ($eva_points_by_website[$value] as $key2 => $value2) {
+			foreach ($eva_points_by_website[$value] as $key3 => $value3) {
 				if($counter == 0){
-					$base = $value2;
+					$base = $value3;
 				}
-				$p = 10 * (1- round(($value2 - $base)/$base,2));
+				$p = 10 * (1- round(($value3 - $base)/$base,2));
 				if ($p < 0){
 					$p = 0;
 				}
-				$eva_points_by_website[$value][$key2] = $p;
+				$eva_points_by_website[$value][$key3] = $p;
 				$counter++;
 			}
 		}

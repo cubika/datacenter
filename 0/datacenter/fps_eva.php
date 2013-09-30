@@ -19,6 +19,7 @@ $v_qq = $fps->run_http_api(sprintf(Constants::$fps_fetch_versions_by_browser,"qq
 $tpl -> assign("v_baidu", $v_baidu);
 $tpl -> assign("v_uc", $v_uc);
 $tpl -> assign("v_qq", $v_qq);
+$tpl -> assign("module", "fps");
 
 // you can draw the output
 // or the template output string by setting $return_string = true:

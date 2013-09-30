@@ -4,6 +4,7 @@ include "inc/rain.tpl.class.php";
 include "inc/benchmark.class.php";
 if(!class_exists('Constants')){ include 'inc/constants.class.php'; }
 
+
 raintpl::configure("base_url", null);
 raintpl::configure("tpl_dir", "tpl/");
 // raintpl::configure("cache_dir", "tmp/");
@@ -12,13 +13,27 @@ raintpl::configure("tpl_dir", "tpl/");
 $tpl = new RainTPL;
 
 $ben = new Benchmark;
-$v_baidu = $ben->run_http_api(sprintf(Constants::$ben_fetch_versions_by_browser,"baidu"));
-$v_uc = $ben->run_http_api(sprintf(Constants::$ben_fetch_versions_by_browser,"uc"));
-$v_qq = $ben->run_http_api(sprintf(Constants::$ben_fetch_versions_by_browser,"qq"));
+// $v_baidu = $ben->run_http_api(sprintf(Constants::$ben_fetch_versions_by_browser,"baidu"));
+// $v_uc = $ben->run_http_api(sprintf(Constants::$ben_fetch_versions_by_browser,"uc"));
+// $v_qq = $ben->run_http_api(sprintf(Constants::$ben_fetch_versions_by_browser,"qq"));
+// 
+// $tpl -> assign("v_baidu", $v_baidu);
+// $tpl -> assign("v_uc", $v_uc);
+// $tpl -> assign("v_qq", $v_qq);
 
-$tpl -> assign("v_baidu", $v_baidu);
-$tpl -> assign("v_uc", $v_uc);
-$tpl -> assign("v_qq", $v_qq);
+$plid = $_GET['plid'];
+$tpl -> assign("plid", $plid);
+$pns = $ben->run_http_api(sprintf(Constants::$ben_fetch_pns, $plid));
+
+$versions = array();
+foreach ($pns as $key => $value) {
+	$ver = $ben->run_http_api(sprintf(Constants::$ben_fetch_versions_by_pn, $plid, $value));
+	$versions[$value] = $ver;
+}
+
+$tpl -> assign("pns", $pns);
+$tpl -> assign("versions", $versions);
+$tpl -> assign("module", "benchmark");
 
 // you can draw the output
 // or the template output string by setting $return_string = true:

@@ -32,7 +32,7 @@ Class Util {
 			}
 		}
 
-		return bcsqrt($total_var / count($list), 2);
+		return bcsqrt($total_var / (count($list) - 1), 2);
 	}
 
 }

@@ -1,0 +1,53 @@
+body{
+	background: transparent url("../img/bg.jpg") repeat-x;
+	background-color: #FAF7EF;
+	margin: 0;
+	padding: 0;
+}
+.wrapper{
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto;
+}
+#bg{
+	position: absolute;
+	width: 100%;
+}
+.logo{
+	position: relative;
+	height: 600px;
+	width: 1200px;
+	display: block;
+	overflow: hidden;
+	background: url("../img/logo.png") 180px 95px no-repeat;
+	margin: 0 auto;
+}
+#browser_core{
+	left: 600px;
+	top: 60px;
+	position: absolute;
+	width: 180px;
+	height: 205px;
+	overflow: hidden;
+	background-image: url("../img/browser.png");
+	background-repeat: no-repeat;
+}
+#play_core{
+	left: 732px;
+	top: 214px;
+	position: absolute;
+	width: 272px;
+	height: 322px;
+	background-image: url("../img/play.png");
+	background-repeat: no-repeat;
+}
+#xxx_core{
+	left: 560px;
+	top: 315px;
+	position: absolute;
+	width: 225px;
+	height: 322px;
+	background-image: url("../img/xxx.png");
+	background-repeat: no-repeat;
+}

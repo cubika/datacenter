@@ -6,49 +6,25 @@ if(!class_exists('Constants')){ include 'inc/constants.class.php'; }
 
 raintpl::configure("base_url", null);
 raintpl::configure("tpl_dir", "tpl/");
-// raintpl::configure("cache_dir", "tmp/");
+raintpl::configure("cache_dir", "tmp/");
 
 //initialize a Rain TPL object
 $tpl = new RainTPL;
 $pl = new PageLoadRef;
 
-$v_baidu = $_GET['v_baidu'];
-$v_uc = $_GET['v_uc'];
-$v_qq = $_GET['v_qq'];
+$plid = $_GET['plid'];
+$tpl -> assign("plid", $plid);
+$pns = $pl->run_http_api(sprintf(Constants::$ldt_fetch_pns, $plid));
 
-if($v_baidu != NULL && $v_uc != NULL && $v_qq != NULL){
-	$eva_scenarios = $pl->run_http_api(sprintf(Constants::$ldt_fetch_eva_scenarios,$v_baidu,$v_uc,$v_qq));
-	for ($i=0; $i < count($eva_scenarios); $i++) {
-		$tsid = $eva_scenarios[$i][0]; 
-		//$json_tpl = $pl->dashboard($v_baidu, $v_uc, $v_qq, $tsid, $eva_scenarios[$i][1]);
-		//array_push($eva_scenarios[$i],$json_tpl);
-		
-		$json_tpl = $pl->singleChart($v_baidu, $v_uc, $v_qq, $tsid,"ttsr");
-		array_push($eva_scenarios[$i],$json_tpl);
-		
-		$t = $pl->deal($v_baidu, $v_uc, $v_qq, $tsid);
-		array_push($eva_scenarios[$i], $t);
-		
-		$json_tpl = $pl->singleChart($v_baidu, $v_uc, $v_qq, $tsid,"ttdr");
-		array_push($eva_scenarios[$i],$json_tpl);
-		
-		$json_tpl = $pl->singleChart($v_baidu, $v_uc, $v_qq, $tsid,"ttpl");
-		array_push($eva_scenarios[$i],$json_tpl);
-		
-		//print_r($t);exit;
-	}
-	
-	
-
-	$tpl -> assign('test_scenarios', $eva_scenarios);
+$versions = array();
+foreach ($pns as $key => $value) {
+	$ver = $pl->run_http_api(sprintf(Constants::$ldt_fetch_versions_by_pn, $plid, $value));
+	$versions[$value] = $ver;
 }
 
-$v_baidu = $pl->run_http_api(sprintf(Constants::$ldt_fetch_versions_by_browser,"baidu"));
-$v_uc = $pl->run_http_api(sprintf(Constants::$ldt_fetch_versions_by_browser,"uc"));
-$v_qq = $pl->run_http_api(sprintf(Constants::$ldt_fetch_versions_by_browser,"qq"));
-$tpl -> assign("v_baidu", $v_baidu);
-$tpl -> assign("v_uc", $v_uc);
-$tpl -> assign("v_qq", $v_qq);
+$tpl -> assign("pns", $pns);
+$tpl -> assign("versions", $versions);
+$tpl -> assign("module", "ldt");
 
 // you can draw the output
 // or the template output string by setting $return_string = true:

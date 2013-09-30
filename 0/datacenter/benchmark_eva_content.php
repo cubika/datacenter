@@ -3,23 +3,22 @@
 include "inc/rain.tpl.class.php";
 include "inc/benchmark.class.php";
 if(!class_exists('Constants')){ include 'inc/constants.class.php'; }
+if(!class_exists('DataCenter')){ include 'inc/datacenter.class.php'; }
 
 raintpl::configure("base_url", null);
 raintpl::configure("tpl_dir", "tpl/");
-// raintpl::configure("cache_dir", "tmp/");
+raintpl::configure("cache_dir", "tmp/");
 
 //initialize a Rain TPL object
 $tpl = new RainTPL;
+$dc = new DataCenter;
+$ben = new Benchmark;
 
-$ben = new Benchmark();
+$plid = $_GET['plid'];
 
-$v_baidu = $_GET['v_baidu'];
-$v_uc = $_GET['v_uc'];
-$v_qq = $_GET['v_qq'];
-
-$baidu_details = $ben->run_http_api(sprintf(Constants::$ben_fetch_details_by_browser_version, 'baidu', $v_baidu));
-$uc_details = $ben->run_http_api(sprintf(Constants::$ben_fetch_details_by_browser_version, 'uc', $v_uc));
-$qq_details = $ben->run_http_api(sprintf(Constants::$ben_fetch_details_by_browser_version, 'qq', $v_qq));
+$pns = $_GET['pns'];
+$_pns = $dc->parsePNS($pns);
+$tpl -> assign('_pns', $_pns);
 
 $json_tpl = array(
 			'chart' => array('palette' => '1', 'caption' => 'Benchmark比较', 'xaxisname' => ''), 
@@ -38,54 +37,30 @@ $json_tpl = array(
 				array('label'=>'webGlAquarium'),
 				array('label'=>'webGlBlob')
 			)), 
-			'dataset' => array(
-				array('seriesname' => 'Baidu', 'color' => '8BBA00', 'data' => array(
-					array('value'=>$baidu_details[0]->html5test),
-					array('value'=>$baidu_details[0]->sunspider),
-					array('value'=>$baidu_details[0]->domCoreTests),
-					array('value'=>$baidu_details[0]->peaceKeeper),
-					array('value'=>$baidu_details[0]->css3SelectorsTest),
-					array('value'=>$baidu_details[0]->guimark3Bitmap),
-					array('value'=>$baidu_details[0]->guimark3Vector),
-					array('value'=>$baidu_details[0]->guimark3Compute),
-					array('value'=>$baidu_details[0]->cavasPerformanceTest),
-					array('value'=>$baidu_details[0]->fishIetank),
-					array('value'=>$baidu_details[0]->mazeSolver),
-					array('value'=>$baidu_details[0]->webGlAquarium),
-					array('value'=>$baidu_details[0]->webGlBlob)
-				)),
-				array('seriesname' => 'UC', 'color' => 'A66EDD', 'data' => array(
-					array('value'=>$uc_details[0]->html5test),
-					array('value'=>$uc_details[0]->sunspider),
-					array('value'=>$uc_details[0]->domCoreTests),
-					array('value'=>$uc_details[0]->peaceKeeper),
-					array('value'=>$uc_details[0]->css3SelectorsTest),
-					array('value'=>$uc_details[0]->guimark3Bitmap),
-					array('value'=>$uc_details[0]->guimark3Vector),
-					array('value'=>$uc_details[0]->guimark3Compute),
-					array('value'=>$uc_details[0]->cavasPerformanceTest),
-					array('value'=>$uc_details[0]->fishIetank),
-					array('value'=>$uc_details[0]->mazeSolver),
-					array('value'=>$uc_details[0]->webGlAquarium),
-					array('value'=>$uc_details[0]->webGlBlob)
-				)),
-				array('seriesname' => 'QQ', 'color' => 'F6BD0F', 'data' => array(
-					array('value'=>$qq_details[0]->html5test),
-					array('value'=>$qq_details[0]->sunspider),
-					array('value'=>$qq_details[0]->domCoreTests),
-					array('value'=>$qq_details[0]->peaceKeeper),
-					array('value'=>$qq_details[0]->css3SelectorsTest),
-					array('value'=>$qq_details[0]->guimark3Bitmap),
-					array('value'=>$qq_details[0]->guimark3Vector),
-					array('value'=>$qq_details[0]->guimark3Compute),
-					array('value'=>$qq_details[0]->cavasPerformanceTest),
-					array('value'=>$qq_details[0]->fishIetank),
-					array('value'=>$qq_details[0]->mazeSolver),
-					array('value'=>$qq_details[0]->webGlAquarium),
-					array('value'=>$qq_details[0]->webGlBlob)
-				))
-			)
+			'dataset' => array()
 		);
+
+
+foreach ($_pns as $key => $value) {
+	$details = $ben->run_http_api(sprintf(Constants::$ben_fetch_details_by_pn_version,$plid, $key, $value));
+	
+	$item = array("seriesname"=>$key, "data"=>array());
+	array_push($item['data'], array('value'=>$details[0]->html5test));
+	array_push($item['data'], array('value'=>$details[0]->sunspider));
+	array_push($item['data'], array('value'=>$details[0]->domCoreTests));
+	array_push($item['data'], array('value'=>$details[0]->peaceKeeper));
+	array_push($item['data'], array('value'=>$details[0]->css3SelectorsTest));
+	array_push($item['data'], array('value'=>$details[0]->guimark3Bitmap));
+	array_push($item['data'], array('value'=>$details[0]->guimark3Vector));
+	array_push($item['data'], array('value'=>$details[0]->guimark3Compute));
+	array_push($item['data'], array('value'=>$details[0]->cavasPerformanceTest));
+	array_push($item['data'], array('value'=>$details[0]->fishIetank));
+	array_push($item['data'], array('value'=>$details[0]->mazeSolver));
+	array_push($item['data'], array('value'=>$details[0]->webGlAquarium));
+	array_push($item['data'], array('value'=>$details[0]->webGlBlob));
+	
+	array_push($json_tpl['dataset'], $item);
+}
 
 $tpl -> assign('json_benchmark', json_encode($json_tpl));
 

@@ -2,7 +2,7 @@
 
 include "inc/rain.tpl.class.php";
 include "inc/mem.class.php";
-include "inc/constants.class.php";
+if(!class_exists('Constants')){ include 'inc/constants.class.php'; }
 
 raintpl::configure("base_url", null);
 raintpl::configure("tpl_dir", "tpl/");
@@ -13,14 +13,15 @@ $tpl = new RainTPL;
 
 $mem = new Memory;
 
-$browser = $_GET['browser'];
-$engine_version = $_GET['engine_version'];
+$plid = $_GET['plid'];
+$pn = $_GET['pn'];
+$v = $_GET['v'];
 
-$test_scenarios = $mem->run_http_api(sprintf(Constants::$mem_fetch_scenarios, $browser, $engine_version));
+$test_scenarios = $mem->run_http_api(sprintf(Constants::$mem_fetch_scenarios, $plid, $pn, $v));
 
 for ($i=0; $i < count($test_scenarios); $i++) {
 	$tsid = $test_scenarios[$i][0];
-	$details = $mem->run_http_api(sprintf(Constants::$mem_fetch_details_by_browser_version_tsid, $browser, $engine_version, $tsid));
+	$details = $mem->run_http_api(sprintf(Constants::$mem_fetch_details_by_pn_version_tsid, $plid, $pn, $v, $tsid));
 	array_push($test_scenarios[$i], $details);
 }
 

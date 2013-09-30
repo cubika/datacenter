@@ -1,158 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<title>Sumeru, 数据中心</title>
+	<head>
+		<meta charset="utf-8">
+		<title>{$productLine}, 数据中心</title>
 
-<!-- Le styles -->
-<link rel="stylesheet" href="css/bootstrap-chosen.css">
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-<body>
+		<!-- Le styles -->
+		<link rel="stylesheet" href="css/bootstrap-chosen.css">
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="css/style.css">
+		<link href="bootstrap/css/docs.css" rel="stylesheet">
+		<body>
 
-	<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="navbar-inner">
-			<div class="container-fluid">
-				<button type="button" class="btn btn-navbar" data-toggle="collapse"
-					data-target=".nav-collapse">
-					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="brand" href="#">Sumeru 数据中心</a>
-				<div class="nav-collapse collapse">
-					<ul class="nav link">
-						<li><a href="/home.php">Home</a></li>
-						<li><a href="#">浏览内核</a></li>
-						<li><a href="#">播放内核</a></li>
-					</ul>
+			<div class="navbar navbar-inverse navbar-fixed-top">
+				<div class="navbar-inner">
+					<div class="container-fluid">
+						<button type="button" class="btn btn-navbar" data-toggle="collapse"
+						data-target=".nav-collapse">
+							<span class="icon-bar"></span><span class="icon-bar"></span><span
+							class="icon-bar"></span>
+						</button>
+						<a class="brand" href="#">{$productLine}, 数据中心</a>
+						<div class="nav-collapse collapse">
+							<ul class="nav link">
+								<li>
+									<a href="/eva_query.php?plid={$plid}">一键生成评测报告</a>
+								</li>
+							</ul>
 
-					<ul class="nav pull-right">
-						<li>
-							<div>
-								<a class="btn btn-success" href="/users/sign_up"> <i
-									class="icon-edit"></i> 注册
-								</a> <a class="btn btn-info" href="/users/sign_in"> <i
-									class="icon-user"></i> 登录
-								</a>
-							</div>
-						</li>
-					</ul>
+							<ul class="nav pull-right">
+								<li>
+									<div>
+										<a class="btn btn-success" href="/users/sign_up"> <i
+										class="icon-edit"></i> 注册 </a><a class="btn btn-info" href="/users/sign_in"> <i
+										class="icon-user"></i> 登录 </a>
+									</div>
+								</li>
+							</ul>
 
+						</div>
+						<!--/.nav-collapse -->
+					</div>
 				</div>
-				<!--/.nav-collapse -->
 			</div>
-		</div>
-	</div>
 
-	<div class="container-fluid">
-		<div class="row-fluid">
-			<div class="span3">
-
-				<div class="panel panel-primary performance">
-					<div class="panel-group">
-						<h4>基础性能</h4>
-						<div class="list-group">
-							<a data-module="ldt" class="list-group-item active" href="index.php#ldt">页面加载时间</a>
-							<a data-module="cpu" class="list-group-item" href="index.php#cpu">CPU</a>
-							<a data-module="mem" class="list-group-item" href="index.php#mem">内存</a>
-							<a data-module="trf" class="list-group-item" href="index.php#trf">流量</a>
-							<a data-module="pow" class="list-group-item" href="index.php#pow">耗电量</a>
-							<a data-module="fps" class="list-group-item" href="index.php#fps">流畅度</a>
-							<a data-module="benchmark" class="list-group-item" href="index.php#ben">Benchmark</a>
-						</div>
-					</div>
-					<div class="panel-group">
-						<h4>稳定性</h4>
-						<div class="list-group">
-							<a data-module="mky" class="list-group-item" href="javascript:void(0)">Monkey</a>
-						</div>
-					</div>
-					<div class="panel-group">
-						<h4>兼容性</h4>
-						<div class="list-group">
-							<a data-module="wpc" class="list-group-item" href="javascript:void(0)">网页兼容性</a>
-						</div>
-					</div>
-
-				</div>
-
+			<div class="container-fluid">
 				<div class="row-fluid">
-					<div class="span12">
-						<div class="panel panel-primary">
-							<div class="panel-heading">
-								<h3 class="panel-title">评测</h3>
+					<div class="span3">
+
+						<div class="panel panel-primary performance">
+
+							{loop="menus"}
+							<div class="panel-group">
+								<h4>{$key}</h4>
+								<div class="list-group">
+									{loop="$value"}
+									{if="$value->dataModule == $default_module"}
+									<a data-module="{$value->dataModule}" class="list-group-item active" href="#{$value->dataModule}">{$value->menuName}</a>
+									{else}
+									<a data-module="{$value->dataModule}" class="list-group-item" href="#{$value->dataModule}">{$value->menuName}</a>
+									{/if}
+									{/loop}
+								</div>
 							</div>
-							<div class="panel-body">
-								<a href="eva_query.php">一键生成评测报告</a>
-							</div>
+							{/loop}
+						</div>
+
+					</div>
+
+					<div class="span9">
+						<div class="bs-docs-example" d_content="请添加评测对象">
+							<ul id="pns" class="thumbnails">
+								<li class="span4">
+									<div  class="bs-docs-example" d_content="baidu">
+										<select id="v_baidu" data-placeholder="请选择版本号" class="chosen-select" tabindex="1">
+											<option value=""></option>
+											{loop="vers"}
+											<option value="{$value}">{$value}</option>
+											{/loop}
+										</select>
+									</div>
+								</li>
+								
+							</ul>
+							<a class="btn btn-primary btn-middle" onclick="add_option()">+</a>
+							<hr>
+							<a class="btn btn-primary btn-large" onclick="eva();">一键生成评测报告
+							&raquo;</a>
 						</div>
 					</div>
 					<!--/span-->
+
 				</div>
 				<!--/row-->
+
 			</div>
-			<!--/span-->
+			<!--/.fluid-container-->
 
-			<div class="span9">
-				<div class="hero-unit" style="min-height:250px">
-					<div class="row">
-						<div class="col-lg-3">
-							<select id="v_baidu" data-placeholder="请选择Baidu版本号"
-								class="chosen-select" tabindex="2">
-								<option value=""></option> {loop="v_baidu"}
-								<option value="{$value}">{$value}</option> {/loop}
-							</select>
-						</div>
-						<div class="col-lg-3">
-							<select id="v_uc" data-placeholder="请选择UC版本号"
-								class="chosen-select" tabindex="2">
-								<option value=""></option> {loop="v_uc"}
-								<option value="{$value}">{$value}</option> {/loop}
-							</select>
-						</div>
-						<div class="col-lg-3">
-							<select id="v_qq" data-placeholder="请选择QQ版本号"
-								class="chosen-select" tabindex="2">
-								<option value=""></option> {loop="v_qq"}
-								<option value="{$value}">{$value}</option> {/loop}
-							</select>
-						</div>
-					</div>
-					<hr>
-					<a class="btn btn-primary btn-large" onclick="eva();">一键生成评测报告
-						&raquo;</a>
-				</div>
-			</div>
-			<!--/span-->
+			<footer class="footer">
+				<p>
+					&copy; SumeruQA 2013
+				</p>
+			</footer>
 
-		</div>
-		<!--/row-->
+			<!-- Le javascript
+			================================================== -->
+			<!-- Placed at the end of the document so the pages load faster -->
 
-	</div>
-	<!--/.fluid-container-->
-	
-	<footer class="footer">
-		<p>&copy; SumeruQA 2013</p>
-	</footer>
+			<script src="js/jquery-1.9.1.min.js"></script>
+			<script src="bootstrap/js/bootstrap.min.js"></script>
+			<script src="js/chosen.jquery.min.js"></script>
+			<script src="js/dc.js"></script>
+			<script>
+				function eva() {
+					
+					var v_baidu = $("#v_baidu").val();
+					var _pns = "[baidu:"+v_baidu;
+					
+					var pns = $('ul.thumbnails').find('li').find('select');
+					for(var i=1; i < (pns.length+1)/2; i++){
+						var pn=$("select#pn_"+i).chosen().val();
+						var v=$("select#v_"+i).chosen().val();
+						_pns += "," + pn + ":" + v;
+					}
+					_pns += "]";
+					
+					window.open("eva.php?plid={$plid}&pns="+_pns);
+				}
+				
+				
+				function add_option(){
+					var pns = $('ul.thumbnails').find('li').find('select');
+					var count = (pns.length+1)/2;
+					$('#pns').append('<li class="span4"><div class="bs-docs-example" d_content="竞品">' + 
+						'<select id="pn_'+count+'" data-placeholder="请选择竞品" class="chosen-select" tabindex="3">' +
+							'<option value=""></option>' +
+							'{loop="pns"}<option value="{$value}">{$value}</option>{/loop}'+
+						'</select>' +
+						'<p/>' +
+						'<select id="v_'+count+'" data-placeholder="请选择版本号" class="chosen-select" tabindex="4">'+
+							'<option value=""></option>'+
+							'{loop="vers"}<option value="{$value}">{$value}</option>{/loop}'+
+						'</select>'+
+					'</div></li>');
+					$('.chosen-select').chosen();
+					$(".chosen-container-single").css("width","192px");
+				}
+				
+				$('.chosen-select').chosen();
+				$(".chosen-container-single").css("width","192px");
+			</script>
 
-	<!-- Le javascript
-	================================================== -->
-	<!-- Placed at the end of the document so the pages load faster -->
-
-	<script src="js/jquery-1.9.1.min.js"></script>
-	<script src="bootstrap/js/bootstrap.min.js"></script>
-	<script src="js/chosen.jquery.min.js"></script>
-	<script src="js/dc.js"></script>
-	<script>
-		function eva() {
-			var v_baidu = $("#v_baidu").val();
-			var v_uc = $("#v_uc").val();
-			var v_qq = $("#v_qq").val();
-			window.open("eva.php?v_baidu=" + v_baidu + "&v_uc=" + v_uc + "&v_qq=" + v_qq);
-		}
-		$('.chosen-select').chosen();
-		$(".chosen-container-single").css("width","192px");
-	</script>
-
-</body>
+		</body>
 </html>

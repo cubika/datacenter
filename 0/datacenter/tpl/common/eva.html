@@ -1,31 +1,34 @@
 <div class="hero-unit">
-            <div class="row">
-				<div class="col-lg-3">
-					<select id="v_baidu" data-placeholder="请选择Baidu版本号" class="chosen-select" tabindex="2">
-						<option value=""></option>
-						{loop="v_baidu"}
-						<option value="{$value}">{$value}</option>
-						{/loop}
-					</select>
-				</div>
-				<div class="col-lg-3">
-					<select id="v_uc" data-placeholder="请选择UC版本号" class="chosen-select" tabindex="2">
-						<option value=""></option>
-						{loop="v_uc"}
-						<option value="{$value}">{$value}</option>
-						{/loop}
-					</select>
-				</div>
-				<div class="col-lg-3">
-					<select id="v_qq" data-placeholder="请选择QQ版本号" class="chosen-select" tabindex="2">
-						<option value=""></option>
-						{loop="v_qq"}
-						<option value="{$value}">{$value}</option>
-						{/loop}
-					</select>
-				</div>
-			</div>
-			<hr>
-            <button id="compare" class="btn btn-primary btn-large">比较 &raquo;</button>
-        </div>
-        <div id="eva_content" ></div>
+	<div class="row">
+		{loop="versions"}	
+		<div class="col-lg-3">
+			<select id="{$key}" data-placeholder="请选择{$key}版本号" class="chosen-select" tabindex="2">
+				<option value=""></option>
+				{loop="$value"}
+				<option value="{$value}">{$value}</option>
+				{/loop}
+			</select>
+		</div>
+		{/loop}
+	</div>
+	<hr>
+	<button id="compare" class="btn btn-primary btn-large">比较 &raquo;</button>
+</div>
+<div id="eva_content" ></div>
+
+<script>
+(function(){
+	$('.chosen-select').chosen();
+	$(".chosen-container-single").css("width","192px");
+	$("button#compare").on("click",function(){
+		var pns = "";
+		{loop="pns"}
+		if(pns != "") {
+			pns += ",";
+		}
+		pns +="{$value}:" + $("#{$value}").val();
+		{/loop}
+		$("#eva_content").load("{$module}_eva_content.php?plid={$plid}&pns=["+ pns +"]");
+	});
+})();
+</script>

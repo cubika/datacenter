@@ -11,16 +11,17 @@ raintpl::configure("tpl_dir", "tpl/");
 //initialize a Rain TPL object
 $tpl = new RainTPL;
 
-$pl = new CPU;
+$cpu = new CPU;
 
-$browser = $_GET['browser'];
-$engine_version = $_GET['engine_version'];
+$plid = $_GET['plid'];
+$pn = $_GET['pn'];
+$v = $_GET['v'];
 
-$test_scenarios = $pl->run_http_api(sprintf(Constants::$cpu_fetch_scenarios, $browser, $engine_version));
+$test_scenarios = $cpu->run_http_api(sprintf(Constants::$cpu_fetch_scenarios, $plid, $pn, $v));
 
 for ($i=0; $i < count($test_scenarios); $i++) {
 	$tsid = $test_scenarios[$i][0];
-	$details = $pl->run_http_api(sprintf(Constants::$cpu_fetch_details_by_browser_version_tsid,$browser, $engine_version, $tsid));
+	$details = $cpu->run_http_api(sprintf(Constants::$cpu_fetch_details,$plid, $pn, $v, $tsid));
 	array_push($test_scenarios[$i], $details);
 }
 

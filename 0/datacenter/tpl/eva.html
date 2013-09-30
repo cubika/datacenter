@@ -1,19 +1,33 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-	<head>
-		<meta name="author" content="Luka Cvrk (cssMoban.com.com)" />
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<link rel="stylesheet" href="css/main.css" type="text/css" media="screen, projection" />
-		<script type="text/javascript" src="js/jquery.min.js"></script>
-		<script type="text/javascript" src="js/FusionCharts.js"></script>
-		<link href="bootstrap_assets/css/bootstrap.css" rel="stylesheet">
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+		<meta charset="utf-8">
+		<title>评测报告</title>
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="http://www.bootcss.com/assets/css/docs.css">
+		<link rel="stylesheet" href="css/eva.css">
 	</head>
-	<body >
+	<body>
 
-		<div class="wrap">
-				<div align="left">
-					<h1> 浏览内核评测报告</h1>
-					<div align="center">评测版本：Baidu(<b>{$v_baidu}</b>) 、 UC(<b>{$v_uc}</b>) 、 QQ(<b>{$v_qq}</b>)</div>
+		<div class="container">
+				<!-- <div class="row">
+					<div class="span1 offset10">
+						<a href="javascript:void(0)" id="word" class="btn btn-success btn-block">Word</a>
+					</div>
+					<div class="span1">
+						<a href="javascript:void(0)" id="pdf" class="btn btn-success btn-block">PDF</a>
+					</div>
+					
+				</div> -->
+				<h1 class="offset2-"> {$pn}评测报告</h1>
+				<div class="row" id="version">
+					<div class="offset6-">
+						评测版本：
+						{loop="_pns"}
+				 			{$key}(<b>{$value}</b>)、
+						{/loop}
+					</div>
 				</div>
 				<p>
 					&nbsp;&nbsp;
@@ -21,13 +35,13 @@
 				<div class="tabbable">
 					<!-- Only required for left/right tabs -->
 					<ul class="nav nav-tabs">
-						<li >
+						<!-- <li >
 							<a href="#tab1" data-toggle="tab">总体概述</a>
-						</li>
+						</li> -->
 						<li >
 							<a href="#tab2" data-toggle="tab">业务指标</a>
 						</li>
-						<li class="active"	>
+						<li class="active">
 							<a href="#tab3" data-toggle="tab">技术指标</a>
 						</li>
 						<li >
@@ -36,43 +50,54 @@
 						<li>
 							<a href="#tab5" data-toggle="tab">用户反馈</a>
 						</li>
+						<!-- <li>
+							<a href="#tab6" data-toggle="tab">评测总结</a>
+						</li> -->
 					</ul>
 
 					<div class="tab-content">
-						<div class="tab-pane" id="tab1">
+						<!-- <div class="tab-pane" id="tab1">
 							<iframe src="" frameborder="0" height="1000" width="100%"></iframe>
-						</div>
+						</div> -->
 						<div class="tab-pane " id="tab2">
 							<iframe src="" frameborder="0" height="1000" width="100%"></iframe>
 						</div>
 						<div class="tab-pane active" id="tab3">
-							<iframe src="eva_tech.php?v_baidu={$v_baidu}&v_uc={$v_uc}&v_qq={$v_qq}" frameborder="0" height="2000" width="100%"></iframe>
+							<iframe id="iframe_tech" src="eva_tech.php?pns=[{$pns}]" frameborder="0" height="2000" width="100%"></iframe>
 						</div>
 						<div class="tab-pane" id="tab4">
-							<iframe src="eva_badcase.php" frameborder="0" height="1000" width="100%"></iframe>
+							<iframe src="eva_badcase.php" frameborder="0" height="2000" width="100%" scrolling="no"></iframe>
 						</div>
 						<div class="tab-pane" id="tab5">
 							<iframe src="" frameborder="0" height="1000" width="100%"></iframe>
 						</div>
+						<!-- <div class="tab-pane" id="tab6">
+							<form method="post" action="eva_save_summary.php">
+							  <fieldset>
+							    <legend>评测总结</legend>
+							    <textarea id="summary" name="summary"></textarea>
+							    <input type="hidden" name="v_baidu" value="{$v_baidu}">
+							    <input type="hidden" name="v_uc" value="{$v_uc}">
+							    <input type="hidden" name="v_qq" value="{$v_qq}">
+							    <div id="btngroup">
+								    <button class="btn btn-primary" id="edit">编辑</button>
+								    <button type="submit" class="btn btn-primary" id="save">保存</button>
+								</div>
+							  </fieldset>
+							</form>
+						</div> -->
 					</div>
 
 				</div>
 
 		</div>
-		<script src="bootstrap_assets/js/jquery.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-transition.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-alert.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-modal.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-dropdown.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-scrollspy.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-tab.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-tooltip.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-popover.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-button.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-collapse.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-carousel.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-typeahead.js"></script>
+		
+		<script src="js/jquery-1.9.1.min.js"></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+		<script src="js/FusionCharts.js"></script>
 		<script src="js/dc.js"></script>
+		<script src="http://tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+		<script src="js/eva.js"></script>
 
 	</body>
 </html>

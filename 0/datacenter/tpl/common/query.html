@@ -1,15 +1,12 @@
 <div class="hero-unit">
 	<div class="row">
 		<div class="col-lg-3">
-			<select id="browser" data-placeholder="请选择浏览器" class="chosen-select"
+			<select id="productName" data-placeholder="请选择产品名称" class="chosen-select"
 				tabindex="2">
-				<option value="baidu" selected="selected">Baidu</option>
-				<option value="UC">UC</option>
-				<option value="QQ">QQ</option>
 			</select>
 		</div>
 		<div class="col-lg-3">
-			<select id="engine_version" data-placeholder="请选择版本号"
+			<select id="version" data-placeholder="请选择版本号"
 				class="chosen-select" tabindex="3">
 			</select>
 		</div>
@@ -18,3 +15,20 @@
 	<a onclick="query();" class="btn btn-primary btn-large">查询 &raquo;</a>
 </div>
 <div id="query_content"></div>
+
+<script>
+	$('.chosen-select').chosen();
+	$(".chosen-container-single").css("width", "192px");
+
+	setProductName("{$plid}", "{$module}");
+
+	$("select#productName").on("change", function() {
+		setVersion("{$plid}", "{$module}");
+	});
+	function query() {
+		var pn = $("#productName").val();
+		var v = $("#version").val();
+		$("#query_content").load("{$module}_query_content.php?plid={$plid}&pn=" + pn + "&v=" + v);
+	}
+
+</script>

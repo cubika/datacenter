@@ -56,25 +56,25 @@
 			padding : 15,
 			margin  : 20,
 
-			width     : 800,
-			height    : 600,
+			width     : 1000,
+			height    : 450,
 			minWidth  : 100,
 			minHeight : 100,
 			maxWidth  : 9999,
 			maxHeight : 9999,
 
-			autoSize   : true,
+			autoSize   : false,
 			autoHeight : false,
-			autoWidth  : false,
+			autoWidth  : true,
 
 			autoResize  : true,
 			autoCenter  : !isTouch,
 			fitToView   : true,
 			aspectRatio : false,
-			topRatio    : 0.5,
+			topRatio    : 0.1,
 			leftRatio   : 0.5,
 
-			scrolling : 'auto', // 'auto', 'yes' or 'no'
+			scrolling : 'no', // 'auto', 'yes' or 'no'
 			wrapCSS   : '',
 
 			arrows     : true,

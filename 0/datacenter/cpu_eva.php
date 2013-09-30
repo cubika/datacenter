@@ -6,19 +6,26 @@ if(!class_exists('Constants')){ include 'inc/constants.class.php'; }
 
 raintpl::configure("base_url", null);
 raintpl::configure("tpl_dir", "tpl/");
-// raintpl::configure("cache_dir", "tmp/");
+raintpl::configure("cache_dir", "tmp/");
 
 //initialize a Rain TPL object
 $tpl = new RainTPL;
 
 $cpu = new CPU;
-$v_baidu = $cpu->run_http_api(sprintf(Constants::$cpu_fetch_versions_by_browser,"baidu"));
-$v_uc = $cpu->run_http_api(sprintf(Constants::$cpu_fetch_versions_by_browser,"uc"));
-$v_qq = $cpu->run_http_api(sprintf(Constants::$cpu_fetch_versions_by_browser,"qq"));
 
-$tpl -> assign("v_baidu", $v_baidu);
-$tpl -> assign("v_uc", $v_uc);
-$tpl -> assign("v_qq", $v_qq);
+$plid = $_GET['plid'];
+$tpl -> assign("plid", $plid);
+$pns = $cpu->run_http_api(sprintf(Constants::$cpu_fetch_pns, $plid));
+
+$versions = array();
+foreach ($pns as $key => $value) {
+	$ver = $cpu->run_http_api(sprintf(Constants::$cpu_fetch_versions_by_pn, $plid, $value));
+	$versions[$value] = $ver;
+}
+
+$tpl -> assign("pns", $pns);
+$tpl -> assign("versions", $versions);
+$tpl -> assign("module", "cpu");
 
 // you can draw the output
 // or the template output string by setting $return_string = true:

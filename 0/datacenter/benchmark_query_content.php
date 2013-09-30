@@ -13,10 +13,16 @@ $tpl = new RainTPL;
 
 $ben = new Benchmark;
 
-$browser = $_GET['browser'];
-$engine_version = $_GET['engine_version'];
+// $browser = $_GET['browser'];
+// $engine_version = $_GET['engine_version'];
 
-$details = $ben->run_http_api(sprintf(Constants::$ben_fetch_details_by_browser_version, $browser, $engine_version));
+$plid = $_GET['plid'];
+$tpl -> assign("plid", $plid);
+
+$pn = $_GET['pn'];
+$v = $_GET['v'];
+
+$details = $ben->run_http_api(sprintf(Constants::$ben_fetch_details_by_pn_version, $plid, $pn, $v));
 $item = $details[0];
 $arr_details = array(
 	'html5test' => $item->html5test,
@@ -35,8 +41,8 @@ $arr_details = array(
 
 );
 $tpl -> assign('details', $arr_details);
-$tpl -> assign('browser', $browser);
-$tpl -> assign('engine_version', $engine_version);
+$tpl -> assign('pn', $pn);
+$tpl -> assign('v', $v);
 
 // you can draw the output
 // or the template output string by setting $return_string = true:

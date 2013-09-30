@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>评测报告</title>
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="fancybox/jquery.fancybox.css" media="screen" />
+</head>
+
+
+<body>
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span12">
+				{loop="menus"}
+				<h3>{$key}</h3>
+				<ul class="nav nav-pills">
+					{if condition="count($value) > 1"}
+					<li class="active">
+						<a href="#rador" data-toggle="tab">整体雷达图</a>
+					</li>
+					{/if}
+					{loop="$value"}
+					<li >
+						<a href="#{$value->dataModule}" data-toggle="tab">{$value->menuName}</a>
+					</li>
+					{/loop}
+				</ul>
+					
+				<div class="tab-content">
+					{if condition="count($value) > 1"}
+					<div id="radar" class="tab-pane active">
+						<div id="radar{$counter}"></div>
+					</div>
+					{/if}
+					{loop="$value"}
+					{if condition="$value->menuName == 'Benchmark'"}
+					<div id="{$value->dataModule}" class="tab-pane active">
+					{else}
+					<div id="{$value->dataModule}" class="tab-pane">
+					{/if}
+						<!-- <h3>{$value->menuName}</h3> -->
+						<ul>
+							<li>
+								<h4>综合评分</h4>
+								<div id="{$value->dataModule}_total"></div>
+							</li>
+							<li>
+								<h4>详细评测场景评分</h4>
+								<div >
+									<table class="table table-striped table-bordered">
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>评测场景</th>
+												{loop="_pns"}
+												<th>{$key}({$value})</th>
+												{/loop}
+											</tr>
+										</thead>
+										<tbody>
+											{if condition="$value->menuName == 'Benchmark'"}
+											{loop="$eva_benchmark_details"}
+											<tr>
+												<td>{$counter+1}</td>
+												<td><a class="fancybox fancybox.iframe" href="/eva_benchmark.php?v_baidu={$v_baidu}&v_uc={$v_uc}&v_qq={$v_qq}&tsid={$key}">{$key}</td>
+												{loop="$value"}
+												<th>{$value}</th>
+												{/loop}
+											</tr>
+											{/loop}
+											{else}
+											{loop="$value->test_scenarios"}
+											<tr>
+												<td>{$counter+1}</td>
+												<td><a class="fancybox fancybox.iframe" href="/eva_{$value['mod']}.php?plid={$plid}&pns={$pns}&tsid={$value[0]}&ts={$value[1]}">{$value[1]}</td>
+												{loop="$value[2]"}
+												<th>{$value}</th>
+												{/loop}
+											</tr>
+											{/loop}
+											{/if}
+										</tbody> 
+									</table>
+								</div>
+							</li>
+						</ul>
+					</div>
+					{/loop}
+				</div>
+				{/loop}
+				
+			</div>
+		</div>
+	</div>
+
+	<script src="js/jquery-1.9.1.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src="fancybox/jquery.fancybox.js"></script>
+	<script src="js/chosen.jquery.min.js"></script>
+	<script src="js/FusionCharts.js"></script>
+	<script src="js/dc.js"></script>
+	<script type="text/javascript">
+	$(".fancybox").fancybox();
+	
+	var f_radar = 'tpl/fusioncharts/power/Radar.swf';
+	
+
+	// var f_mal = 'tpl/fusioncharts/common/ScrollCombiDY2D.swf';
+	// draw('monkey', f_mal, '{$json_monkey}', 600, 300);
+	
+	var f_c2d = 'tpl/fusioncharts/common/Column2D.swf';
+	{loop="$radars"}
+		draw('radar{$counter}', f_radar, '{$value}', 600, 300);
+	{/loop}
+	
+	{loop="$menus"}
+		
+		{loop="$value"}
+			draw('{$value->dataModule}_total', f_c2d, '{$value->json_point}', 600, 300);
+		{/loop}
+	{/loop}
+	
+	{if condition="$benchmark_radar != ''"}
+		draw('benchmark_total', f_radar, '{$benchmark_radar}', 600, 300);
+	{/if}
+	
+
+	</script>
+
+</body>
+</html>

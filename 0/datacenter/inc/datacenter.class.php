@@ -28,4 +28,18 @@ class DataCenter {
 		return json_decode($resp);
 	}
 
+	public function parsePNS($pns) {
+		
+		$pns = str_ireplace("[", "", $pns);
+		$pns = str_ireplace("]", "", $pns);
+		$tmp = split(",", $pns);
+		$_pns = array();
+		foreach ($tmp as $key => $value) {
+			$item = split(":", $value);
+			$_pns[$item[0]] = $item[1];
+		}
+		
+		return $_pns;
+	}
+
 }

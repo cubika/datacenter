@@ -2,30 +2,30 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
+
+		<!-- Le styles -->
 		<link href="bootstrap_assets/css/bootstrap.css" rel="stylesheet">
 		<link href="bootstrap_assets/css/docs.css" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox.css" media="screen" />
-		<script src="js/jquery.min.js"></script>
-		<script src="bootstrap_assets/js/bootstrap-modal.js"></script>
+
 	</head>
 
 	<body>
 		<div id="ld-table" class="bs-docs-example" d_content="{$details[0]->website}每轮详细数据">
-			<table class="table table-striped">
+			<table class="table table-striped table-bordered">
 				<thead>
 					<tr>
 						<th>#</th>
 						<th>website</th>
+						<th>开始渲染时间</th>
+						<th>方差/平均值</th>
+						<th>DOM Ready时间</th>
+						<th>方差/平均值</th>
+						<th>页面加载完成时间</th>
+						<th>方差/平均值</th>
 						<th>浏览器</th>
 						<th>版本号</th>
-						<th>开始渲染时间</th>
-						<!-- <th>方差/平均值</th> -->
-						<th>DOM Ready时间</th>
-						<!-- <th>方差/平均值</th> -->
-						<th>页面加载完成时间</th>
-						<!-- <th>方差/平均值</th> -->
-
-						<!-- <th>测试时间</th> -->
+						<th>测试时间</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -33,18 +33,18 @@
 				<tbody>
 					{loop="website_details"}
 					<tr>
-						<td>第{$counter+1}轮</td>
+						<td>{$counter+1}</td>
 						<td>{$value->website}</td>
+						<td>{$value->timeToStartRender}</td>
+						<td>{$value->v_ttsr}</td>
+						<td>{$value->timeToDomReady}</td>
+						<td>{$value->v_ttdr}</td>
+						<td>{$value->timeToPageLoaded}</td>
+						<td>{$value->v_ttpl}</td>
 						<td>{$value->browser}</td>
 						<td>{$value->engineVersion}</td>
-						<td>{$value->timeToStartRender}</td>
-						<!-- <td>{$value->v_ttsr}</td> -->
-						<td>{$value->timeToDomReady}</td>
-						<!-- <td>{$value->v_ttdr}</td> -->
-						<td>{$value->timeToPageLoaded}</td>
-						<!-- <td>{$value->v_ttpl}</td> -->
-						<!-- <td>{$value->timeStamp}</td> -->
-						<td><a id="del_{$value->id}"  class="btn btn-primary" onclick="del('{$value->id}','{$value->browser}','{$value->engineVersion}')">删除</a></td>
+						<td>{$value->timeStamp}</td>
+						<td><a onclick="del()">删除</a></td>
 					</tr>
 					{/loop}
 				</tbody>
@@ -54,12 +54,29 @@
 
 	</body>
 	<script>
+		function addScriptTag(src) {
+			var script = document.createElement('script');
+			script.setAttribute("type", "text/javascript");
+			script.src = src;
+			document.body.appendChild(script);
+		}
 
-		function del(id, browser, ev) {
-			if(confirm("你确信要删除这条数据吗？")){
-				window.parent.location.href = "ldt_query.php?id="+id+"&browser="+browser+"&engine_version="+ev;
-			}
-			
+		function del() {
+			// var xmlhttp;
+			// if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+				// xmlhttp = new XMLHttpRequest();
+			// } else {// code for IE6, IE5
+				// xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			// }
+			// xmlhttp.onreadystatechange = function() {
+				// if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					// //document.getElementById("myDiv").innerHTML = xmlhttp.responseText;
+					// alert('haha');
+				// }
+			// }
+			// xmlhttp.open("GET", "http://172.17.192.11:8080/sdc/page/vers", true);
+			// xmlhttp.send();
+			addScriptTag("http://172.17.192.11:8080/sdc/page/vers");
 		}
 	</script>
 </html>

@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>评测报告</title>
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="http://www.bootcss.com/assets/css/docs.css">
+		<link rel="stylesheet" href="css/eva.css">
+	</head>
+	<body>
+
+		<div class="container">
+			<!-- <div class="row">
+			<div class="span1 offset10">
+			<a href="javascript:void(0)" id="word" class="btn btn-success btn-block">Word</a>
+			</div>
+			<div class="span1">
+			<a href="javascript:void(0)" id="pdf" class="btn btn-success btn-block">PDF</a>
+			</div>
+
+			</div> -->
+
+			<div class="hero-unit">
+				<h2>{$productLine},  专业评测报告!</h2>
+				<p>&nbsp;&nbsp;</p>
+				<p>
+					<a href="#" class="btn btn-primary btn-middle">导出word &raquo;</a>
+				</p>
+			</div>
+			<!-- <div class="row" id="version">
+				<div class="offset6-">
+					评测版本：
+					{loop="_pns"}
+					{$key}(<b>{$value}</b>)、
+					{/loop}
+				</div>
+			</div> -->
+			<!-- <p>
+				&nbsp;&nbsp;
+			</p> -->
+			<div class="tabbable">
+				<!-- Only required for left/right tabs -->
+				<ul class="nav nav-tabs">
+					<!-- <li >
+						<a href="#tab1" data-toggle="tab">总体概述</a>
+					</li> -->
+					<li >
+						<a href="#tab2" data-toggle="tab">业务指标</a>
+					</li>
+					<li class="active">
+						<a href="#tab3" data-toggle="tab">技术指标</a>
+					</li>
+					<li >
+						<a href="#tab4" data-toggle="tab">BadCase</a>
+					</li>
+					<li>
+						<a href="#tab5" data-toggle="tab">用户反馈</a>
+					</li>
+					<!-- <li>
+					<a href="#tab6" data-toggle="tab">评测总结</a>
+					</li> -->
+				</ul>
+
+				<div class="tab-content">
+					<!-- <div class="tab-pane" id="tab1">
+						<iframe src="" frameborder="0" height="1000" width="100%"></iframe>
+					</div> -->
+					<div class="tab-pane " id="tab2">
+						<iframe src="" frameborder="0" height="1000" width="100%"></iframe>
+					</div>
+					<div class="tab-pane active" id="tab3">
+						<iframe id="iframe_tech" src="eva_tech_ref.php?plid={$plid}&pns=[{$pns}]" frameborder="0" height="2000" width="100%"></iframe>
+					</div>
+					<div class="tab-pane" id="tab4">
+						<iframe src="eva_badcase.php" frameborder="0" height="2000" width="100%" scrolling="no"></iframe>
+					</div>
+					<div class="tab-pane" id="tab5">
+						<iframe src="" frameborder="0" height="1000" width="100%"></iframe>
+					</div>
+					<!-- <div class="tab-pane" id="tab6">
+					<form method="post" action="eva_save_summary.php">
+					<fieldset>
+					<legend>评测总结</legend>
+					<textarea id="summary" name="summary"></textarea>
+					<input type="hidden" name="v_baidu" value="{$v_baidu}">
+					<input type="hidden" name="v_uc" value="{$v_uc}">
+					<input type="hidden" name="v_qq" value="{$v_qq}">
+					<div id="btngroup">
+					<button class="btn btn-primary" id="edit">编辑</button>
+					<button type="submit" class="btn btn-primary" id="save">保存</button>
+					</div>
+					</fieldset>
+					</form>
+					</div> -->
+				</div>
+
+			</div>
+
+		</div>
+
+		<script src="js/jquery-1.9.1.min.js"></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+		<script src="js/FusionCharts.js"></script>
+		<script src="js/dc.js"></script>
+		<script src="http://tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+		<script src="js/eva.js"></script>
+
+	</body>
+</html>

@@ -12,13 +12,27 @@ raintpl::configure("tpl_dir", "tpl/");
 $tpl = new RainTPL;
 
 $pow = new Power;
-$v_baidu = $pow->run_http_api(sprintf(Constants::$pow_fetch_versions_by_browser,"baidu"));
-$v_uc = $pow->run_http_api(sprintf(Constants::$pow_fetch_versions_by_browser,"uc"));
-$v_qq = $pow->run_http_api(sprintf(Constants::$pow_fetch_versions_by_browser,"qq"));
+// $v_baidu = $pow->run_http_api(sprintf(Constants::$pow_fetch_versions_by_browser,"baidu"));
+// $v_uc = $pow->run_http_api(sprintf(Constants::$pow_fetch_versions_by_browser,"uc"));
+// $v_qq = $pow->run_http_api(sprintf(Constants::$pow_fetch_versions_by_browser,"qq"));
+// 
+// $tpl -> assign("v_baidu", $v_baidu);
+// $tpl -> assign("v_uc", $v_uc);
+// $tpl -> assign("v_qq", $v_qq);
 
-$tpl -> assign("v_baidu", $v_baidu);
-$tpl -> assign("v_uc", $v_uc);
-$tpl -> assign("v_qq", $v_qq);
+$plid = $_GET['plid'];
+$tpl -> assign("plid", $plid);
+$pns = $pow->run_http_api(sprintf(Constants::$pow_fetch_pns, $plid));
+
+$versions = array();
+foreach ($pns as $key => $value) {
+	$ver = $pow->run_http_api(sprintf(Constants::$pow_fetch_versions_by_pn, $plid, $value));
+	$versions[$value] = $ver;
+}
+
+$tpl -> assign("pns", $pns);
+$tpl -> assign("versions", $versions);
+$tpl -> assign("module", "pow");
 
 // you can draw the output
 // or the template output string by setting $return_string = true:

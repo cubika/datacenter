@@ -25,31 +25,58 @@ class Traffic extends DataCenter {
 		return $t;
 	}
 	
-	private function deal($v_baidu, $v_uc, $v_qq, $tsid) {
-		
-		$baidu_details = parent::run_http_api(sprintf(Constants::$trf_fetch_details_by_browser_version_tsid, "baidu",$v_baidu,$tsid));
-		$uc_details = parent::run_http_api(sprintf(Constants::$trf_fetch_details_by_browser_version_tsid, "uc",$v_uc,$tsid));
-		$qq_details = parent::run_http_api(sprintf(Constants::$trf_fetch_details_by_browser_version_tsid, "qq",$v_qq,$tsid));
-		
+	// private function deal($v_baidu, $v_uc, $v_qq, $tsid) {
+// 		
+		// $baidu_details = parent::run_http_api(sprintf(Constants::$trf_fetch_details_by_browser_version_tsid, "baidu",$v_baidu,$tsid));
+		// $uc_details = parent::run_http_api(sprintf(Constants::$trf_fetch_details_by_browser_version_tsid, "uc",$v_uc,$tsid));
+		// $qq_details = parent::run_http_api(sprintf(Constants::$trf_fetch_details_by_browser_version_tsid, "qq",$v_qq,$tsid));
+// 		
+		// $baidu_details = $this -> sortByWebsite($baidu_details);
+		// $uc_details = $this -> sortByWebsite($uc_details);
+		// $qq_details = $this -> sortByWebsite($qq_details);
+// 		
+// 		
+		// //print_r($baidu_details);
+		// $t = array();
+		// foreach ($baidu_details as $key => $value) {
+			// //print $key;
+			// if(array_key_exists($key, $t) == FALSE && array_key_exists($key, $uc_details) && array_key_exists($key, $qq_details)){
+				// $t[$key] = array('baidu'=>$value, 'uc'=>$uc_details[$key], 'qq'=>$qq_details[$key]);
+			// }
+// 			
+		// }
+// 		
+		// return $t;
+	// }
+	
+	public function deal($plid, $pns, $tsid) {
+		$v_baidu = $pns['baidu'];
+		$baidu_details = parent::run_http_api(sprintf(Constants::$trf_fetch_details_by_pn_version_tsid, $plid, "baidu",$v_baidu,$tsid));
 		$baidu_details = $this -> sortByWebsite($baidu_details);
-		$uc_details = $this -> sortByWebsite($uc_details);
-		$qq_details = $this -> sortByWebsite($qq_details);
 		
+		//print_r(sprintf(Constants::$trf_fetch_details_by_pn_version_tsid, $plid, "baidu",$v_baidu,$tsid));exit;
 		
-		//print_r($baidu_details);
 		$t = array();
 		foreach ($baidu_details as $key => $value) {
-			//print $key;
-			if(array_key_exists($key, $t) == FALSE && array_key_exists($key, $uc_details) && array_key_exists($key, $qq_details)){
-				$t[$key] = array('baidu'=>$value, 'uc'=>$uc_details[$key], 'qq'=>$qq_details[$key]);
+			if(array_key_exists($key, $t) == FALSE){
+				foreach ($pns as $key2 => $value2) {
+					$details = parent::run_http_api(sprintf(Constants::$trf_fetch_details_by_pn_version_tsid, $plid, $key2, $value2, $tsid));
+					$details = $this -> sortByWebsite($details);
+					if(array_key_exists($key, $details)){
+						$t[$key][$key2] = $details[$key];
+					}
+					else {
+						unset($t[$key]);
+						break;
+					}
+				}
 			}
-			
 		}
 		
 		return $t;
 	}
 	
-	public function dashboard($v_baidu, $v_uc, $v_qq, $tsid, $ts){
+	public function dashboard($plid,$pns, $tsid, $ts){
 		$json_tpl = array(
 			'chart' => array(
 				"numberprefix"=>"",
@@ -76,54 +103,29 @@ class Traffic extends DataCenter {
 				"category"=>"1|2|3|4|"
 			),
 			'dataset' => array(
-				array(
-					"seriesname"=>"Baidu",
-            		"color"=>"AFD8F8",
-            		"linethickness"=>"1",
-            		"data"=>""
-				),
-				array(
-					"seriesname"=>"UC",
-            		"color"=>"F6BD0F",
-            		"linethickness"=>"1",
-            		"data"=>""
-				),
-				array(
-					"seriesname"=>"QQ",
-            		"color"=>"CC0000",
-            		"linethickness"=>"1",
-            		"data"=>""
-				)
+				// array(
+					// "seriesname"=>"Baidu",
+            		// "color"=>"AFD8F8",
+            		// "linethickness"=>"1",
+            		// "data"=>""
+				// ),
+				// array(
+					// "seriesname"=>"UC",
+            		// "color"=>"F6BD0F",
+            		// "linethickness"=>"1",
+            		// "data"=>""
+				// ),
+				// array(
+					// "seriesname"=>"QQ",
+            		// "color"=>"CC0000",
+            		// "linethickness"=>"1",
+            		// "data"=>""
+				// )
 			)
 		);
 		
-		// $baidu_details = parent::run_http_api(sprintf(Constants::$trf_fetch_details_by_browser_version_tsid, 'baidu', $v_baidu, $tsid));
-// 		
-		// //print_r($baidu_details);
-		// $baidu_data = "";
-		// $baidu_category = "";
-		// foreach ($baidu_details as $key => $value) {
-			// $baidu_category = $baidu_category.$value->website."|";
-			// $baidu_data = $baidu_data.$value->trafficValue."|";
-		// }
-		// $json_tpl['categories']['category'] =$baidu_category;
-		// $json_tpl['dataset'][0]['data'] =$baidu_data;
-// 		
-		// $uc_details = parent::run_http_api(sprintf(Constants::$trf_fetch_details_by_browser_version_tsid, 'uc', $v_uc, $tsid));
-		// $uc_data = "";
-		// foreach ($uc_details as $key => $value) {
-			// $uc_data = $uc_data.$value->trafficValue."|";
-		// }
-		// $json_tpl['dataset'][1]['data'] =$uc_data;
-// 		
-		// $qq_details = parent::run_http_api(sprintf(Constants::$trf_fetch_details_by_browser_version_tsid, 'qq', $v_qq, $tsid));
-		// $qq_data = "";
-		// foreach ($qq_details as $key => $value) {
-			// $qq_data = $qq_data.$value->trafficValue."|";
-		// }
-		// $json_tpl['dataset'][2]['data'] =$qq_data;
 		
-		$t = $this->deal($v_baidu, $v_uc, $v_qq, $tsid);
+		$t = $this->deal($plid, $pns, $tsid);
 		//print_r($t);exit;
 		foreach ($t as $key => $value) {
 			$cate .= $key."|";
@@ -131,47 +133,43 @@ class Traffic extends DataCenter {
 		}
 		
 		//fill axis
-		$config = array("baidu", "uc", "qq");	
+		//$config = array("baidu", "uc", "qq");	
 		//,"color"=>"CC0000"
-		foreach($config as $ckey => $cvalue) {
+		// foreach($config as $ckey => $cvalue) {
+			// $data = "";
+				// foreach ($t as $t_key => $t_value) {
+					// //print_r($t_value);exit;
+					// $data .= $t_value[$cvalue][0]->trafficValue."|";
+				// }
+				// //print_r($data);exit;
+				// $json_tpl['dataset'][$ckey]['data'] = $data;
+// 			
+		// }
+		
+		foreach($pns as $key => $value) {
 			$data = "";
-				foreach ($t as $t_key => $t_value) {
-					//print_r($t_value);exit;
-					$data .= $t_value[$cvalue][0]->trafficValue."|";
-				}
+			foreach ($t as $t_key => $t_value) {
+				//print_r($t_value);exit;
+				$data .= $t_value[$key][0]->trafficValue."|";
+			}
 				//print_r($data);exit;
-				$json_tpl['dataset'][$ckey]['data'] = $data;
-			
+				//$json_tpl['dataset'][$ckey]['data'] = $data;
+			$item = array("seriesname"=>$key, "data"=>$data);
+			array_push($json_tpl['dataset'], $item);
 		}
 		
 		return json_encode($json_tpl);
 	}
 
-	public function generateEvaPoints($v_baidu, $v_uc, $v_qq, $tsid){
-		// $arr_baidu = parent::run_http_api(sprintf(Constants::$trf_fetch_details_by_browser_version_tsid, "baidu", $v_baidu, $tsid));
-		// $arr_uc = parent::run_http_api(sprintf(Constants::$trf_fetch_details_by_browser_version_tsid, "uc", $v_uc, $tsid));
-		// $arr_qq = parent::run_http_api(sprintf(Constants::$trf_fetch_details_by_browser_version_tsid, "qq", $v_qq, $tsid));
-// 		
-		// $eva_points_details = array();
-		// for ($i=0; $i < count($arr_baidu); $i++) {
-			// //print_r($arr_baidu);
-			// $item = array("baidu"=>$arr_baidu[$i]->trafficValue, "uc"=>$arr_uc[$i]->trafficValue, "qq"=>$arr_qq[$i]->trafficValue); 
-			// asort($item);
-			// //print_r($item);
-			// $factor = 1;
-			// foreach ($item as $key => $value) {
-				// $item[$key] = 10 * $factor;
-				// $factor = $factor - 0.2;
-			// }
-			// $eva_points_details[$arr_baidu[$i]->website] = $item;
-		// }
-		
+	public function generateEvaPoints($plid, $pns, $tsid){
 		
 		$eva_points_details = array();
-		$t = $this->deal($v_baidu, $v_uc, $v_qq, $tsid);
-		//print_r($t);exit;
+		$t = $this->deal($plid, $pns, $tsid);
 		foreach ($t as $key => $value) {
-			$item = array("baidu"=>$value['baidu'][0]->trafficValue, "uc"=>$value['uc'][0]->trafficValue, "qq"=>$value['qq'][0]->trafficValue); 
+			$item = array();
+			foreach ($pns as $key2 => $value2) {
+				$item[$key2] = $value[$key2][0]->trafficValue;
+			}
 			asort($item);
 			//print_r($item);
 			$factor = 1;
@@ -179,19 +177,24 @@ class Traffic extends DataCenter {
 				$item[$key] = 10 * $factor;
 				$factor = $factor - 0.2;
 			}
-			$eva_points_details[$key] = $item;
+			$eva_points_details[$key] = $item;	
 		}
 		
-		$eva_points = array("baidu"=>0, "uc"=>0, "qq"=>0);
+		$eva_points = array();
+		foreach ($pns as $key => $value) {
+			$eva_points[$key] = 0;
+		}
 		foreach ($eva_points_details as $key => $value) {
-			$eva_points["baidu"] += $value["baidu"];
-			$eva_points["uc"] += $value["uc"];
-			$eva_points["qq"] += $value["qq"];
+			foreach ($pns as $key2 => $value2) {
+				$eva_points[$key2] += $value[$key2];
+			}
 		}
-		$eva_points["baidu"] = round($eva_points["baidu"] / count($eva_points_details),1);
-		$eva_points["uc"] = round($eva_points["uc"] / count($eva_points_details),1);
-		$eva_points["qq"] = round($eva_points["qq"] / count($eva_points_details),1);
 		
+		foreach ($pns as $key => $value) {
+			$eva_points[$key] = round($eva_points[$key] / count($eva_points_details),1);
+		}
+		
+		ksort($eva_points);
 		return $eva_points;
 	}	
 

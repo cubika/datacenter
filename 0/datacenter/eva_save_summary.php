@@ -3,6 +3,11 @@
 /*替换为你自己的数据库名（可从管理中心查看到）*/
 $dbname = 'dFojkTYDCrcEfcKLGRmf';
  
+$v_baidu=$_POST["baidu"];
+$v_uc=$_POST["uc"];
+$v_qq=$_POST["qq"];
+$summary=$_POST["summary"];
+
 /*从环境变量里取出数据库连接需要的参数*/
 $host = getenv('HTTP_BAE_ENV_ADDR_SQL_IP');
 $port = getenv('HTTP_BAE_ENV_ADDR_SQL_PORT');
@@ -27,7 +32,7 @@ if(!mysql_select_db($dbname,$link)) {
  * 接下来就可以使用其它标准php mysql函数操作进行数据库操作
  */
 
-//mysql_query("INSERT INTO eva_summary");
+mysql_query('INSERT INTO evareport(summary) VALUES $summary WHERE v_baidu=$v_baidu && v_uc=$v_uc && v_qq=$v_qq');
 
 /*显式关闭连接，非必须*/
 mysql_close($link);

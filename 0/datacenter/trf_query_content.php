@@ -13,14 +13,26 @@ $tpl = new RainTPL;
 
 $trf = new Traffic;
 
-$browser = $_GET['browser'];
-$engine_version = $_GET['engine_version'];
+// $browser = $_GET['browser'];
+// $engine_version = $_GET['engine_version'];
+// 
+// $test_scenarios = $trf->run_http_api(sprintf(Constants::$trf_fetch_scenarios, $browser, $engine_version));
+// 
+// for ($i=0; $i < count($test_scenarios); $i++) {
+	// $tsid = $test_scenarios[$i][0];
+	// $details = $trf->run_http_api(sprintf(Constants::$trf_fetch_details_by_browser_version_tsid, $browser, $engine_version, $tsid));
+	// array_push($test_scenarios[$i], $details);
+// }
 
-$test_scenarios = $trf->run_http_api(sprintf(Constants::$trf_fetch_scenarios, $browser, $engine_version));
+$plid = $_GET['plid'];
+$pn = $_GET['pn'];
+$v = $_GET['v'];
+
+$test_scenarios = $trf->run_http_api(sprintf(Constants::$trf_fetch_scenarios, $plid, $pn, $v));
 
 for ($i=0; $i < count($test_scenarios); $i++) {
 	$tsid = $test_scenarios[$i][0];
-	$details = $trf->run_http_api(sprintf(Constants::$trf_fetch_details_by_browser_version_tsid, $browser, $engine_version, $tsid));
+	$details = $trf->run_http_api(sprintf(Constants::$trf_fetch_details_by_pn_version_tsid, $plid, $pn, $v, $tsid));
 	array_push($test_scenarios[$i], $details);
 }
 
